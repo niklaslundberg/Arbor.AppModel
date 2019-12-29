@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Niklas Lundberg</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/niklaslundberg/Arbor.App.Extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/niklaslundberg/Arbor.App.Extensions</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
