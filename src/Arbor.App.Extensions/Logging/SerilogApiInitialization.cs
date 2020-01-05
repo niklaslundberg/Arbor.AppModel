@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using Arbor.App.Extensions.Application;
@@ -43,7 +44,9 @@ namespace Arbor.App.Extensions.Logging
                 return logger;
             }
 
-            if (!serilogConfiguration.IsValid)
+            bool isValid = !serilogConfiguration.Validate(new ValidationContext(serilogConfiguration)).Any();
+
+            if (!isValid)
             {
                 logger.Warning("Serilog app configuration is invalid {Configuration}", serilogConfiguration);
             }
@@ -72,7 +75,7 @@ namespace Arbor.App.Extensions.Logging
                 loggerConfiguration = loggerConfiguration.WriteTo.Debug();
             }
 
-            if (serilogConfiguration.SeqEnabled && serilogConfiguration.IsValid)
+            if (serilogConfiguration.SeqEnabled && isValid)
             {
                 if (serilogConfiguration.SeqUrl.HasValue())
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Arbor.App.Extensions.Configuration;
-using Arbor.App.Extensions.Validation;
 using Arbor.KVConfiguration.Urns;
 using JetBrains.Annotations;
 
@@ -8,7 +9,7 @@ namespace Arbor.App.Extensions.Logging
 {
     [Urn(LoggingConstants.SerilogBaseUrn)]
     [UsedImplicitly]
-    public class SerilogConfiguration : IValidationObject, IConfigurationValues
+    public class SerilogConfiguration : IConfigurationValues, IValidatableObject
     {
         public SerilogConfiguration(
             string seqUrl,
@@ -19,18 +20,9 @@ namespace Arbor.App.Extensions.Logging
             bool debugConsoleEnabled = false)
         {
             Uri? uri = null;
-            if (!seqEnabled)
-            {
-                IsValid = true;
-            }
-            else if (Uri.TryCreate(seqUrl, UriKind.Absolute, out var foundUri))
+            if (seqEnabled && (Uri.TryCreate(seqUrl, UriKind.Absolute, out var foundUri)))
             {
                 uri = foundUri;
-                IsValid = true;
-            }
-            else
-            {
-                IsValid = false;
             }
 
             SeqUrl = uri;
@@ -54,9 +46,15 @@ namespace Arbor.App.Extensions.Logging
 
         public string? RollingLogFilePath { get; }
 
-        public bool IsValid { get; }
-
         public override string ToString() =>
-            $"{nameof(SeqEnabled)}: {SeqEnabled}, {nameof(RollingLogFilePathEnabled)}: {RollingLogFilePathEnabled}, {nameof(ConsoleEnabled)}: {ConsoleEnabled}, {nameof(DebugConsoleEnabled)}: {DebugConsoleEnabled}, {nameof(SeqUrl)}: {SeqUrl}, {nameof(RollingLogFilePath)}: {RollingLogFilePath}, {nameof(IsValid)}: {IsValid}";
+            $"{nameof(SeqEnabled)}: {SeqEnabled}, {nameof(RollingLogFilePathEnabled)}: {RollingLogFilePathEnabled}, {nameof(ConsoleEnabled)}: {ConsoleEnabled}, {nameof(DebugConsoleEnabled)}: {DebugConsoleEnabled}, {nameof(SeqUrl)}: {SeqUrl}, {nameof(RollingLogFilePath)}: {RollingLogFilePath}";
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (SeqEnabled && SeqUrl is null)
+            {
+                yield return new ValidationResult("Seq is enabled but the url is not set or it is invalid");
+            }
+        }
     }
 }
