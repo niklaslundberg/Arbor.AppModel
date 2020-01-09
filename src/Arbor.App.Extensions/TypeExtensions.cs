@@ -159,5 +159,68 @@ namespace Arbor.App.Extensions
                 .ToImmutableArray();
 
         public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
+
+        // Originally taken from https://github.com/JasperFx/baseline/
+        public static bool Closes(this Type type, [NotNull] Type openType)
+        {
+            if (openType == null)
+            {
+                throw new ArgumentNullException(nameof(openType));
+            }
+
+            if (type is null)
+            {
+                return false;
+            }
+
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericType && type.GetGenericTypeDefinition() == openType)
+            {
+                return true;
+            }
+
+            foreach (var @interface in type.GetInterfaces())
+            {
+                if (@interface.Closes(openType))
+                {
+                    return true;
+                }
+            }
+
+            var baseType = typeInfo.BaseType;
+
+            if (baseType is null)
+            {
+                return false;
+            }
+
+            var baseTypeInfo = baseType.GetTypeInfo();
+
+            bool closes = baseTypeInfo.IsGenericType && baseType.GetGenericTypeDefinition() == openType;
+
+            if (closes)
+            {
+                return true;
+            }
+
+            return typeInfo.BaseType?.Closes(openType) ?? false;
+        }
+
+
+        // Originally taken from https://github.com/JasperFx/baseline/
+        public static bool IsConcrete(this Type type)
+        {
+            if (type is null)
+            {
+                return false;
+            }
+
+            var typeInfo = type.GetTypeInfo();
+
+            return !typeInfo.IsAbstract && !typeInfo.IsInterface;
+        }
+
     }
+
 }
