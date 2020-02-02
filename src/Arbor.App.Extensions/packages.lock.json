@@ -4,13 +4,13 @@
     ".NETCoreApp,Version=v3.1": {
       "Arbor.KVConfiguration.Urns": {
         "type": "Direct",
-        "requested": "[0.20.0-build.1577577006, )",
-        "resolved": "0.20.0-build.1577577006",
-        "contentHash": "KH9ammuKpmu6Y5CFq3/xxzjscOaeQf3o+Y7vSwEQIyuqIrzhKKY4bjg365UPHQKJn8xbY40Lk7FUEJYumPWQVA==",
+        "requested": "[0.20.0, )",
+        "resolved": "0.20.0",
+        "contentHash": "ucjZEFnRMAC7xu2G3M7+i2WvT2pAGO0s+UmuKqQ3hMxHZrI1x/lX5zVescoUu5qxlnQECq3B+2gQ9Oq/iik32g==",
         "dependencies": {
-          "Arbor.KVConfiguration.Core": "[0.20.0-build.1577577006]",
-          "Arbor.KVConfiguration.Schema": "[0.20.0-build.1577577006]",
-          "Arbor.Primitives": "[0.20.0-build.1577577006]",
+          "Arbor.KVConfiguration.Core": "[0.20.0]",
+          "Arbor.KVConfiguration.Schema": "[0.20.0]",
+          "Arbor.Primitives": "[0.20.0]",
           "Newtonsoft.Json": "12.0.1"
         }
       },
@@ -108,8 +108,8 @@
       },
       "Arbor.KVConfiguration.Core": {
         "type": "Transitive",
-        "resolved": "0.20.0-build.1577577006",
-        "contentHash": "OsJ4V2Rbmc179+hmryk4A46DEvbWjSl+Z+I3e3QjoG1H9RBGPlUVnjDGmBOR+HJg5HR2sMdAcIVjHwugSVo0lw==",
+        "resolved": "0.20.0",
+        "contentHash": "Iht+cY8bGAfV6stITYZalIvPK0m7386P1OSTjsegyS6NUEqRX/a83959ijEs6fXJX8u1atFUmGI5eHIWRG+rZg==",
         "dependencies": {
           "Microsoft.Extensions.Primitives": "[3.0.0, 4.0.0)",
           "System.Collections.Immutable": "[1.5.0, 2.0.0)"
@@ -117,16 +117,16 @@
       },
       "Arbor.KVConfiguration.Schema": {
         "type": "Transitive",
-        "resolved": "0.20.0-build.1577577006",
-        "contentHash": "XYGpW1slZ6t/KebIKjXiNIWGUzvYOYzQp0dOeC0fPeTkZsgMKXiRiggRzRQ1r8BoRixdLKf22Tu6unl4hAym9w==",
+        "resolved": "0.20.0",
+        "contentHash": "ks6lFWUmbhqGz+Wldb2WaFiMjNIW37Tyg/CPpvF2vne+LBtcCWouv6lXQ6Zj/Cuctbj5pBl9jB5JrvoK5LB4iw==",
         "dependencies": {
-          "Arbor.KVConfiguration.Core": "[0.20.0-build.1577577006]"
+          "Arbor.KVConfiguration.Core": "[0.20.0]"
         }
       },
       "Arbor.Primitives": {
         "type": "Transitive",
-        "resolved": "0.20.0-build.1577577006",
-        "contentHash": "mdWM67mvMqP0UTBiqbw/cuObHFp7w/JrSOHCAMXq60xh5FOdD/Zyn4W9TKgLnmTZlurCx2rtM6kke3UUQa4Ueg==",
+        "resolved": "0.20.0",
+        "contentHash": "IGe/C/1dLTd2oqfz1Z12ghU75/9CszLM8PTR4j6zaU3i1tB/gxvV3Aq3cmfuIoqr4mTBfZVeCKHHEIEADL54LQ==",
         "dependencies": {
           "System.Memory": "[4.5.2, 5.0.0)"
         }
