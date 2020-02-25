@@ -67,9 +67,7 @@ namespace Arbor.App.Extensions.IO
 
             string fileFullPath = Path.Combine(tempDir, fileName);
 
-            using (System.IO.File.Create(fileFullPath))
-            {
-            }
+            using var _ = System.IO.File.Create(fileFullPath);
 
             var fileInfo = new FileInfo(fileFullPath);
 
