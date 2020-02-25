@@ -34,6 +34,9 @@ namespace Arbor.App.Extensions.Application
         public bool UseExplicitPorts { get; set; }
 
         [PublicAPI]
+        public bool HttpEnabled { get; set; }
+
+        [PublicAPI]
         public int? PublicPort { get; set; }
 
         [PublicAPI]
