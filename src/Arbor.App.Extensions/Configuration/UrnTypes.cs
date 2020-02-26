@@ -10,7 +10,7 @@ namespace Arbor.App.Extensions.Configuration
     {
         public static ImmutableArray<Type> GetUrnTypesInAssemblies(ImmutableArray<Assembly> assemblies)
         {
-            bool HasUrnAttribute(Type type)
+            static bool HasUrnAttribute(Type type)
             {
                 var customAttribute = type.GetCustomAttribute<UrnAttribute>();
 
