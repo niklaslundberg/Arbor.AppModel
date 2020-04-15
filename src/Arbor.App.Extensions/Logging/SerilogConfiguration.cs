@@ -20,7 +20,7 @@ namespace Arbor.App.Extensions.Logging
             bool debugConsoleEnabled = false)
         {
             Uri? uri = null;
-            if (seqEnabled && (Uri.TryCreate(seqUrl, UriKind.Absolute, out var foundUri)))
+            if (seqEnabled && Uri.TryCreate(seqUrl, UriKind.Absolute, out var foundUri))
             {
                 uri = foundUri;
             }

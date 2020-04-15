@@ -20,8 +20,13 @@ namespace Arbor.App.Extensions
             new[] {"password", "username", "user id", "connection-string", "connectionstring"}
                 .ToImmutableArray();
 
-        public static string MakeAnonymous(this string value, string key, params string[] keyWords)
+        public static string MakeAnonymous(this string? value, string key, params string[] keyWords)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("message", nameof(key));
+            }
+
             if (string.IsNullOrWhiteSpace(value))
             {
                 return string.Empty;
@@ -40,7 +45,7 @@ namespace Arbor.App.Extensions
             return value;
         }
 
-        public static string MakeKeyValuePairAnonymous(this string value, params string[] keyWords)
+        public static string MakeKeyValuePairAnonymous(this string? value, params string[] keyWords)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -67,7 +72,7 @@ namespace Arbor.App.Extensions
             return final;
         }
 
-        public static string ThrowIfEmpty(this string value, string message = "")
+        public static string ThrowIfEmpty(this string? value, string message = "")
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -83,7 +88,7 @@ namespace Arbor.App.Extensions
         }
 
         public static ImmutableArray<KeyValuePair<string, string>> ParseValues(
-            this string value,
+            this string? value,
             char delimiter,
             char assignment)
         {
@@ -147,7 +152,7 @@ namespace Arbor.App.Extensions
             return value;
         }
 
-        public static bool AllHaveValue(params string[] values) =>
+        public static bool AllHaveValue(params string?[] values) =>
             values != null && values.All(value => !string.IsNullOrWhiteSpace(value));
 
         public static bool HasValue([NotNullWhen(true)] this string? text) => !string.IsNullOrWhiteSpace(text);

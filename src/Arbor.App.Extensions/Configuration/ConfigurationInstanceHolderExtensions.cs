@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Arbor.KVConfiguration.Urns;
 using JetBrains.Annotations;
 
@@ -21,9 +22,6 @@ namespace Arbor.App.Extensions.Configuration
         public static T? Get<T>(this ConfigurationInstanceHolder holder) where T : class =>
             holder.GetInstances<T>().SingleOrDefault().Value;
 
-        public static T Create<T>(this ConfigurationInstanceHolder holder) where T : class =>
-            (T)Create(holder, typeof(T))!;
-
         public static IEnumerable<T> CreateInstances<T>(this ConfigurationInstanceHolder holder) where T : class
         {
             var registeredTypes = holder.RegisteredTypes
@@ -38,6 +36,9 @@ namespace Arbor.App.Extensions.Configuration
                 }
             }
         }
+
+        public static T Create<T>(this ConfigurationInstanceHolder holder) where T : class =>
+            (T)Create(holder, typeof(T))!;
 
         public static object? Create(this ConfigurationInstanceHolder holder, Type type)
         {
@@ -80,12 +81,20 @@ namespace Arbor.App.Extensions.Configuration
                     $"Missing types defined in ctor for type {type.FullName}: {string.Join(", ", missingArgs.Select(m => m.ParameterType.FullName))}");
             }
 
+            object? GetArgumentValue(ParameterInfo parameter)
+            {
+                object? value = optionalArgs.Contains(parameter)
+                    ? null
+                    : holder.GetInstances(holder.RegisteredTypes.Single(reg => parameter.ParameterType.IsAssignableFrom(reg)))
+                        .Single().Value;
+
+                return value;
+            }
+
             object?[] args = parameters.Length == 0
                 ? Array.Empty<object>()
-                : parameters.Select(p => optionalArgs.Contains(p)
-                    ? null
-                    : holder.GetInstances(holder.RegisteredTypes.Single(reg => p.ParameterType.IsAssignableFrom(reg)))
-                        .Single().Value).ToArray();
+                : parameters.Select(GetArgumentValue)
+                    .ToArray();
 
             return Activator.CreateInstance(type, args);
         }

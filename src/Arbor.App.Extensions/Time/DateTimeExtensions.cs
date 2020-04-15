@@ -77,7 +77,7 @@ namespace Arbor.App.Extensions.Time
         [PublicAPI]
         public static string Since(this DateTime to, DateTime from)
         {
-            string PluralSuffix(int count)
+            static string PluralSuffix(int count)
             {
                 return count > 1 ? "s" : "";
             }
