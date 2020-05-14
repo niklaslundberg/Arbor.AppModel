@@ -220,7 +220,5 @@ namespace Arbor.App.Extensions
 
             return !typeInfo.IsAbstract && !typeInfo.IsInterface;
         }
-
     }
-
 }

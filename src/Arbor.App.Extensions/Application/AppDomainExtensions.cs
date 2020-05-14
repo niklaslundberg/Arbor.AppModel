@@ -73,9 +73,8 @@ namespace Arbor.App.Extensions.Application
 
                 var loadedAssemblies = AppDomain.CurrentDomain
                     .GetAssemblies()
-                    .Where(assembly => !assembly.IsDynamic)
-                    .Where(assembly => allowedAssemblies.Any(allowed =>
-                        assembly.GetName().Name?.StartsWith(allowed, StringComparison.OrdinalIgnoreCase) ?? false))
+                    .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(allowed =>
+                          assembly.GetName().Name?.StartsWith(allowed, StringComparison.OrdinalIgnoreCase) ?? false))
                     .ToArray();
 
                 var loadedAssemblyNames = loadedAssemblies
@@ -111,7 +110,7 @@ namespace Arbor.App.Extensions.Application
             {
                 string? assemblyName = assembly.GetName().Name;
 
-                int defaultOrder = 0;
+                const int defaultOrder = 0;
 
                 if (string.IsNullOrWhiteSpace(assemblyName))
                 {
@@ -125,7 +124,6 @@ namespace Arbor.App.Extensions.Application
                         return order;
                     }
                 }
-
 
                 return defaultOrder;
             }
