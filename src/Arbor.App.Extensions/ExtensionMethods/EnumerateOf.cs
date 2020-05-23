@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Arbor.App.Extensions.ExtensionMethods
 {
-    internal static class EnumerateOf<T> where T : class
+    public static class EnumerableOf<T> where T : class
     {
         private static readonly Lazy<ImmutableArray<T>> Lazy = new Lazy<ImmutableArray<T>>(GetAll);
 
