@@ -105,7 +105,6 @@ namespace Arbor.App.Extensions.ExtensionMethods
         public static string Wrap(this string wrappedText, string wrapText) => $"{wrapText}{wrappedText}{wrapText}";
 
 
-
         public static string MakeKeyValuePairAnonymous(this string? value, params string[] keyWords)
         {
             if (string.IsNullOrWhiteSpace(value))
