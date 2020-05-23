@@ -99,6 +99,12 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 throw new ArgumentNullException(nameof(action));
             }
 
+            return TapInternal(enumerable, action);
+        }
+
+        public static IEnumerable<T> TapInternal<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+
             foreach (var item in enumerable)
             {
                 action(item);

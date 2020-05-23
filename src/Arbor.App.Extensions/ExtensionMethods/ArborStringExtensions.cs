@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
-    public static class ApplicationStringExtensions
+    public static class ArborStringExtensions
     {
         private static readonly Lazy<ImmutableArray<string>> LazyDefaultAnonymousKeyWords =
             new Lazy<ImmutableArray<string>>(Initialize);
@@ -17,7 +17,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         public static ImmutableArray<string> DefaultAnonymousKeyWords => LazyDefaultAnonymousKeyWords.Value;
 
         private static ImmutableArray<string> Initialize() =>
-            new[] {"password", "username", "user id", "connection-string", "connectionstring"}
+            new[] {"password", "username", "user id", "connection-string", "connectionString"}
                 .ToImmutableArray();
 
         public static string MakeAnonymous(this string? value, string key, params string[] keyWords)
@@ -45,33 +45,6 @@ namespace Arbor.App.Extensions.ExtensionMethods
             return value;
         }
 
-        public static string MakeKeyValuePairAnonymous(this string? value, params string[] keyWords)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return string.Empty;
-            }
-
-            if (keyWords is null || keyWords.Length == 0)
-            {
-                return value;
-            }
-
-            var pairs = value.ParseValues(';', '=').Select(pair =>
-            {
-                if (keyWords.Any(keyWord => keyWord.IndexOf(pair.Key, StringComparison.OrdinalIgnoreCase) >= 0))
-                {
-                    return pair.MakeAnonymousValue();
-                }
-
-                return pair;
-            });
-
-            string final = string.Join("; ", pairs.Select(pair => $"{pair.Key}={pair.Value}"));
-
-            return final;
-        }
-
         public static string ThrowIfEmpty(this string? value, string message = "")
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -94,7 +67,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return ImmutableArray<KeyValuePair<string, string?>>.Empty;
+                return ImmutableArray<KeyValuePair<string, string>>.Empty;
             }
 
             string[] pairs = value.Split(delimiter);
@@ -127,9 +100,38 @@ namespace Arbor.App.Extensions.ExtensionMethods
             return parsedResultValue;
         }
 
-        public static bool HasSomeString(this string? value) => !string.IsNullOrWhiteSpace(value);
+        public static bool HasSomeString([NotNullWhen(true)] this string? value) => !string.IsNullOrWhiteSpace(value);
 
         public static string Wrap(this string wrappedText, string wrapText) => $"{wrapText}{wrappedText}{wrapText}";
+
+
+
+        public static string MakeKeyValuePairAnonymous(this string? value, params string[] keyWords)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return string.Empty;
+            }
+
+            if (keyWords is null || keyWords.Length == 0)
+            {
+                return value;
+            }
+
+            var pairs = value.ParseValues(';', '=').Select(pair =>
+            {
+                if (keyWords.Any(keyWord => keyWord.IndexOf(pair.Key, StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    return pair.MakeAnonymousValue();
+                }
+
+                return pair;
+            });
+
+            string final = string.Join("; ", pairs.Select(pair => $"{pair.Key}={pair.Value}"));
+
+            return final;
+        }
 
         public static string MakeKeyValuePairAnonymous(this string value, char separator, char replacementChar)
         {

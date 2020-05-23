@@ -19,12 +19,17 @@ namespace Arbor.App.Extensions.Tasks
         ///     The awaiter for cancellation tokens.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CA1815 // Override equals and operator equals on value types
+#pragma warning disable CA1034 // Nested types should not be visible
         public struct CancellationTokenAwaiter : ICriticalNotifyCompletion
+#pragma warning restore CA1034 // Nested types should not be visible
+#pragma warning restore CA1815 // Override equals and operator equals on value types
         {
             public CancellationTokenAwaiter(CancellationToken cancellationToken) =>
                 internalTCancellationToken = cancellationToken;
 
 #pragma warning disable IDE1006 // Naming Styles
+            // ReSharper disable once InconsistentNaming
             internal CancellationToken internalTCancellationToken;
 #pragma warning restore IDE1006 // Naming Styles
 

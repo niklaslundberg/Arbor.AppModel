@@ -121,7 +121,7 @@ namespace Arbor.App.Extensions.Application
                     return defaultOrder;
                 }
 
-                foreach ((string name, int order) in orders)
+                foreach ((string name, int order) in orders!)
                 {
                     if (assemblyName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
                     {

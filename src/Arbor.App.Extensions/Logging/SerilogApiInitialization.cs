@@ -39,7 +39,7 @@ namespace Arbor.App.Extensions.Logging
 
             var serilogConfiguration = serilogConfigurations.FirstOrDefault();
 
-            if (!NullExtensions.HasValue(serilogConfiguration))
+            if (!serilogConfiguration.HasValue())
             {
                 logger.Error("Could get Serilog configuration instance");
                 return logger;
@@ -57,7 +57,7 @@ namespace Arbor.App.Extensions.Logging
             }
 
             if (serilogConfiguration.RollingLogFilePathEnabled &&
-                !ApplicationStringExtensions.HasValue(serilogConfiguration.RollingLogFilePath))
+                !serilogConfiguration.RollingLogFilePath.HasSomeString())
             {
                 const string message = "Serilog rolling file log path is not set";
                 logger.Error(message);
@@ -79,7 +79,7 @@ namespace Arbor.App.Extensions.Logging
 
             if (serilogConfiguration.SeqEnabled && isValid)
             {
-                if (NullExtensions.HasValue(serilogConfiguration.SeqUrl))
+                if (serilogConfiguration.SeqUrl.HasValue())
                 {
                     logger.Debug("Serilog configured to use Seq with URL {Url}",
                         serilogConfiguration.SeqUrl.AbsoluteUri);
@@ -130,10 +130,10 @@ namespace Arbor.App.Extensions.Logging
                 logger.Debug("Rolling file log is disabled");
             }
 
-            const string ConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:j}{NewLine}{Exception}";
+            const string consoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:j}{NewLine}{Exception}";
 
             loggerConfiguration = loggerConfiguration.WriteTo.Console(standardErrorFromLevel: LogEventLevel.Error,
-                outputTemplate: ConsoleOutputTemplate);
+                outputTemplate: consoleOutputTemplate);
 
             var microsoftLevel =
                 multiSourceKeyValueConfiguration[LoggingConstants.MicrosoftLevel].ParseOrDefault(LogEventLevel.Warning);
@@ -162,7 +162,7 @@ namespace Arbor.App.Extensions.Logging
 
         public static ILogger InitializeStartupLogging(
             [NotNull] Func<string, string> basePath,
-            IReadOnlyDictionary<string, string> environmentVariables,
+            IReadOnlyDictionary<string, string?> environmentVariables,
             IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers)
         {
             var startupLevel = LogEventLevel.Verbose;
@@ -213,7 +213,7 @@ namespace Arbor.App.Extensions.Logging
                 .MinimumLevel.Is(startupLevel)
                 .WriteTo.Console(startupLevel, standardErrorFromLevel: LogEventLevel.Error);
 
-            if (ApplicationStringExtensions.HasValue(logFile))
+            if (logFile.HasSomeString())
             {
                 loggerConfiguration = loggerConfiguration
                     .WriteTo.File(logFile, startupLevel, rollingInterval: RollingInterval.Day);
