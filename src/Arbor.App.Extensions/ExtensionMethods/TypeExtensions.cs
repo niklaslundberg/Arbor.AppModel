@@ -6,7 +6,7 @@ using System.Reflection;
 using Arbor.App.Extensions.Configuration;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
     public static class TypeExtensions
@@ -24,8 +24,13 @@ namespace Arbor.App.Extensions
         }
 
         public static ImmutableArray<Type> FindPublicConcreteTypesImplementing<T>(
-            this IReadOnlyCollection<Assembly> assemblies)
+            [NotNull] this IReadOnlyCollection<Assembly> assemblies)
         {
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException(nameof(assemblies));
+            }
+
             var types = assemblies
                 .Select(assembly =>
                     assembly.GetLoadableTypes()

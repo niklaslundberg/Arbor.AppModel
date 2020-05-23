@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class UrlExtensions
     {

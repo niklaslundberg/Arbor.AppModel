@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Linq;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
     public static class EnumerableExtensions
@@ -54,7 +55,8 @@ namespace Arbor.App.Extensions
             return items.ToImmutableArray();
         }
 
-        public static IReadOnlyCollection<T> AddDefaultValueIfEmpty<T>(this IReadOnlyCollection<T>? items) where T : struct
+        public static IReadOnlyCollection<T> AddDefaultValueIfEmpty<T>(this IReadOnlyCollection<T>? items)
+            where T : struct
         {
             if (items is null)
             {
@@ -69,7 +71,8 @@ namespace Arbor.App.Extensions
             return items;
         }
 
-        public static IReadOnlyCollection<T?> AddDefaultItemIfEmpty<T>(this IReadOnlyCollection<T>? items) where T : class
+        public static IReadOnlyCollection<T?> AddDefaultItemIfEmpty<T>(this IReadOnlyCollection<T>? items)
+            where T : class
         {
             if (items is null)
             {
@@ -83,5 +86,29 @@ namespace Arbor.App.Extensions
 
             return items;
         }
+
+        public static IEnumerable<T> Tap<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            if (enumerable is null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (var item in enumerable)
+            {
+                action(item);
+                yield return item;
+            }
+        }
+
+        public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> items) where T : class =>
+            items
+                .Where(item => item is { })
+                .Select(item => item!);
     }
 }

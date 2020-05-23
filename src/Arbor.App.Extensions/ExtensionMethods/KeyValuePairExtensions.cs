@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class KeyValuePairExtensions
     {
@@ -10,6 +10,11 @@ namespace Arbor.App.Extensions
         public static string? ValueOrDefault(this IReadOnlyDictionary<string, string> dictionary, string key)
         {
             if (dictionary is null)
+            {
+                return default;
+            }
+
+            if (key is null)
             {
                 return default;
             }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using Arbor.App.Extensions.Application;
+using Arbor.App.Extensions.ExtensionMethods;
 using Arbor.App.Extensions.IO;
 using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Urns;
@@ -33,12 +34,12 @@ namespace Arbor.App.Extensions.Logging
 
             if (serilogConfigurations.Length > 1)
             {
-                logger.Warning("Found multiple serilog configurations {Configurations}", serilogConfigurations);
+                logger.Warning("Found multiple Serilog configurations {Configurations}", serilogConfigurations);
             }
 
             var serilogConfiguration = serilogConfigurations.FirstOrDefault();
 
-            if (!serilogConfiguration.HasValue())
+            if (!NullExtensions.HasValue(serilogConfiguration))
             {
                 logger.Error("Could get Serilog configuration instance");
                 return logger;
@@ -55,7 +56,7 @@ namespace Arbor.App.Extensions.Logging
                 logger.Debug("Using Serilog app configuration {Configuration}", serilogConfiguration);
             }
 
-            if (serilogConfiguration.RollingLogFilePathEnabled && !serilogConfiguration.RollingLogFilePath.HasValue())
+            if (serilogConfiguration.RollingLogFilePathEnabled && !ApplicationStringExtensions.HasValue(serilogConfiguration.RollingLogFilePath))
             {
                 const string message = "Serilog rolling file log path is not set";
                 logger.Error(message);
@@ -77,7 +78,7 @@ namespace Arbor.App.Extensions.Logging
 
             if (serilogConfiguration.SeqEnabled && isValid)
             {
-                if (serilogConfiguration.SeqUrl.HasValue())
+                if (NullExtensions.HasValue(serilogConfiguration.SeqUrl))
                 {
                     logger.Debug("Serilog configured to use Seq with URL {Url}",
                         serilogConfiguration.SeqUrl.AbsoluteUri);
@@ -210,7 +211,7 @@ namespace Arbor.App.Extensions.Logging
                 .MinimumLevel.Is(startupLevel)
                 .WriteTo.Console(startupLevel, standardErrorFromLevel: LogEventLevel.Error);
 
-            if (logFile.HasValue())
+            if (ApplicationStringExtensions.HasValue(logFile))
             {
                 loggerConfiguration = loggerConfiguration
                     .WriteTo.File(logFile, startupLevel, rollingInterval: RollingInterval.Day);

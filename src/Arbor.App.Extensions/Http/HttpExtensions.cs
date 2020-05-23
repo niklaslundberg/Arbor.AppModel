@@ -3,12 +3,13 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Core;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.Http
 {
     public static class HttpExtensions
     {

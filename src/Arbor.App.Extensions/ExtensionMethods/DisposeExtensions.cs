@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class DisposeExtensions
     {

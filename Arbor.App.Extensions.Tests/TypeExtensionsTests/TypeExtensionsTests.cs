@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Arbor.App.Extensions.ExtensionMethods;
 using Xunit;
 
 namespace Arbor.App.Extensions.Tests.TypeExtensionsTests
 {
-    public interface INoImplementation
-    {
-    }
-
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
     [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]

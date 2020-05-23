@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Arbor.App.Extensions.Application;
 using JetBrains.Annotations;
 
 namespace Arbor.App.Extensions.Configuration

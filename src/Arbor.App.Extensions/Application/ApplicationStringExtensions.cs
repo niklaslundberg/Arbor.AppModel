@@ -4,9 +4,10 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.Application
 {
     [PublicAPI]
     public static class ApplicationStringExtensions

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
     public static class NullExtensions
