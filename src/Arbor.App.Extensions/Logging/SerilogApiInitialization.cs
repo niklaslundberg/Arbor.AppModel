@@ -56,7 +56,8 @@ namespace Arbor.App.Extensions.Logging
                 logger.Debug("Using Serilog app configuration {Configuration}", serilogConfiguration);
             }
 
-            if (serilogConfiguration.RollingLogFilePathEnabled && !ApplicationStringExtensions.HasValue(serilogConfiguration.RollingLogFilePath))
+            if (serilogConfiguration.RollingLogFilePathEnabled &&
+                !ApplicationStringExtensions.HasValue(serilogConfiguration.RollingLogFilePath))
             {
                 const string message = "Serilog rolling file log path is not set";
                 logger.Error(message);
@@ -98,7 +99,8 @@ namespace Arbor.App.Extensions.Logging
                 logger.Debug("Seq is disabled");
             }
 
-            if (serilogConfiguration.RollingLogFilePathEnabled && !string.IsNullOrWhiteSpace(serilogConfiguration.RollingLogFilePath))
+            if (serilogConfiguration.RollingLogFilePathEnabled &&
+                !string.IsNullOrWhiteSpace(serilogConfiguration.RollingLogFilePath))
             {
                 string logFilePath = Path.IsPathRooted(serilogConfiguration.RollingLogFilePath)
                     ? serilogConfiguration.RollingLogFilePath!
@@ -171,9 +173,9 @@ namespace Arbor.App.Extensions.Logging
             }
 
             bool fileLoggingEnabled = bool.TryParse(
-                                          environmentVariables.ValueOrDefault(LoggingConstants
-                                              .SerilogStartupLogEnabled),
-                                          out bool enabled) && enabled;
+                environmentVariables.ValueOrDefault(LoggingConstants
+                    .SerilogStartupLogEnabled),
+                out bool enabled) && enabled;
 
             string? logFile = null;
 

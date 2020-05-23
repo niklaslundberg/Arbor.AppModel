@@ -12,7 +12,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return false;
             }
 
-            if (!Enum.TryParse(typeof(T), value, true, out object? result))
+            if (!Enum.TryParse(typeof(T), value, true, out var result))
             {
                 item = default!;
                 return false;

@@ -44,7 +44,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
 
         public static Uri? ParseUriOrDefault(this string? value)
         {
-            if (Uri.TryCreate(value, UriKind.Absolute, out Uri? uri))
+            if (Uri.TryCreate(value, UriKind.Absolute, out var uri))
             {
                 return uri;
             }

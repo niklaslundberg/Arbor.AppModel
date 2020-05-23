@@ -3,4 +3,10 @@
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1481:Unused local variables should be removed", Justification = "<Pending>", Scope = "member", Target = "~M:Arbor.App.Extensions.IO.TempFile.CreateTempFile(System.String,System.String)~Arbor.App.Extensions.IO.TempFile")]
+using System.Diagnostics.CodeAnalysis;
+
+[assembly:
+    SuppressMessage("Minor Code Smell", "S1481:Unused local variables should be removed", Justification = "<Pending>",
+        Scope = "member",
+        Target =
+            "~M:Arbor.App.Extensions.IO.TempFile.CreateTempFile(System.String,System.String)~Arbor.App.Extensions.IO.TempFile")]

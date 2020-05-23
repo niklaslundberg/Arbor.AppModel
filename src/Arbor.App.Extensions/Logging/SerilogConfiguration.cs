@@ -46,9 +46,6 @@ namespace Arbor.App.Extensions.Logging
 
         public string? RollingLogFilePath { get; }
 
-        public override string ToString() =>
-            $"{nameof(SeqEnabled)}: {SeqEnabled}, {nameof(RollingLogFilePathEnabled)}: {RollingLogFilePathEnabled}, {nameof(ConsoleEnabled)}: {ConsoleEnabled}, {nameof(DebugConsoleEnabled)}: {DebugConsoleEnabled}, {nameof(SeqUrl)}: {SeqUrl}, {nameof(RollingLogFilePath)}: {RollingLogFilePath}";
-
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (SeqEnabled && SeqUrl is null)
@@ -56,5 +53,8 @@ namespace Arbor.App.Extensions.Logging
                 yield return new ValidationResult("Seq is enabled but the url is not set or it is invalid");
             }
         }
+
+        public override string ToString() =>
+            $"{nameof(SeqEnabled)}: {SeqEnabled}, {nameof(RollingLogFilePathEnabled)}: {RollingLogFilePathEnabled}, {nameof(ConsoleEnabled)}: {ConsoleEnabled}, {nameof(DebugConsoleEnabled)}: {DebugConsoleEnabled}, {nameof(SeqUrl)}: {SeqUrl}, {nameof(RollingLogFilePath)}: {RollingLogFilePath}";
     }
 }

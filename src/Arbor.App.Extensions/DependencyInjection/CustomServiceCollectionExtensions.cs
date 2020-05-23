@@ -95,7 +95,7 @@ namespace Arbor.App.Extensions.DependencyInjection
 
             return serviceCollection;
         }
-        
+
         public static IServiceCollection AddSingleton(
             this IServiceCollection serviceCollection,
             Type registrationType,

@@ -135,15 +135,16 @@ namespace Arbor.App.Extensions.Application
             }
 
             string result = strings[0] + separator + string.Join(separator.ToString(CultureInfo.InvariantCulture),
-                                strings.Skip(1)
-                                    .Where(text => text.HasValue())
-                                    .Select(text => new string(replacementChar, text.Length)));
+                strings.Skip(1)
+                    .Where(text => text.HasValue())
+                    .Select(text => new string(replacementChar, text.Length)));
             return result;
         }
 
         public static string? WithDefault(
-            [NotNullIfNotNull("defaultValue")]
-            [NotNullIfNotNull("value")]this string? value, string? defaultValue)
+            [NotNullIfNotNull("defaultValue")] [NotNullIfNotNull("value")]
+            this string? value,
+            string? defaultValue)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
