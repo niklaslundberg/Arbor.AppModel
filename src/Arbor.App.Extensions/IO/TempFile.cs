@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Arbor.App.Extensions.Application;
+using Arbor.App.Extensions.ExtensionMethods;
 
 namespace Arbor.App.Extensions.IO
 {

@@ -4,10 +4,9 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions.Application
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
     public static class ApplicationStringExtensions
@@ -95,7 +94,7 @@ namespace Arbor.App.Extensions.Application
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return ImmutableArray<KeyValuePair<string, string>>.Empty;
+                return ImmutableArray<KeyValuePair<string, string?>>.Empty;
             }
 
             string[] pairs = value.Split(delimiter);
@@ -112,6 +111,23 @@ namespace Arbor.App.Extensions.Application
 
             return keyValuePairs;
         }
+
+        public static bool ParseAsBooleanOrDefault(this string? text, bool defaultValue = false)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return defaultValue;
+            }
+
+            if (!bool.TryParse(text, out bool parsedResultValue))
+            {
+                return defaultValue;
+            }
+
+            return parsedResultValue;
+        }
+
+        public static bool HasSomeString(this string? value) => !string.IsNullOrWhiteSpace(value);
 
         public static string Wrap(this string wrappedText, string wrapText) => $"{wrapText}{wrappedText}{wrapText}";
 
@@ -144,7 +160,7 @@ namespace Arbor.App.Extensions.Application
         public static string? WithDefault(
             [NotNullIfNotNull("defaultValue")] [NotNullIfNotNull("value")]
             this string? value,
-            string? defaultValue)
+            string? defaultValue = null)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -154,10 +170,8 @@ namespace Arbor.App.Extensions.Application
             return value;
         }
 
-        public static bool AllHaveValue(params string?[] values) =>
-            values != null && values.All(value => !string.IsNullOrWhiteSpace(value));
-
-        public static bool HasValue([NotNullWhen(true)] this string? text) => !string.IsNullOrWhiteSpace(text);
+        public static bool AllHaveValue(params string?[]? values) =>
+            values is {} && values.All(value => !string.IsNullOrWhiteSpace(value));
 
         public static bool IsNullOrWhiteSpace(this string? text) => string.IsNullOrWhiteSpace(text);
     }
