@@ -17,7 +17,7 @@ namespace Arbor.App.Extensions.Application
         }
 
         public bool UseVerboseExceptions => !EnvironmentName.HasValue()
-                                            || EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction,
+                                            || !EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction,
                                                 StringComparison.OrdinalIgnoreCase);
 
         [PublicAPI]
