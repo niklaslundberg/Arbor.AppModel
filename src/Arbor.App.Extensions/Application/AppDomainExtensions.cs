@@ -73,7 +73,7 @@ namespace Arbor.App.Extensions.Application
                                 listed => item.Name.StartsWith(listed, StringComparison.OrdinalIgnoreCase)))
                         .ToImmutableArray();
 
-                var loadedAssemblies = AppDomain.CurrentDomain
+                var loadedAssemblies = appDomain
                     .GetAssemblies()
                     .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(allowed =>
                         assembly.GetName().Name?.StartsWith(allowed,
@@ -96,10 +96,10 @@ namespace Arbor.App.Extensions.Application
 
                 foreach (var assemblyName in assemblyNames)
                 {
-                    if (!AppDomain.CurrentDomain.GetAssemblies()
+                    if (!appDomain.GetAssemblies()
                         .Any(assembly => !assembly.IsDynamic && assembly.GetName().FullName == assemblyName.FullName))
                     {
-                        AppDomain.CurrentDomain.Load(assemblyName);
+                        appDomain.Load(assemblyName);
                     }
                 }
             }
@@ -132,7 +132,7 @@ namespace Arbor.App.Extensions.Application
                 return defaultOrder;
             }
 
-            var filteredAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+            var filteredAssemblies = appDomain.GetAssemblies()
                 .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(listed =>
                     assembly.FullName?.StartsWith(listed, StringComparison.OrdinalIgnoreCase) ==
                     true))

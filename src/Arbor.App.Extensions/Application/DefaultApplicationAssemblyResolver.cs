@@ -1,13 +1,17 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Arbor.App.Extensions.Application
 {
     public class DefaultApplicationAssemblyResolver : IApplicationAssemblyResolver
     {
-        public Task<ImmutableArray<Assembly>>
-            GetAssemblies(string[] assemblyNameStartsWith, bool cacheEnabled = true) =>
-            Task.FromResult(ApplicationAssemblies.FilteredAssemblies(assemblyNameStartsWith, cacheEnabled));
+        private readonly ImmutableArray<Assembly> _assemblies;
+
+        public DefaultApplicationAssemblyResolver(string[] assemblyNameStartsWith, bool cacheEnabled = true) =>
+            _assemblies = ApplicationAssemblies.FilteredAssemblies(assemblyNameStartsWith, cacheEnabled);
+
+        public ImmutableArray<Assembly>
+            GetAssemblies() =>
+            _assemblies;
     }
 }
