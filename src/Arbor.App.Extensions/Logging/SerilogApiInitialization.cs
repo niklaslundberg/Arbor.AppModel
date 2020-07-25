@@ -21,7 +21,9 @@ namespace Arbor.App.Extensions.Logging
             [NotNull] MultiSourceKeyValueConfiguration multiSourceKeyValueConfiguration,
             ILogger logger,
             IEnumerable<ILoggerConfigurationHandler> loggerConfigurationHandlers,
-            LoggingLevelSwitch loggingLevelSwitch)
+            LoggingLevelSwitch loggingLevelSwitch,
+            SerilogConfiguration serilogConfiguration = null,
+            [CanBeNull] string applicationName = null)
         {
             if (multiSourceKeyValueConfiguration is null)
             {
@@ -37,7 +39,12 @@ namespace Arbor.App.Extensions.Logging
                 logger.Warning("Found multiple Serilog configurations {Configurations}", serilogConfigurations);
             }
 
-            var serilogConfiguration = serilogConfigurations.FirstOrDefault();
+            if (serilogConfiguration is {})
+            {
+                logger.Debug("Using explicit Serilog configuration instance {Instance}", serilogConfiguration);
+            }
+
+            serilogConfiguration ??= serilogConfigurations.FirstOrDefault();
 
             if (!serilogConfiguration.HasValue())
             {
@@ -64,7 +71,7 @@ namespace Arbor.App.Extensions.Logging
                 throw new InvalidOperationException(message);
             }
 
-            string applicationName = multiSourceKeyValueConfiguration[ApplicationConstants.ApplicationNameKey];
+            applicationName ??= multiSourceKeyValueConfiguration[ApplicationConstants.ApplicationNameKey];
 
             var loggerConfiguration = new LoggerConfiguration();
             if (!string.IsNullOrWhiteSpace(applicationName))
@@ -163,7 +170,8 @@ namespace Arbor.App.Extensions.Logging
         public static ILogger InitializeStartupLogging(
             [NotNull] Func<string, string> basePath,
             IReadOnlyDictionary<string, string?> environmentVariables,
-            IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers)
+            IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers,
+            [CanBeNull] string seqUrl = null)
         {
             var startupLevel = LogEventLevel.Verbose;
 
@@ -219,17 +227,17 @@ namespace Arbor.App.Extensions.Logging
                     .WriteTo.File(logFile, startupLevel, rollingInterval: RollingInterval.Day);
             }
 
-            string? seq = environmentVariables.ValueOrDefault(LoggingConstants.SeqStartupUrl);
+            seqUrl ??= environmentVariables.ValueOrDefault(LoggingConstants.SeqStartupUrl);
 
             Uri? usedSeqUri = null;
-            if (!string.IsNullOrWhiteSpace(seq))
+            if (!string.IsNullOrWhiteSpace(seqUrl))
             {
-                string seqUrl = Environment.ExpandEnvironmentVariables(seq);
+                string url = Environment.ExpandEnvironmentVariables(seqUrl);
 
                 if (Uri.TryCreate(seqUrl, UriKind.Absolute, out var uri))
                 {
                     usedSeqUri = uri;
-                    loggerConfiguration.WriteTo.Seq(seqUrl).MinimumLevel.Is(startupLevel);
+                    loggerConfiguration.WriteTo.Seq(url).MinimumLevel.Is(startupLevel);
                 }
             }
 
