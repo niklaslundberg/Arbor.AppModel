@@ -30,6 +30,9 @@ namespace Arbor.App.Extensions.Application
         public string? EnvironmentName { get; set; }
 
         [PublicAPI]
+        public string? ApplicationName { get; set; }
+
+        [PublicAPI]
         public string? PublicHostname { get; set; }
 
         public bool UseExplicitPorts { get; set; }
