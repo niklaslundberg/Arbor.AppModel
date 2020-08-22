@@ -28,7 +28,6 @@
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0-preview.7.*" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="5.0.0-preview.7.*" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-    <SourceRoot Include="$(MSBuildThisFileDirectory)/" />
   </ItemGroup>
 
 </Project>

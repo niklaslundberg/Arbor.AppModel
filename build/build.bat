@@ -12,7 +12,7 @@ SET Arbor.Build.NetAssembly.Configuration=
 SET Arbor.Build.MSBuild.NuGetRestore.Enabled=true
 SET Arbor.Build.Tools.External.Xunit.NetCoreApp.Enabled=false
 SET Arbor.Build.BuildNumber.UnixEpochSecondsEnabled=true
-SET ContinuousIntegrationBuild=true
+REM SET CI_BUILD=true
 SET Arbor.Build.Tools.External.SymbolServer.Enabled=true
 
 SET Fallback.Version.Build=0
