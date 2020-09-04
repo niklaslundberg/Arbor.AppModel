@@ -1,4 +1,5 @@
 @ECHO OFF
+dotnet --info
 SET Arbor.Build.Bootstrapper.AllowPrerelease=true
 SET Arbor.Build.Build.Bootstrapper.AllowPrerelease=true
 SET Arbor.Build.NuGet.Package.Artifacts.Suffix=
