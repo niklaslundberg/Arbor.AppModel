@@ -15,6 +15,7 @@ SET Arbor.Build.Tools.External.Xunit.NetCoreApp.Enabled=false
 SET Arbor.Build.BuildNumber.UnixEpochSecondsEnabled=true
 REM SET CI_BUILD=true
 SET Arbor.Build.Tools.External.SymbolServer.Enabled=true
+SET Arbor.Build.Tools.External.VisualStudio.Version.PreRelease.Enabled=true
 
 SET Fallback.Version.Build=0
 
