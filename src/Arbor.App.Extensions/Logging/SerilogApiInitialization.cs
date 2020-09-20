@@ -22,8 +22,8 @@ namespace Arbor.App.Extensions.Logging
             ILogger logger,
             IEnumerable<ILoggerConfigurationHandler> loggerConfigurationHandlers,
             LoggingLevelSwitch loggingLevelSwitch,
-            SerilogConfiguration serilogConfiguration = null,
-            [CanBeNull] string applicationName = null)
+            SerilogConfiguration? serilogConfiguration = null,
+            string? applicationName = null)
         {
             if (multiSourceKeyValueConfiguration is null)
             {
@@ -171,7 +171,7 @@ namespace Arbor.App.Extensions.Logging
             [NotNull] Func<string, string> basePath,
             IReadOnlyDictionary<string, string?> environmentVariables,
             IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers,
-            [CanBeNull] string seqUrl = null)
+            string? seqUrl = null)
         {
             var startupLevel = LogEventLevel.Verbose;
 

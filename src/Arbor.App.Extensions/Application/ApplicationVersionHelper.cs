@@ -7,7 +7,7 @@ namespace Arbor.App.Extensions.Application
 {
     public static class ApplicationVersionHelper
     {
-        public static ApplicationVersionInfo GetAppVersion()
+        public static ApplicationVersionInfo? GetAppVersion()
         {
             var executingAssembly = typeof(ApplicationVersionHelper).Assembly;
 
@@ -37,7 +37,12 @@ namespace Arbor.App.Extensions.Application
 
             var fvi = FileVersionInfo.GetVersionInfo(location);
 
-            string fileVersion = fvi.FileVersion;
+            string? fileVersion = fvi.FileVersion;
+
+            if (string.IsNullOrWhiteSpace(fileVersion))
+            {
+                return null;
+            }
 
             return new ApplicationVersionInfo(assemblyVersionString,
                 fileVersion,

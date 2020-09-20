@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="0.20.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.0.0-build.1597407772" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="MediatR" Version="8.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0-preview.8.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0-preview.8.*" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0-preview.8.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,9 +25,9 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-preview.8.*" />
-    <PackageReference Include="Microsoft.Extensions.Primitives" Version="5.0.0-preview.8.*" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
 
 </Project>

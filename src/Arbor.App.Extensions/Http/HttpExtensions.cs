@@ -20,7 +20,7 @@ namespace Arbor.App.Extensions.Http
                 throw new ArgumentNullException(nameof(response));
             }
 
-            return response.Content.Headers.ContentType.MediaType?.Equals(ContentTypes.Json) ?? false;
+            return response.Content.Headers.ContentType?.MediaType?.Equals(ContentTypes.Json) ?? false;
         }
 
         public static Task<T?> TrySendAndReadResponseJson<T>([NotNull] this HttpClient client,

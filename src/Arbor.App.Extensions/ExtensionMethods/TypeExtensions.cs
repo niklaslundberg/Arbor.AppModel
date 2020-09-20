@@ -147,7 +147,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
             }
             catch (ReflectionTypeLoadException ex)
             {
-                return ex.Types.Where(type => type != null).ToImmutableArray();
+                return ex.Types.NotNull().ToImmutableArray();
             }
         }
 
