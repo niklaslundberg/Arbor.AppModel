@@ -31,8 +31,6 @@ jobs:
           Write-Host Copying from $from to $to;
           Copy-Item "$from\*" $to -Recurse -Force;
         }
-    - name: vs-preview
-      run: choco install visualstudio2019buildtools-preview --pre
     - name: build
       env:
         Arbor.Build.NuGet.PackageUpload.Server.ApiKey: ${{ secrets.myget }}
