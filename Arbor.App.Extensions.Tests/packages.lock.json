@@ -72,8 +72,8 @@
       },
       "MediatR": {
         "type": "Transitive",
-        "resolved": "8.1.0",
-        "contentHash": "KJFnA0MV83bNOhvYbjIX1iDykhwFXoQu0KV7E1SVbNA/CmO2I7SAm2Baly0eS7VJ2GwlmStLajBfeiNgTpvYzQ=="
+        "resolved": "9.0.0",
+        "contentHash": "8b3UYNxegHVYcJMG2zH8wn+YqxLvXG+eMfj0cMCq/jTW72p6O3PCKMkrIv0mqyxdW7bA4gblsocw7n+/9Akg5g=="
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
@@ -346,8 +346,8 @@
       },
       "Serilog": {
         "type": "Transitive",
-        "resolved": "2.9.0",
-        "contentHash": "QzcrD33A3+CsVvwi1I5CSei67ikQnkGrw7SscgL+vZTghaC2aNYg8fiUcedXHzKJFNjgje9rBjzwYGQTKEaXaA=="
+        "resolved": "2.10.0",
+        "contentHash": "+QX0hmf37a0/OZLxM3wL7V6/ADvC1XihXN4Kq/p6d8lCPfgkRdiuhbWlMaFjR9Av0dy5F0+MBeDmDdRZN/YwQA=="
       },
       "Serilog.Formatting.Compact": {
         "type": "Transitive",
@@ -1196,12 +1196,12 @@
         "dependencies": {
           "Arbor.KVConfiguration.Urns": "1.0.0-build.1597407772",
           "JetBrains.Annotations": "2020.1.0",
-          "MediatR": "8.1.0",
+          "MediatR": "9.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0-rc.1.20451.14",
           "Microsoft.Extensions.DependencyModel": "5.0.0-rc.1.20451.14",
           "Microsoft.Extensions.Http": "5.0.0-rc.1.20451.14",
           "Microsoft.Extensions.Primitives": "5.0.0-rc.1.20451.14",
-          "Serilog": "2.9.0",
+          "Serilog": "2.10.0",
           "Serilog.Sinks.Console": "3.1.1",
           "Serilog.Sinks.Debug": "1.0.1",
           "Serilog.Sinks.File": "4.1.0",
