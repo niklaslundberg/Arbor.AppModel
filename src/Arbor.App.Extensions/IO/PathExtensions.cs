@@ -62,7 +62,7 @@ namespace Arbor.App.Extensions.IO
                     "Could not find rootPath in fullPath when calculating relative path.");
             }
 
-            return fullPath.Substring(rootFullPath.Length);
+            return fullPath[rootFullPath.Length..];
         }
     }
 }

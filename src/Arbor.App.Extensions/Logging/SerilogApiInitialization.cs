@@ -173,7 +173,7 @@ namespace Arbor.App.Extensions.Logging
             IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers,
             string? seqUrl = null)
         {
-            var startupLevel = LogEventLevel.Verbose;
+            const LogEventLevel startupLevel = LogEventLevel.Verbose;
 
             if (basePath == null)
             {

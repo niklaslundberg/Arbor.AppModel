@@ -12,13 +12,13 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return false;
             }
 
-            if (!Enum.TryParse(typeof(T), value, true, out var result))
+            if (!Enum.TryParse(typeof(T), value, true, out object? result))
             {
                 item = default!;
                 return false;
             }
 
-            if (!(result is T instance))
+            if (result is not T instance)
             {
                 item = default!;
                 return false;

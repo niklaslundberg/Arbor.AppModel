@@ -9,12 +9,12 @@ namespace Arbor.App.Extensions.ExtensionMethods
     {
         [PublicAPI]
         public static string
-            CreateQueryWithQuestionMark([NotNull] IEnumerable<KeyValuePair<string, string>> parameters) =>
+            CreateQueryWithQuestionMark([NotNull] this IEnumerable<KeyValuePair<string, string>> parameters) =>
             $"?{CreateQueryWithoutQuestionMark(parameters)}";
 
         [PublicAPI]
         public static string CreateQueryWithoutQuestionMark(
-            [NotNull] IEnumerable<KeyValuePair<string, string>> parameters)
+            [NotNull] this IEnumerable<KeyValuePair<string, string>> parameters)
         {
             if (parameters == null)
             {

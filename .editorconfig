@@ -331,3 +331,4 @@ dotnet_diagnostic.S3263.severity = none
 dotnet_diagnostic.S1854.severity = silent
 
 dotnet_diagnostic.CA1031.severity = silent
+dotnet_diagnostic.RCS1090.severity = silent

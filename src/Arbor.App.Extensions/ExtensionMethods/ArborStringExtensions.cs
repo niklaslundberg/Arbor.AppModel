@@ -37,7 +37,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return value;
             }
 
-            if (keyWords.Any(keyWord => key.IndexOf(keyWord, StringComparison.OrdinalIgnoreCase) >= 0))
+            if (keyWords.Any(keyWord => key.Contains(keyWord, StringComparison.OrdinalIgnoreCase)))
             {
                 return new string('*', 5);
             }
@@ -104,7 +104,6 @@ namespace Arbor.App.Extensions.ExtensionMethods
 
         public static string Wrap(this string wrappedText, string wrapText) => $"{wrapText}{wrappedText}{wrapText}";
 
-
         public static string MakeKeyValuePairAnonymous(this string? value, params string[] keyWords)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -119,7 +118,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
 
             var pairs = value.ParseValues(';', '=').Select(pair =>
             {
-                if (keyWords.Any(keyWord => keyWord.IndexOf(pair.Key, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (keyWords.Any(keyWord => keyWord.Contains(pair.Key, StringComparison.OrdinalIgnoreCase)))
                 {
                     return pair.MakeAnonymousValue();
                 }

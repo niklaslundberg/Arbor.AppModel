@@ -39,7 +39,7 @@ namespace Arbor.App.Extensions.IO
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex) when (!ex.IsFatal())
             {
                 // ignore
             }

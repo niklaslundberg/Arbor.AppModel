@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Arbor.App.Extensions.ExtensionMethods;
 using Xunit;
 
@@ -7,7 +6,6 @@ namespace Arbor.App.Extensions.Tests.TypeExtensionsTests
 {
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-    [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
     public class TypeExtensionsTests
     {
         [InlineData(typeof(TestTypeSub))]
@@ -67,11 +65,9 @@ namespace Arbor.App.Extensions.Tests.TypeExtensionsTests
         [Fact]
         public void IsConcrete_WhenInputIsNull_ShouldReturnFalse() => Assert.False(((Type)null).IsConcrete());
 
-
         [Fact]
         public void IsConcreteTypeImplementing_ShouldThrowWhenInputIsNull() =>
             Assert.Throws<ArgumentNullException>(() => ((Type)null).IsConcreteTypeImplementing<ITestInterface>());
-
 
         [Fact]
         public void IsPublicConcreteTypeImplementing_ShouldThrowWhenInputIsNull() =>

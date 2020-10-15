@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -23,7 +22,6 @@ namespace Arbor.App.Extensions.Time
 
         public static implicit operator Date(DateTime dateTime) => new Date(dateTime);
 
-        [SuppressMessage("ReSharper", "ImpureMethodCallOnReadonlyValueField")]
         public bool Equals(Date other) => _datePart.Equals(other._datePart);
 
         public override bool Equals(object? obj)
@@ -42,7 +40,6 @@ namespace Arbor.App.Extensions.Time
 
         public static bool operator !=(Date left, Date right) => !left.Equals(right);
 
-        [SuppressMessage("ReSharper", "ImpureMethodCallOnReadonlyValueField")]
         public int CompareTo(Date other) => _datePart.CompareTo(other._datePart);
 
         public static bool operator <(Date date1, Date date2) => date1._datePart < date2._datePart;

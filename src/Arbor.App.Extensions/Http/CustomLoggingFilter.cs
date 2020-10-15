@@ -14,7 +14,7 @@ namespace Arbor.App.Extensions.Http
                 throw new ArgumentNullException(nameof(next));
             }
 
-            return builder => { };
+            return _ => { };
         }
     }
 }

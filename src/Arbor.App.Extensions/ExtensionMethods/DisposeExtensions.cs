@@ -11,7 +11,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return;
             }
 
-            if (!(disposable is IDisposable disposableItem))
+            if (disposable is not IDisposable disposableItem)
             {
                 return;
             }
@@ -24,7 +24,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
             {
                 // ignore
             }
-            catch (Exception)
+            catch (Exception ex) when (!ex.IsFatal())
             {
                 // ignore
             }

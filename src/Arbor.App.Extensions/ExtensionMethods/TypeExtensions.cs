@@ -212,7 +212,6 @@ namespace Arbor.App.Extensions.ExtensionMethods
             return typeInfo.BaseType?.Closes(openType) ?? false;
         }
 
-
         // Originally taken from https://github.com/JasperFx/baseline/
         public static bool IsConcrete(this Type type)
         {
