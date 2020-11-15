@@ -10,14 +10,19 @@ namespace Arbor.App.Extensions.Time
         public TimeoutHelper(TimeoutConfiguration? timeoutConfiguration = null) =>
             _timeoutConfiguration = timeoutConfiguration;
 
-        public CancellationTokenSource CreateCancellationTokenSource(TimeSpan timeSpan)
+        public CancellationTokenSource CreateCancellationTokenSource(TimeSpan? timeSpan = default)
         {
             if (_timeoutConfiguration?.CancellationEnabled == false)
             {
                 return new CancellationTokenSource();
             }
 
-            return new CancellationTokenSource(timeSpan);
+            if (timeSpan is null)
+            {
+                return new CancellationTokenSource();
+            }
+
+            return new CancellationTokenSource(timeSpan.Value);
         }
     }
 }
