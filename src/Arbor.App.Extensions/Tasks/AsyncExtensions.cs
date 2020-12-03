@@ -35,12 +35,9 @@ namespace Arbor.App.Extensions.Tasks
 
             public object GetResult()
             {
-                // this is called by compiler generated methods when the
-                // task has completed. Instead of returning a result, we
-                // just throw an exception.
                 if (IsCompleted)
                 {
-                    throw new OperationCanceledException();
+                    return 0;
                 }
 
                 throw new InvalidOperationException("The cancellation token has not yet been cancelled.");
