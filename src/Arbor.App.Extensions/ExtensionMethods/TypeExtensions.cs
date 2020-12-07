@@ -166,7 +166,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
 
         // Originally taken from https://github.com/JasperFx/baseline/
-        public static bool Closes(this Type type, [NotNull] Type openType)
+        public static bool Closes(this Type? type, [NotNull] Type openType)
         {
             if (openType == null)
             {
@@ -213,7 +213,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         }
 
         // Originally taken from https://github.com/JasperFx/baseline/
-        public static bool IsConcrete(this Type type)
+        public static bool IsConcrete(this Type? type)
         {
             if (type is null)
             {

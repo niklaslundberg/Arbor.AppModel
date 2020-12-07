@@ -16,12 +16,7 @@ namespace Arbor.App.Extensions.Application
 
             string name = keyValueConfiguration[ApplicationConstants.ApplicationNameKey];
 
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Assembly.GetExecutingAssembly().GetName().Name;
-            }
-
-            return name;
+            return string.IsNullOrWhiteSpace(name) ? Assembly.GetExecutingAssembly().GetName().Name : name;
         }
     }
 }

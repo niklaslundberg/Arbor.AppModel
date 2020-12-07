@@ -9,7 +9,6 @@ namespace Arbor.App.Extensions.Application
 
         public InstanceApplicationAssemblyResolver(ImmutableArray<Assembly> assemblies) => _assemblies = assemblies;
 
-        public ImmutableArray<Assembly>
-            GetAssemblies() => _assemblies;
+        public ImmutableArray<Assembly> GetAssemblies() => _assemblies;
     }
 }

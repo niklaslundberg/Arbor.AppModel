@@ -15,7 +15,7 @@ namespace Arbor.App.Extensions.Configuration
             {
                 var customAttribute = type.GetCustomAttribute<UrnAttribute>();
 
-                return customAttribute != null;
+                return customAttribute is {};
             }
 
             var urnMappedTypes = assemblies

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 
 namespace Arbor.App.Extensions.Cli
@@ -24,7 +25,7 @@ namespace Arbor.App.Extensions.Cli
             string trimmedName = parameterName.Trim();
             string prefix = $"{trimmedName}=";
             string[] matchingArgs = parameters
-                .Where(param => param != null)
+                .NotNull()
                 .Select(param => param.Trim())
                 .Where(param => param.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
                 .ToArray();

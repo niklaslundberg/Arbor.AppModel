@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Cli\" />
+    <Folder Include="Enumerables\" />
     <Folder Include="Time\" />
   </ItemGroup>
 

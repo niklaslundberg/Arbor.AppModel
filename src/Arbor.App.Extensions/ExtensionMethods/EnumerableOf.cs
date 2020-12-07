@@ -6,11 +6,11 @@ namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class EnumerableOf<T> where T : class
     {
-        private static readonly Lazy<ImmutableArray<T>> Lazy = new Lazy<ImmutableArray<T>>(GetAll);
+        private static readonly Lazy<ImmutableArray<T>> Lazy = new(Initialize);
 
         public static ImmutableArray<T> All => Lazy.Value;
 
-        private static ImmutableArray<T> GetAll()
+        private static ImmutableArray<T> Initialize()
         {
             Type type = typeof(T);
 
