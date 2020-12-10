@@ -87,7 +87,7 @@ namespace Arbor.App.Extensions.Application
                 var toLoad = includedLibraries
                     .Where(lib =>
                         !loadedAssemblyNames.Any(loaded =>
-                            loaded?.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false))
+                            loaded.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false))
                     .ToArray();
 
                 var assemblyNames = toLoad
