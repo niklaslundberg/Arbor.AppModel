@@ -11,10 +11,7 @@ namespace Arbor.App.Extensions.Tests.Time
     {
         private readonly ITestOutputHelper _outputHelper;
 
-        public DateTests(ITestOutputHelper outputHelper)
-        {
-            _outputHelper = outputHelper;
-        }
+        public DateTests(ITestOutputHelper outputHelper) => _outputHelper = outputHelper;
 
         [InlineData(2000, 1, 1)]
         [InlineData(2004, 2, 29)]
@@ -79,7 +76,7 @@ namespace Arbor.App.Extensions.Tests.Time
         [Theory]
         public void DateTryParseInvalidShouldReturnFalse(int year, int month, int day)
         {
-            bool parsed = Date.TryParse(year, month, day, out var date);
+            bool parsed = Date.TryParse(year, month, day, out _);
 
             parsed.Should().BeFalse();
         }

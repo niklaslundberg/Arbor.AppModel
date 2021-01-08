@@ -83,7 +83,7 @@ namespace Arbor.App.Extensions.Configuration
 
             object? GetArgumentValue(ParameterInfo parameter)
             {
-                var value = optionalArgs.Contains(parameter)
+                object? value = optionalArgs.Contains(parameter)
                     ? null
                     : holder.GetInstances(
                             holder.RegisteredTypes.Single(reg => parameter.ParameterType.IsAssignableFrom(reg)))

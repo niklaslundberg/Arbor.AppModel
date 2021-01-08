@@ -123,7 +123,7 @@ namespace Arbor.App.Extensions.Application
 
                 foreach ((string name, int order) in orders!)
                 {
-                    if (assemblyName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (assemblyName.Contains(name, StringComparison.OrdinalIgnoreCase))
                     {
                         return order;
                     }

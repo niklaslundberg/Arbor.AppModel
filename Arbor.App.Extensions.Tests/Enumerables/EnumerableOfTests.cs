@@ -1,5 +1,6 @@
 ﻿using Arbor.App.Extensions.ExtensionMethods;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace Arbor.App.Extensions.Tests.Enumerables
@@ -8,7 +9,9 @@ namespace Arbor.App.Extensions.Tests.Enumerables
     {
         private class TestEnumerable
         {
+            [UsedImplicitly]
             public static readonly TestEnumerable A = new();
+            [UsedImplicitly]
             public static readonly TestEnumerable B = new();
         }
 

@@ -111,7 +111,7 @@ namespace Arbor.App.Extensions.Logging
             {
                 string logFilePath = Path.IsPathRooted(serilogConfiguration.RollingLogFilePath)
                     ? serilogConfiguration.RollingLogFilePath!
-                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, serilogConfiguration.RollingLogFilePath);
+                    : Path.Combine(AppContext.BaseDirectory, serilogConfiguration.RollingLogFilePath);
 
                 var fileInfo = new FileInfo(logFilePath);
 

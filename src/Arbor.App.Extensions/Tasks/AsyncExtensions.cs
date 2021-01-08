@@ -13,7 +13,7 @@ namespace Arbor.App.Extensions.Tasks
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static CancellationTokenAwaiter GetAwaiter(this CancellationToken cancellationToken) =>
             // return our special awaiter
-            new CancellationTokenAwaiter {internalTCancellationToken = cancellationToken};
+            new() {internalTCancellationToken = cancellationToken};
 
         /// <summary>
         ///     The awaiter for cancellation tokens.
