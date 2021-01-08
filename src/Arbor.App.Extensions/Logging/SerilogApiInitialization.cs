@@ -169,7 +169,7 @@ namespace Arbor.App.Extensions.Logging
 
         public static ILogger InitializeStartupLogging(
             [NotNull] Func<string, string> basePath,
-            IReadOnlyDictionary<string, string?> environmentVariables,
+            IReadOnlyDictionary<string, string> environmentVariables,
             IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers,
             string? seqUrl = null)
         {
