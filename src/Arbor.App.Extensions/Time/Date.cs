@@ -152,7 +152,7 @@ namespace Arbor.App.Extensions.Time
 
             bool is31DayMonth = !is30DayMonth && month != 2;
 
-            bool isValidSpecialCase = month switch
+            return month switch
             {
                 2 when isLeapYear && day <= 29 => true,
                 2 when !isLeapYear && day <= 28 => true,
@@ -160,8 +160,6 @@ namespace Arbor.App.Extensions.Time
                 _ when is31DayMonth && day <= 31 => true,
                 _ => false
             };
-
-            return isValidSpecialCase;
         }
 
         public static bool TryParse(in int year, in int month, in int day, out Date date)
