@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class DisposeExtensions
     {
-        public static void SafeDispose(this object disposable)
+        public static void SafeDispose(this object? disposable)
         {
             if (disposable is null)
             {
                 return;
             }
 
-            if (!(disposable is IDisposable disposableItem))
+            if (disposable is not IDisposable disposableItem)
             {
                 return;
             }
@@ -24,7 +24,7 @@ namespace Arbor.App.Extensions
             {
                 // ignore
             }
-            catch (Exception)
+            catch (Exception ex) when (!ex.IsFatal())
             {
                 // ignore
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
+using Arbor.App.Extensions.ExtensionMethods;
 using Arbor.App.Extensions.Logging;
 using Arbor.App.Extensions.Time;
 using JetBrains.Annotations;
@@ -46,9 +47,10 @@ namespace Arbor.App.Extensions.Application
 
             ForceLoadReferenceAssemblies();
 
-            string? first = Assembly.GetEntryAssembly()?.FullName?.Split(".", StringSplitOptions.RemoveEmptyEntries).First();
+            string? first = Assembly.GetEntryAssembly()?.FullName?.Split(".", StringSplitOptions.RemoveEmptyEntries)
+                .First();
 
-            var items = new List<string>{"Arbor"};
+            var items = new List<string> {"Arbor"};
 
             if (!string.IsNullOrWhiteSpace(first))
             {
@@ -71,11 +73,11 @@ namespace Arbor.App.Extensions.Application
                                 listed => item.Name.StartsWith(listed, StringComparison.OrdinalIgnoreCase)))
                         .ToImmutableArray();
 
-                var loadedAssemblies = AppDomain.CurrentDomain
+                var loadedAssemblies = appDomain
                     .GetAssemblies()
-                    .Where(assembly => !assembly.IsDynamic)
-                    .Where(assembly => allowedAssemblies.Any(allowed =>
-                        assembly.GetName().Name?.StartsWith(allowed, StringComparison.OrdinalIgnoreCase) ?? false))
+                    .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(allowed =>
+                        assembly.GetName().Name?.StartsWith(allowed,
+                            StringComparison.OrdinalIgnoreCase) ?? false))
                     .ToArray();
 
                 var loadedAssemblyNames = loadedAssemblies
@@ -84,7 +86,8 @@ namespace Arbor.App.Extensions.Application
 
                 var toLoad = includedLibraries
                     .Where(lib =>
-                        !loadedAssemblyNames.Any(loaded => loaded?.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false))
+                        !loadedAssemblyNames.Any(loaded =>
+                            loaded.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false))
                     .ToArray();
 
                 var assemblyNames = toLoad
@@ -93,10 +96,10 @@ namespace Arbor.App.Extensions.Application
 
                 foreach (var assemblyName in assemblyNames)
                 {
-                    if (!AppDomain.CurrentDomain.GetAssemblies()
+                    if (!appDomain.GetAssemblies()
                         .Any(assembly => !assembly.IsDynamic && assembly.GetName().FullName == assemblyName.FullName))
                     {
-                        AppDomain.CurrentDomain.Load(assemblyName);
+                        appDomain.Load(assemblyName);
                     }
                 }
             }
@@ -111,28 +114,28 @@ namespace Arbor.App.Extensions.Application
             {
                 string? assemblyName = assembly.GetName().Name;
 
-                int defaultOrder = 0;
+                const int defaultOrder = 0;
 
                 if (string.IsNullOrWhiteSpace(assemblyName))
                 {
                     return defaultOrder;
                 }
 
-                foreach ((string name, int order) in orders)
+                foreach ((string name, int order) in orders!)
                 {
-                    if (assemblyName.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (assemblyName.Contains(name, StringComparison.OrdinalIgnoreCase))
                     {
                         return order;
                     }
                 }
 
-
                 return defaultOrder;
             }
 
-            var filteredAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+            var filteredAssemblies = appDomain.GetAssemblies()
                 .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(listed =>
-                                       assembly.FullName?.StartsWith(listed, StringComparison.OrdinalIgnoreCase) == true))
+                    assembly.FullName?.StartsWith(listed, StringComparison.OrdinalIgnoreCase) ==
+                    true))
                 .Select(assembly =>
                 {
                     (Assembly Assembly, int Order) tuple = (assembly, GetAssemblyLoadOrder(assembly));

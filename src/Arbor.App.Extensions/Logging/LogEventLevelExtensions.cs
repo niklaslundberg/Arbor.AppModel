@@ -1,4 +1,5 @@
-﻿using Serilog.Events;
+﻿using Arbor.App.Extensions.ExtensionMethods;
+using Serilog.Events;
 
 namespace Arbor.App.Extensions.Logging
 {

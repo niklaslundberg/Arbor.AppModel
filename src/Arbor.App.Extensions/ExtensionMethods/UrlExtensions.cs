@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class UrlExtensions
     {
         [PublicAPI]
         public static string
-            CreateQueryWithQuestionMark([NotNull] IEnumerable<KeyValuePair<string, string>> parameters) =>
+            CreateQueryWithQuestionMark([NotNull] this IEnumerable<KeyValuePair<string, string>> parameters) =>
             $"?{CreateQueryWithoutQuestionMark(parameters)}";
 
         [PublicAPI]
         public static string CreateQueryWithoutQuestionMark(
-            [NotNull] IEnumerable<KeyValuePair<string, string>> parameters)
+            [NotNull] this IEnumerable<KeyValuePair<string, string>> parameters)
         {
             if (parameters == null)
             {
@@ -44,7 +44,7 @@ namespace Arbor.App.Extensions
 
         public static Uri? ParseUriOrDefault(this string? value)
         {
-            if (Uri.TryCreate(value, UriKind.Absolute, out Uri? uri))
+            if (Uri.TryCreate(value, UriKind.Absolute, out var uri))
             {
                 return uri;
             }

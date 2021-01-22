@@ -96,6 +96,39 @@ namespace Arbor.App.Extensions.DependencyInjection
             return serviceCollection;
         }
 
+        public static IServiceCollection AddSingleton(
+            this IServiceCollection serviceCollection,
+            Type registrationType,
+            Func<IServiceProvider, object> resolver,
+            IModule? module) =>
+            serviceCollection.Add(registrationType, resolver, ServiceLifetime.Singleton, module);
+
+        public static IServiceCollection AddSingleton<TRegistrationType>(
+            this IServiceCollection serviceCollection,
+            Func<IServiceProvider, ServiceFactory> resolver,
+            IModule? module)
+        {
+            serviceCollection.Add(new ExtendedServiceDescriptor(typeof(TRegistrationType),
+                resolver,
+                ServiceLifetime.Singleton,
+                module?.GetType()));
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddSingleton<TRegistrationType>(
+            this IServiceCollection serviceCollection,
+            Func<IServiceProvider, object> resolver,
+            IModule? module)
+        {
+            serviceCollection.Add(new ExtendedServiceDescriptor(typeof(TRegistrationType),
+                resolver,
+                ServiceLifetime.Singleton,
+                module?.GetType()));
+
+            return serviceCollection;
+        }
+
         public static IServiceCollection AddSingleton<T>(
             this IServiceCollection serviceCollection,
             IModule? module) =>
@@ -146,39 +179,6 @@ namespace Arbor.App.Extensions.DependencyInjection
             serviceCollection.Add(new ExtendedServiceDescriptor(registrationType,
                 resolver,
                 serviceLifetime,
-                module?.GetType()));
-
-            return serviceCollection;
-        }
-
-        public static IServiceCollection AddSingleton(
-            this IServiceCollection serviceCollection,
-            Type registrationType,
-            Func<IServiceProvider, object> resolver,
-            IModule? module) =>
-            serviceCollection.Add(registrationType, resolver, ServiceLifetime.Singleton, module);
-
-        public static IServiceCollection AddSingleton<TRegistrationType>(
-            this IServiceCollection serviceCollection,
-            Func<IServiceProvider, ServiceFactory> resolver,
-            IModule? module)
-        {
-            serviceCollection.Add(new ExtendedServiceDescriptor(typeof(TRegistrationType),
-                resolver,
-                ServiceLifetime.Singleton,
-                module?.GetType()));
-
-            return serviceCollection;
-        }
-
-        public static IServiceCollection AddSingleton<TRegistrationType>(
-            this IServiceCollection serviceCollection,
-            Func<IServiceProvider, object> resolver,
-            IModule? module)
-        {
-            serviceCollection.Add(new ExtendedServiceDescriptor(typeof(TRegistrationType),
-                resolver,
-                ServiceLifetime.Singleton,
                 module?.GetType()));
 
             return serviceCollection;

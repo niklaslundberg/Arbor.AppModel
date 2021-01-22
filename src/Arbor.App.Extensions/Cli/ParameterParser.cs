@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 
 namespace Arbor.App.Extensions.Cli
@@ -11,7 +12,7 @@ namespace Arbor.App.Extensions.Cli
             [NotNull] this IReadOnlyCollection<string> parameters,
             [NotNull] string parameterName)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
@@ -24,7 +25,7 @@ namespace Arbor.App.Extensions.Cli
             string trimmedName = parameterName.Trim();
             string prefix = $"{trimmedName}=";
             string[] matchingArgs = parameters
-                .Where(param => param != null)
+                .NotNull()
                 .Select(param => param.Trim())
                 .Where(param => param.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
                 .ToArray();
@@ -39,7 +40,7 @@ namespace Arbor.App.Extensions.Cli
                 throw new InvalidOperationException($"Found more than 1 parameter named '{parameterName}'");
             }
 
-            string value = matchingArgs[0].Substring(prefix.Length).Trim();
+            string value = matchingArgs[0][prefix.Length..].Trim();
 
             return value;
         }

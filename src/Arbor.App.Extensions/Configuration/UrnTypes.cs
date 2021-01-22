@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
+using Arbor.App.Extensions.ExtensionMethods;
 using Arbor.KVConfiguration.Urns;
 
 namespace Arbor.App.Extensions.Configuration
@@ -10,11 +11,11 @@ namespace Arbor.App.Extensions.Configuration
     {
         public static ImmutableArray<Type> GetUrnTypesInAssemblies(ImmutableArray<Assembly> assemblies)
         {
-            bool HasUrnAttribute(Type type)
+            static bool HasUrnAttribute(Type type)
             {
                 var customAttribute = type.GetCustomAttribute<UrnAttribute>();
 
-                return customAttribute != null;
+                return customAttribute is {};
             }
 
             var urnMappedTypes = assemblies

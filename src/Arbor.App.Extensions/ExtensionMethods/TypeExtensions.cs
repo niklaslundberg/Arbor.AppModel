@@ -6,7 +6,7 @@ using System.Reflection;
 using Arbor.App.Extensions.Configuration;
 using JetBrains.Annotations;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     [PublicAPI]
     public static class TypeExtensions
@@ -24,8 +24,13 @@ namespace Arbor.App.Extensions
         }
 
         public static ImmutableArray<Type> FindPublicConcreteTypesImplementing<T>(
-            this IReadOnlyCollection<Assembly> assemblies)
+            [NotNull] this IReadOnlyCollection<Assembly> assemblies)
         {
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException(nameof(assemblies));
+            }
+
             var types = assemblies
                 .Select(assembly =>
                     assembly.GetLoadableTypes()
@@ -142,7 +147,7 @@ namespace Arbor.App.Extensions
             }
             catch (ReflectionTypeLoadException ex)
             {
-                return ex.Types.Where(type => type != null).ToImmutableArray();
+                return ex.Types.NotNull().ToImmutableArray();
             }
         }
 
@@ -161,7 +166,7 @@ namespace Arbor.App.Extensions
         public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
 
         // Originally taken from https://github.com/JasperFx/baseline/
-        public static bool Closes(this Type type, [NotNull] Type openType)
+        public static bool Closes(this Type? type, [NotNull] Type openType)
         {
             if (openType == null)
             {
@@ -207,9 +212,8 @@ namespace Arbor.App.Extensions
             return typeInfo.BaseType?.Closes(openType) ?? false;
         }
 
-
         // Originally taken from https://github.com/JasperFx/baseline/
-        public static bool IsConcrete(this Type type)
+        public static bool IsConcrete(this Type? type)
         {
             if (type is null)
             {
@@ -220,7 +224,5 @@ namespace Arbor.App.Extensions
 
             return !typeInfo.IsAbstract && !typeInfo.IsInterface;
         }
-
     }
-
 }

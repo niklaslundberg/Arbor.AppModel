@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Arbor.App.Extensions.ExtensionMethods;
 
 namespace Arbor.App.Extensions.IO
 {
@@ -38,7 +39,7 @@ namespace Arbor.App.Extensions.IO
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex) when (!ex.IsFatal())
             {
                 // ignore
             }
@@ -67,9 +68,7 @@ namespace Arbor.App.Extensions.IO
 
             string fileFullPath = Path.Combine(tempDir, fileName);
 
-            using (System.IO.File.Create(fileFullPath))
-            {
-            }
+            using var _ = System.IO.File.Create(fileFullPath);
 
             var fileInfo = new FileInfo(fileFullPath);
 

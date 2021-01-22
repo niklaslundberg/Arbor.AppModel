@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net;
 using Arbor.App.Extensions.Configuration;
+using Arbor.App.Extensions.ExtensionMethods;
 using JetBrains.Annotations;
 
 namespace Arbor.App.Extensions.Application
@@ -16,7 +17,7 @@ namespace Arbor.App.Extensions.Application
         }
 
         public bool UseVerboseExceptions => !EnvironmentName.HasValue()
-                                            || EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction,
+                                            || !EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction,
                                                 StringComparison.OrdinalIgnoreCase);
 
         [PublicAPI]
@@ -29,9 +30,15 @@ namespace Arbor.App.Extensions.Application
         public string? EnvironmentName { get; set; }
 
         [PublicAPI]
+        public string? ApplicationName { get; set; }
+
+        [PublicAPI]
         public string? PublicHostname { get; set; }
 
         public bool UseExplicitPorts { get; set; }
+
+        [PublicAPI]
+        public bool HttpEnabled { get; set; }
 
         [PublicAPI]
         public int? PublicPort { get; set; }

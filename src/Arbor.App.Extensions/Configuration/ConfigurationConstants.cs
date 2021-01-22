@@ -38,7 +38,6 @@ namespace Arbor.App.Extensions.Configuration
         [Metadata]
         public const string JsonSettingsFile = "urn:arbor:app:web:settings:json-file";
 
-
         [Metadata]
         public const string LogLevel = "urn:arbor:app:web:log:level";
     }

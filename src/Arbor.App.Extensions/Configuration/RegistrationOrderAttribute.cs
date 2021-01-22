@@ -8,9 +8,5 @@ namespace Arbor.App.Extensions.Configuration
         public RegistrationOrderAttribute(int order) => Order = order;
 
         public int Order { get; }
-
-        public string? Tag { get; set; }
-
-        public bool RegisterInRootScope { get; set; }
     }
 }

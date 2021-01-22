@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Arbor.App.Extensions.ExtensionMethods;
 using Arbor.KVConfiguration.Core;
 using JetBrains.Annotations;
 
@@ -34,36 +35,15 @@ namespace Arbor.App.Extensions.Time
             _timeZone = TimeZoneInfo.Utc;
         }
 
-        public DateTimeOffset UtcNow()
-        {
-            if (ReferenceEquals(_timeZone, TimeZoneInfo.Utc))
-            {
-                return DateTimeOffset.UtcNow;
-            }
+        public DateTimeOffset UtcNow() => ReferenceEquals(_timeZone, TimeZoneInfo.Utc)
+            ? DateTimeOffset.UtcNow
+            : TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, _timeZone.Id);
 
-            var utcDateTime =
-                TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, _timeZone.Id);
+        public DateTime LocalNow() => ReferenceEquals(_timeZone, TimeZoneInfo.Utc)
+            ? DateTime.UtcNow
+            : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
 
-            return utcDateTime;
-        }
-
-        public DateTime LocalNow()
-        {
-            if (ReferenceEquals(_timeZone, TimeZoneInfo.Utc))
-            {
-                return DateTime.UtcNow;
-            }
-
-            var localNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
-
-            return localNow;
-        }
-
-        public DateTime ToLocalTime(DateTime dateTimeUtc)
-        {
-            var withKindUtc = new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc);
-
-            return TimeZoneInfo.ConvertTimeFromUtc(withKindUtc, _timeZone);
-        }
+        public DateTime ToLocalTime(DateTime dateTimeUtc) =>
+            TimeZoneInfo.ConvertTimeFromUtc(new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc), _timeZone);
     }
 }

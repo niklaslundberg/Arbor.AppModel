@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arbor.App.Extensions
+namespace Arbor.App.Extensions.ExtensionMethods
 {
     public static class EnumExtensions
     {
@@ -18,7 +18,7 @@ namespace Arbor.App.Extensions
                 return false;
             }
 
-            if (!(result is T instance))
+            if (result is not T instance)
             {
                 item = default!;
                 return false;

@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{24DFF2
 		build\build.bat = build\build.bat
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
 		LICENSE.txt = LICENSE.txt
 		NOTICE.md = NOTICE.md
 		nuget.config = nuget.config
@@ -18,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{24DFF2
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arbor.App.Extensions", "src\Arbor.App.Extensions\Arbor.App.Extensions.csproj", "{FFBE7D9B-9548-43D8-B0B0-12EDA9CD6701}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arbor.App.Extensions.Tests", "Arbor.App.Extensions.Tests\Arbor.App.Extensions.Tests.csproj", "{24E630C7-811A-45D8-9570-80985DA58419}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +44,18 @@ Global
 		{FFBE7D9B-9548-43D8-B0B0-12EDA9CD6701}.Release|x64.Build.0 = Release|Any CPU
 		{FFBE7D9B-9548-43D8-B0B0-12EDA9CD6701}.Release|x86.ActiveCfg = Release|Any CPU
 		{FFBE7D9B-9548-43D8-B0B0-12EDA9CD6701}.Release|x86.Build.0 = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|x64.Build.0 = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Debug|x86.Build.0 = Debug|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|x64.ActiveCfg = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|x64.Build.0 = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|x86.ActiveCfg = Release|Any CPU
+		{24E630C7-811A-45D8-9570-80985DA58419}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
