@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v5.0": {
       "Arbor.KVConfiguration.Urns": {
         "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "SqSaHo8TUjJXEPvNlyICugzgSh9bEgE/09K3JysqY7lUCR1IapBgzIoeVAhktiCv6aO8iLCkQ2GTm2xNkGZOjw==",
+        "requested": "[1.1.3, )",
+        "resolved": "1.1.3",
+        "contentHash": "GLz1f7pXCvaujaU1bT9vh4oaYff3sA7Vj/1VeSmAAgOvBVejTEjk5GAJ2LlluMCAI7CDI3/Fim+DdWQMbKNxmQ==",
         "dependencies": {
           "Arbor.KVConfiguration.Core": "[1.1.0, 2.0.0)",
           "Arbor.KVConfiguration.Schema": "[1.1.0, 2.0.0)",

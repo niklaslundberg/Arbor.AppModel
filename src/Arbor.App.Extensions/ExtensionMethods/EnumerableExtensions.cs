@@ -115,5 +115,16 @@ namespace Arbor.App.Extensions.ExtensionMethods
             items
                 .Where(item => item is { })
                 .Select(item => item!);
+
+        public static ImmutableArray<string> AsStrings<T>(this IEnumerable<T> enumerable, Func<T, string?> converter) =>
+            enumerable
+                .Select(converter)
+                .NotNull()
+                .ToImmutableArray();
+
+        public static string AsString<T>(this IEnumerable<T> enumerable, Func<T, string?> converter, string separator = ", ") =>
+            string.Join(separator, enumerable
+                .Select(converter)
+                .NotNull());
     }
 }
