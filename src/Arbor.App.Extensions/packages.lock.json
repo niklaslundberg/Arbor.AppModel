@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v5.0": {
       "Arbor.KVConfiguration.Core": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "DS3rU/45Me+4BMtXdJBMiMHiF7aUQof94tuRVBMnDQa+6fbYfRkwFcSXJZzDA6viDvqbcx7jTxSr59nVO3KXkA==",
+        "requested": "[1.2.0-build.1617034280, )",
+        "resolved": "1.2.0-build.1617034280",
+        "contentHash": "XoTu1Pgjl3ZYSRouKEwVrxBEf/7fYo243WNP9G6CU/5sIJ+pBBMHJlt4uBP6riFqWEtLLr8sG/zwlvY+SbsNBg==",
         "dependencies": {
           "Microsoft.Extensions.Primitives": "[3.0.0, 6.0.0)",
           "System.Collections.Immutable": "[1.5.0, 6.0.0)"
@@ -14,18 +14,18 @@
       },
       "Arbor.KVConfiguration.Schema": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "swetFJ/Uxe24ZMffltVbLlri1dfQC4f6NyL48xi3XmSbZfbKdXEKDpNMGbpyXpYcv19jiPqH23X7br2Fmup2+g==",
+        "requested": "[1.2.0-build.1617034280, )",
+        "resolved": "1.2.0-build.1617034280",
+        "contentHash": "qJRYULbGVgK+oIh8BIUrL5lQISF8p2VcDsjhLwCp/XFtUIjE78mBRBNT4eTJjxeri0j0kW9mEvi/fp9CwaZ0eg==",
         "dependencies": {
           "Arbor.KVConfiguration.Core": "[1.1.6, 2.0.0)"
         }
       },
       "Arbor.KVConfiguration.Urns": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "wrImKNFBL6pDjFn4C0iXOeTvGsuVPeDeJIzItkh6AgvQ5gXbtI82AMLuMoEKzlTJsy+PExSahzNGtaEmv5y09Q==",
+        "requested": "[1.2.0-build.1617034280, )",
+        "resolved": "1.2.0-build.1617034280",
+        "contentHash": "fxNMIkcAxBwI9F6ZsyPbVvJZiMdpnGKQXW5OtHTPxs6RPs77TmRgDJosptwzOb0iIoecTRUmluSaZ0E+RDMXew==",
         "dependencies": {
           "Arbor.KVConfiguration.Core": "[1.1.6, 2.0.0)",
           "Arbor.KVConfiguration.Schema": "[1.1.6, 2.0.0)",
@@ -35,9 +35,9 @@
       },
       "Arbor.Primitives": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "EsSi3soZ8ybL01e0ygWDwKZc8botz0N+/VTvnrnzbdNeZ32j3c9ljaRRFmqrowUylMORULD+BE7Webm57b47XQ==",
+        "requested": "[1.2.0-build.1617034280, )",
+        "resolved": "1.2.0-build.1617034280",
+        "contentHash": "FS48ejrxcQIgDeLGm0ZnhP0PHH0Bx/UYVF1m8bz2wV8u1733M7P/d2YAeCkDF70YPtUgTmGTTo/rLDp/EPp9jg==",
         "dependencies": {
           "System.Memory": "[4.5.2, 6.0.0)"
         }
