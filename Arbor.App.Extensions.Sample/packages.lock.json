@@ -37,7 +37,7 @@
         "type": "Direct",
         "requested": "[1.2.0, )",
         "resolved": "1.2.0",
-        "contentHash": "cZ+51n1A48d1NwW5C+xRmMoXDUJBg3Qy3PcprDa2rzOSWtBgBbYSKSvmnrsAaS+ZUu1du37xhMP1AaNJ4mqrOQ==",
+        "contentHash": "oGvMBUZzrmFHfhAJ/P7aLZMnYVb9rdN3KTZ4V2bxysxIls14Kl+4iIB/NyAE1hyDU+9qRmCutTylUAZlvRbPEw==",
         "dependencies": {
           "System.Memory": "[4.5.2, 6.0.0)"
         }
