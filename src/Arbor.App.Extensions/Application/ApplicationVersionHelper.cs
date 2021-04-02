@@ -9,7 +9,7 @@ namespace Arbor.App.Extensions.Application
     {
         public static ApplicationVersionInfo? GetAppVersion()
         {
-            var executingAssembly = typeof(ApplicationVersionHelper).Assembly;
+            var executingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
 
             var assemblyName = executingAssembly.GetName();
 
