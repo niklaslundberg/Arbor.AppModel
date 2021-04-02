@@ -3,13 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>0.2.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.1.6" />
-    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.1.6" />
-    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.1.6" />
-    <PackageReference Include="Arbor.Primitives" Version="1.1.6" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
+    <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
     <ProjectReference Include="..\src\Arbor.App.Extensions\Arbor.App.Extensions.csproj" />
   </ItemGroup>
 

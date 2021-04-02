@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v5.0": {
       "Arbor.KVConfiguration.Core": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "DS3rU/45Me+4BMtXdJBMiMHiF7aUQof94tuRVBMnDQa+6fbYfRkwFcSXJZzDA6viDvqbcx7jTxSr59nVO3KXkA==",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "hzP24CZYrgSuUnkTKx96O2UlPOO7qm+eZ4G2o773e5Kv957dRvGWSQFm4gAUjNJWAUOCT8P1TPdMl0u36TXREQ==",
         "dependencies": {
           "Microsoft.Extensions.Primitives": "[3.0.0, 6.0.0)",
           "System.Collections.Immutable": "[1.5.0, 6.0.0)"
@@ -14,18 +14,18 @@
       },
       "Arbor.KVConfiguration.Schema": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "swetFJ/Uxe24ZMffltVbLlri1dfQC4f6NyL48xi3XmSbZfbKdXEKDpNMGbpyXpYcv19jiPqH23X7br2Fmup2+g==",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "9c7psMx1gOY+UQMuhatjL6PV3Sg9axdQMNbFpyqahFatJk2+2H87h3eYh2WQRSOccU5i6+VzoeacmjeYCw9apw==",
         "dependencies": {
           "Arbor.KVConfiguration.Core": "[1.1.6, 2.0.0)"
         }
       },
       "Arbor.KVConfiguration.Urns": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "wrImKNFBL6pDjFn4C0iXOeTvGsuVPeDeJIzItkh6AgvQ5gXbtI82AMLuMoEKzlTJsy+PExSahzNGtaEmv5y09Q==",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "gBc5rjszS9Yd3ZSHxrHfsaYAoOa8Phou15PLcc3gwppWFZBR/Ixqt026sVR0qWHmA7cdLwf2iUkwi7e4PdFIoA==",
         "dependencies": {
           "Arbor.KVConfiguration.Core": "[1.1.6, 2.0.0)",
           "Arbor.KVConfiguration.Schema": "[1.1.6, 2.0.0)",
@@ -35,9 +35,9 @@
       },
       "Arbor.Primitives": {
         "type": "Direct",
-        "requested": "[1.1.6, )",
-        "resolved": "1.1.6",
-        "contentHash": "EsSi3soZ8ybL01e0ygWDwKZc8botz0N+/VTvnrnzbdNeZ32j3c9ljaRRFmqrowUylMORULD+BE7Webm57b47XQ==",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "oGvMBUZzrmFHfhAJ/P7aLZMnYVb9rdN3KTZ4V2bxysxIls14Kl+4iIB/NyAE1hyDU+9qRmCutTylUAZlvRbPEw==",
         "dependencies": {
           "System.Memory": "[4.5.2, 6.0.0)"
         }

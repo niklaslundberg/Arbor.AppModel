@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using Arbor.App.Extensions.Application;
 using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Urns;
 
 namespace Arbor.App.Extensions.Sample
@@ -11,6 +12,13 @@ namespace Arbor.App.Extensions.Sample
     {
         static void Main(string[] args)
         {
+            Console.WriteLine($"Application name: {new InMemoryKeyValueConfiguration(new()).GetApplicationName()}");
+            var version = ApplicationVersionHelper.GetAppVersion();
+            Console.WriteLine($"Application version AssemblyFullName: {version?.AssemblyFullName}");
+            Console.WriteLine($"Application version AssemblyVersion: {version?.AssemblyVersion}");
+            Console.WriteLine($"Application version FileVersion: {version?.FileVersion}");
+            Console.WriteLine($"Application version InformationalVersion: {version?.InformationalVersion}");
+
             var assemblies = ApplicationAssemblies.FilteredAssemblies(new[]{"Arbor"});
 
             ApplicationAssemblies.FilteredAssemblies().LoadReferenceAssemblies();
