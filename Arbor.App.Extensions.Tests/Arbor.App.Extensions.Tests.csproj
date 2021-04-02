@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.Primitives" Version="1.2.0-build.1617034280" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
+    <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />

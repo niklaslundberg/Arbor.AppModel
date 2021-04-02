@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0-build.1617034280" />
-    <PackageReference Include="Arbor.Primitives" Version="1.2.0-build.1617034280" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
+    <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
     <ProjectReference Include="..\src\Arbor.App.Extensions\Arbor.App.Extensions.csproj" />
   </ItemGroup>
 
