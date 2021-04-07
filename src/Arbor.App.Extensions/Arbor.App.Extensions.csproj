@@ -14,7 +14,7 @@
     <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
     <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
     <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
