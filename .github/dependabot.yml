@@ -1,0 +1,24 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: JetBrains.Annotations
+    versions:
+    - 2021.1.0
+  - dependency-name: Microsoft.Extensions.Primitives
+    versions:
+    - 5.0.1
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.9.1
+  - dependency-name: Serilog.Sinks.Debug
+    versions:
+    - 2.0.0
+  - dependency-name: Serilog.Sinks.Seq
+    versions:
+    - 5.0.0
