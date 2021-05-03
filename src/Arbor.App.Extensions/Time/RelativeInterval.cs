@@ -6,14 +6,14 @@ using JetBrains.Annotations;
 namespace Arbor.App.Extensions.Time
 {
     [PublicAPI]
-    public struct DeploymentInterval : IEquatable<DeploymentInterval>
+    public struct RelativeInterval : IEquatable<RelativeInterval>
     {
-        public bool Equals(DeploymentInterval other) =>
+        public bool Equals(RelativeInterval other) =>
             string.Equals(Name, other.Name, StringComparison.Ordinal)
             && FromExclusive == other.FromExclusive
             && ToInclusive == other.ToInclusive;
 
-        public override bool Equals(object? obj) => obj is DeploymentInterval other && Equals(other);
+        public override bool Equals(object? obj) => obj is RelativeInterval other && Equals(other);
 
         public override int GetHashCode()
         {
@@ -26,26 +26,26 @@ namespace Arbor.App.Extensions.Time
             }
         }
 
-        public static bool operator ==(DeploymentInterval left, DeploymentInterval right) => left.Equals(right);
+        public static bool operator ==(RelativeInterval left, RelativeInterval right) => left.Equals(right);
 
-        public static bool operator !=(DeploymentInterval left, DeploymentInterval right) => !left.Equals(right);
+        public static bool operator !=(RelativeInterval left, RelativeInterval right) => !left.Equals(right);
 
-        public static readonly DeploymentInterval Invalid = new DeploymentInterval(nameof(Invalid), int.MinValue, -1);
+        public static readonly RelativeInterval Invalid = new RelativeInterval(nameof(Invalid), int.MinValue, -1);
 
-        public static readonly DeploymentInterval ThisWeek = new DeploymentInterval(nameof(ThisWeek), -1, 7);
+        public static readonly RelativeInterval ThisWeek = new RelativeInterval(nameof(ThisWeek), -1, 7);
 
-        public static readonly DeploymentInterval ThisMonth = new DeploymentInterval(nameof(ThisMonth), 7, 30);
+        public static readonly RelativeInterval ThisMonth = new RelativeInterval(nameof(ThisMonth), 7, 30);
 
-        public static readonly DeploymentInterval ThisQuarter = new DeploymentInterval(nameof(ThisQuarter), 30, 90);
+        public static readonly RelativeInterval ThisQuarter = new RelativeInterval(nameof(ThisQuarter), 30, 90);
 
-        public static readonly DeploymentInterval ThisYear = new DeploymentInterval(nameof(ThisYear), 90, 365);
+        public static readonly RelativeInterval ThisYear = new RelativeInterval(nameof(ThisYear), 90, 365);
 
-        public static readonly DeploymentInterval MoreThanAYear = new DeploymentInterval(
+        public static readonly RelativeInterval MoreThanAYear = new RelativeInterval(
             nameof(MoreThanAYear),
             365,
             int.MaxValue);
 
-        public DeploymentInterval(string name, int fromExclusive, int toInclusive)
+        public RelativeInterval(string name, int fromExclusive, int toInclusive)
         {
             Name = name;
             FromExclusive = fromExclusive;
@@ -58,12 +58,12 @@ namespace Arbor.App.Extensions.Time
 
         public int ToInclusive { get; }
 
-        public static IReadOnlyCollection<DeploymentInterval> All => new[]
+        public static IReadOnlyCollection<RelativeInterval> All => new[]
         {
             Invalid, ThisWeek, ThisMonth, ThisQuarter, ThisYear, MoreThanAYear
         };
 
-        public static DeploymentInterval Parse(TimeSpan timeSpan) =>
+        public static RelativeInterval Parse(TimeSpan timeSpan) =>
             All.Single(
                 interval => timeSpan.TotalDays > interval.FromExclusive && timeSpan.TotalDays <= interval.ToInclusive);
 

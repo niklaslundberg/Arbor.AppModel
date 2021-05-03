@@ -16,14 +16,6 @@ namespace Arbor.App.Extensions.Configuration
         [Metadata(defaultValue: "0")]
         public const string ShutdownTimeInSeconds = "urn:arbor:app:web:shutdown-time-in-seconds";
 
-        [Metadata]
-        public const string NuGetPackageSourceName = "urn:arbor:app:web:nuget:package-source-name";
-
-        [Metadata]
-        public const string NugetConfigFile = "urn:arbor:app:web:nuget:config";
-
-        [Metadata]
-        public const string JsonDeployerTargetSourceConfiguration = "urn:arbor:app:web:target-source:json";
 
         public const string SecretsKeyPrefix = "urn:arbor:app:web:secrets:";
 

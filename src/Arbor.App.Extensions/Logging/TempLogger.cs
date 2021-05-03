@@ -7,7 +7,7 @@ namespace Arbor.App.Extensions.Logging
 {
     public static class TempLogger
     {
-        private static readonly ConcurrentQueue<string> LogMessages = new ConcurrentQueue<string>();
+        private static readonly ConcurrentQueue<string> LogMessages = new();
 
         public static void WriteLine(string message)
         {

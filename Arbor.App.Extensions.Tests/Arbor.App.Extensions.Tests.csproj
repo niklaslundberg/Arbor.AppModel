@@ -26,6 +26,7 @@
     <Folder Include="Cli\" />
     <Folder Include="Enumerables\" />
     <Folder Include="IO\" />
+    <Folder Include="Http\" />
     <Folder Include="Time\" />
   </ItemGroup>
 

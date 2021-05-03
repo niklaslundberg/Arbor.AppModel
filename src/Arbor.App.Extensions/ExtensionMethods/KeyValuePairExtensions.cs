@@ -5,10 +5,10 @@ namespace Arbor.App.Extensions.ExtensionMethods
     public static class KeyValuePairExtensions
     {
         public static KeyValuePair<string, string> MakeAnonymousNullValue(this KeyValuePair<string, string?> pair) =>
-            new KeyValuePair<string, string>(pair.Key, new string('*', 5));
+            new(pair.Key, new string('*', 5));
 
         public static KeyValuePair<string, string> MakeAnonymousValue(this KeyValuePair<string, string> pair) =>
-            new KeyValuePair<string, string>(pair.Key, new string('*', 5));
+            new(pair.Key, new string('*', 5));
 
         public static string? ValueOrDefault(this IReadOnlyDictionary<string, string>? dictionary, string? key)
         {

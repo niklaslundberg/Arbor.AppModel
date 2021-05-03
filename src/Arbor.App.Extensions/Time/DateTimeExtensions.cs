@@ -6,7 +6,7 @@ namespace Arbor.App.Extensions.Time
 {
     public static class DateTimeExtensions
     {
-        public static DeploymentInterval IntervalAgo(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)
+        public static RelativeInterval IntervalAgo(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)
         {
             if (customClock == null)
             {
@@ -15,17 +15,17 @@ namespace Arbor.App.Extensions.Time
 
             if (!dateTimeUtc.HasValue)
             {
-                return DeploymentInterval.Invalid;
+                return RelativeInterval.Invalid;
             }
 
             var diff = customClock.LocalNow() - customClock.ToLocalTime(dateTimeUtc.Value);
 
             if (diff.TotalSeconds < 0)
             {
-                return DeploymentInterval.Invalid;
+                return RelativeInterval.Invalid;
             }
 
-            return DeploymentInterval.Parse(diff);
+            return RelativeInterval.Parse(diff);
         }
 
         public static string RelativeUtcToLocalTime(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)

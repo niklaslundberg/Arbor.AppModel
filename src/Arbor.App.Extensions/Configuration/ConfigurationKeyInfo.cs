@@ -7,7 +7,7 @@ namespace Arbor.App.Extensions.Configuration
 {
     public class ConfigurationKeyInfo
     {
-        public ConfigurationKeyInfo([NotNull] string key, string? value, string? source)
+        public ConfigurationKeyInfo([NotNull] string key, string? value, string? source = null)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
