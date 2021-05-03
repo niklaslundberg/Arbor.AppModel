@@ -47,17 +47,17 @@ namespace Arbor.App.Extensions.IO
             File = null;
         }
 
-        public static TempFile CreateTempFile(string? name = null, string? extension = null)
+        public static TempFile CreateTempFile(string? name = null, string? extension = null, DirectoryInfo? tempDirectory = null)
         {
-            string defaultName = $"MDW-tmp-{DateTime.UtcNow.Ticks}";
+            string defaultName = $"AAE-{DateTime.UtcNow.Ticks}";
 
             string fileName = $"{name.WithDefault(defaultName)}.{extension?.TrimStart('.').WithDefault("tmp")}";
 
-            string tempDir = Path.GetTempPath();
+            string tempDir = tempDirectory?.FullName ?? Path.GetTempPath();
 
             DirectoryInfo? customTempDir = default;
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name) && tempDirectory is null)
             {
                 tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 

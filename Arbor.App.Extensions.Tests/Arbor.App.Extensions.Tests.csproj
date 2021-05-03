@@ -25,6 +25,7 @@
   <ItemGroup>
     <Folder Include="Cli\" />
     <Folder Include="Enumerables\" />
+    <Folder Include="IO\" />
     <Folder Include="Time\" />
   </ItemGroup>
 

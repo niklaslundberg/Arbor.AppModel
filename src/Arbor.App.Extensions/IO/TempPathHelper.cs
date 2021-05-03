@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Arbor.App.Extensions.Application;
 using Arbor.KVConfiguration.Core;
@@ -8,27 +9,32 @@ namespace Arbor.App.Extensions.IO
 {
     public static class TempPathHelper
     {
-        public static void SetTempPath(MultiSourceKeyValueConfiguration configuration, ILogger startupLogger)
+        public static void SetTempPath(MultiSourceKeyValueConfiguration configuration, ILogger logger)
         {
             string tempDirectory = configuration[ApplicationConstants.ApplicationTempDirectory];
 
             if (!string.IsNullOrWhiteSpace(tempDirectory))
             {
-                if (tempDirectory.TryEnsureDirectoryExists(out var tempDirectoryInfo) && tempDirectoryInfo is {})
-                {
-                    Environment.SetEnvironmentVariable(TempConstants.Tmp, tempDirectoryInfo.FullName);
-                    Environment.SetEnvironmentVariable(TempConstants.Temp, tempDirectoryInfo.FullName);
+                SetTempPath(new DirectoryInfo(tempDirectory), logger);
+            }
+        }
 
-                    startupLogger.Debug("Using specified temp directory {TempDirectory} {AppName}",
-                        tempDirectory,
-                        Assembly.GetExecutingAssembly().GetName().Name);
-                }
-                else
-                {
-                    startupLogger.Warning("Could not use specified temp directory {TempDirectory}, {AppName}",
-                        tempDirectory,
-                        Assembly.GetExecutingAssembly().GetName().Name);
-                }
+        public static void SetTempPath(DirectoryInfo directoryInfo, ILogger startupLogger)
+        {
+            if (directoryInfo.TryEnsureDirectoryExists(out var tempDirectoryInfo) && tempDirectoryInfo is { })
+            {
+                Environment.SetEnvironmentVariable(TempConstants.Tmp, tempDirectoryInfo.FullName);
+                Environment.SetEnvironmentVariable(TempConstants.Temp, tempDirectoryInfo.FullName);
+
+                startupLogger.Debug("Using specified temp directory {TempDirectory} {AppName}",
+                    directoryInfo.FullName,
+                    Assembly.GetExecutingAssembly().GetName().Name);
+            }
+            else
+            {
+                startupLogger.Warning("Could not use specified temp directory {TempDirectory}, {AppName}",
+                    directoryInfo.FullName,
+                    Assembly.GetExecutingAssembly().GetName().Name);
             }
         }
     }

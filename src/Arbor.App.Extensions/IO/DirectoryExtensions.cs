@@ -7,16 +7,18 @@ namespace Arbor.App.Extensions.IO
 {
     public static class DirectoryExtensions
     {
-        public static bool TryEnsureDirectoryExists([NotNull] this string directory, out DirectoryInfo? directoryInfo)
+        public static bool TryEnsureDirectoryExists([NotNull] this string directory, out DirectoryInfo? directoryInfo) => TryEnsureDirectoryExists(new DirectoryInfo(directory), out directoryInfo);
+
+        public static bool TryEnsureDirectoryExists([NotNull] this DirectoryInfo directory, out DirectoryInfo? directoryInfo)
         {
-            if (string.IsNullOrWhiteSpace(directory))
+            if (directory.FullName is null)
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(directory));
             }
 
             try
             {
-                directoryInfo = new DirectoryInfo(directory).EnsureExists();
+                directoryInfo = directory.EnsureExists();
 
                 return true;
             }
