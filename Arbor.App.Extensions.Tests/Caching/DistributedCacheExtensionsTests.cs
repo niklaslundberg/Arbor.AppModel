@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Arbor.App.Extensions.Caching;
 using FluentAssertions;
@@ -18,6 +19,23 @@ namespace Arbor.App.Extensions.Tests.Caching
             IDistributedCache cache = serviceProvider.GetRequiredService<IDistributedCache>();
 
             await cache.SetWithVersionAsync("AKey", "test", new CacheVersion(0));
+
+            string? cachedValue = await cache.GetWithVersionAsync<string>("AKey", new CacheVersion(0));
+
+            cachedValue.Should().NotBeNull();
+
+            cachedValue.Should().Be("test");
+        }
+
+        [Fact]
+        public async Task VersionedCachedWithOptions()
+        {
+            IServiceCollection services = new ServiceCollection().AddDistributedMemoryCache();
+            await using var serviceProvider = services.BuildServiceProvider();
+            IDistributedCache cache = serviceProvider.GetRequiredService<IDistributedCache>();
+
+            await cache.SetWithVersionAsync("AKey", "test", new CacheVersion(0),
+                new DistributedCacheEntryOptions {SlidingExpiration = TimeSpan.FromSeconds(10)});
 
             string? cachedValue = await cache.GetWithVersionAsync<string>("AKey", new CacheVersion(0));
 

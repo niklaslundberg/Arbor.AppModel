@@ -2,7 +2,7 @@
 
 namespace Arbor.App.Extensions.Caching
 {
-    public struct CacheVersion : IComparable<CacheVersion>, IComparable, IEquatable<CacheVersion>
+    public readonly struct CacheVersion : IComparable<CacheVersion>, IComparable, IEquatable<CacheVersion>
     {
         public bool Equals(CacheVersion other) => Version == other.Version;
 
@@ -22,7 +22,7 @@ namespace Arbor.App.Extensions.Caching
 
         public int CompareTo(object? obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return 1;
             }
