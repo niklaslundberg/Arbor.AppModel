@@ -123,5 +123,18 @@ namespace Arbor.App.Extensions.Time
 
             return $"{diffTotalSeconds} second{PluralSuffix(diffTotalSeconds)} ago";
         }
+
+        public static string ToLocalDateTimeFormat(this DateTimeOffset? dateTimeOffset, ICustomClock clock, string? format = null)
+        {
+            if (dateTimeOffset is null)
+            {
+                return "";
+            }
+
+            var localTime =
+                TimeZoneInfo.ConvertTimeFromUtc(dateTimeOffset.Value.UtcDateTime, clock.DefaultTimeZone);
+
+            return localTime.ToString(format ?? "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        }
     }
 }

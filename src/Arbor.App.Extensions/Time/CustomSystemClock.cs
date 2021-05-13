@@ -45,5 +45,7 @@ namespace Arbor.App.Extensions.Time
 
         public DateTime ToLocalTime(DateTime dateTimeUtc) =>
             TimeZoneInfo.ConvertTimeFromUtc(new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc), _timeZone);
+
+        public TimeZoneInfo DefaultTimeZone => _timeZone;
     }
 }

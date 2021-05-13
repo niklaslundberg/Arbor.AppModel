@@ -9,5 +9,7 @@ namespace Arbor.App.Extensions.Time
         DateTime LocalNow();
 
         DateTime ToLocalTime(DateTime dateTimeUtc);
+
+        TimeZoneInfo DefaultTimeZone { get; }
     }
 }
