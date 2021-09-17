@@ -34,8 +34,10 @@ namespace Arbor.App.Extensions.Tests.Caching
             await using var serviceProvider = services.BuildServiceProvider();
             IDistributedCache cache = serviceProvider.GetRequiredService<IDistributedCache>();
 
-            await cache.SetWithVersionAsync("AKey", "test", new CacheVersion(0),
-                new DistributedCacheEntryOptions {SlidingExpiration = TimeSpan.FromSeconds(10)});
+            await cache.SetWithVersionAsync("AKey",
+                "test",
+                new CacheVersion(0),
+                new DistributedCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(10) });
 
             string? cachedValue = await cache.GetWithVersionAsync<string>("AKey", new CacheVersion(0));
 

@@ -92,19 +92,17 @@ namespace Arbor.App.Extensions.Time
                 throw new InvalidCastException("The source date is default");
             }
 
-            return new DateTime(date.Year, date.Month, date.Day, 0,
-                0, 0, DateTimeKind.Unspecified);
+            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Unspecified);
         }
 
         public bool Equals(Date other) => _datePart.Equals(other._datePart);
 
-        public override bool Equals(object? obj) =>
-            obj switch
-            {
-                Date other => Equals(other),
-                DateTime asDateTime => Equals((Date)asDateTime),
-                _ => false
-            };
+        public override bool Equals(object? obj) => obj switch
+        {
+            Date other => Equals(other),
+            DateTime asDateTime => Equals((Date)asDateTime),
+            _ => false
+        };
 
         public override int GetHashCode() => _datePart.GetHashCode();
 
@@ -166,9 +164,7 @@ namespace Arbor.App.Extensions.Time
         {
             bool isValid = IsValid(year, month, day);
 
-            date = isValid
-                ? new Date(year, month, day)
-                : default;
+            date = isValid ? new Date(year, month, day) : default;
 
             return isValid;
         }

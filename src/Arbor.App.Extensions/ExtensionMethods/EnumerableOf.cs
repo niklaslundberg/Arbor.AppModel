@@ -14,12 +14,9 @@ namespace Arbor.App.Extensions.ExtensionMethods
         {
             Type type = typeof(T);
 
-            return type
-                .GetFields()
-                .Where(field =>
-                    field.FieldType == type && field.IsInitOnly && field.IsStatic && field.IsPublic)
-                .Select(field => (T)field.GetValue(null)!)
-                .ToImmutableArray();
+            return type.GetFields()
+                       .Where(field => field.FieldType == type && field.IsInitOnly && field.IsStatic && field.IsPublic)
+                       .Select(field => (T)field.GetValue(null)!).ToImmutableArray();
         }
     }
 }

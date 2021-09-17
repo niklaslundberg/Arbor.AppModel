@@ -16,13 +16,11 @@ namespace Arbor.App.Extensions.Configuration
         [Metadata(defaultValue: "0")]
         public const string ShutdownTimeInSeconds = "urn:arbor:app:web:shutdown-time-in-seconds";
 
-
         public const string SecretsKeyPrefix = "urn:arbor:app:web:secrets:";
 
         [PublicAPI]
         [Metadata]
         public const string SettingsPath = "urn:arbor:app:web:settings-path";
-
 
         [Metadata]
         public const string ApplicationBasePath = "urn:arbor:app:web:application-base-path";

@@ -13,7 +13,7 @@ namespace Arbor.App.Extensions.Tests
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly List<int> _order = new();
 
-        public TaskExtensionTests() => _cancellationTokenSource = new();
+        public TaskExtensionTests() => _cancellationTokenSource = new CancellationTokenSource();
 
         [Fact]
         public async Task AwaitToken()
@@ -40,6 +40,5 @@ namespace Arbor.App.Extensions.Tests
 
             _cancellationTokenSource.Cancel();
         }
-
     }
 }

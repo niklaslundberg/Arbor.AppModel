@@ -32,11 +32,8 @@ namespace Arbor.App.Extensions.ExtensionMethods
             }
 
             var types = assemblies
-                .Select(assembly =>
-                    assembly.GetLoadableTypes()
-                        .Where(IsPublicConcreteTypeImplementing<T>))
-                .SelectMany(assemblyTypes => assemblyTypes)
-                .ToImmutableArray();
+                       .Select(assembly => assembly.GetLoadableTypes().Where(IsPublicConcreteTypeImplementing<T>))
+                       .SelectMany(assemblyTypes => assemblyTypes).ToImmutableArray();
 
             return types;
         }
@@ -152,16 +149,11 @@ namespace Arbor.App.Extensions.ExtensionMethods
         }
 
         public static ImmutableArray<Type> GetLoadablePublicConcreteTypeImplementing<T>(this Assembly assembly) =>
-            assembly
-                .GetLoadableTypes()
-                .Where(t => t.IsPublicConcreteTypeImplementing<T>())
-                .ToImmutableArray();
+            assembly.GetLoadableTypes().Where(t => t.IsPublicConcreteTypeImplementing<T>()).ToImmutableArray();
 
-        public static ImmutableArray<Type> GetLoadablePublicConcreteTypesImplementing<T>(
-            this IEnumerable<Assembly> assemblies) =>
-            assemblies
-                .SelectMany(assembly => assembly.GetLoadablePublicConcreteTypeImplementing<T>())
-                .ToImmutableArray();
+        public static ImmutableArray<Type>
+            GetLoadablePublicConcreteTypesImplementing<T>(this IEnumerable<Assembly> assemblies) => assemblies
+           .SelectMany(assembly => assembly.GetLoadablePublicConcreteTypeImplementing<T>()).ToImmutableArray();
 
         public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
 

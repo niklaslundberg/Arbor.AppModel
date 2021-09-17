@@ -9,43 +9,38 @@ namespace Arbor.App.Extensions.Time
     [UsedImplicitly]
     public class CustomSystemClock : ICustomClock
     {
-        private readonly TimeZoneInfo _timeZone;
-
-        public CustomSystemClock(
-            IKeyValueConfiguration? keyValueConfiguration = null,
-            string? timeZoneId = null)
+        public CustomSystemClock(IKeyValueConfiguration? keyValueConfiguration = null, string? timeZoneId = null)
         {
             timeZoneId = !string.IsNullOrWhiteSpace(timeZoneId)
                 ? timeZoneId
-                : keyValueConfiguration?[
-                    TimeConstants.DefaultTimeZoneId];
+                : keyValueConfiguration?[TimeConstants.DefaultTimeZoneId];
 
             if (timeZoneId.HasValue())
             {
-                var foundTimeZone = TimeZoneInfo.GetSystemTimeZones()
-                    .SingleOrDefault(zone => zone.Id.Equals(timeZoneId, StringComparison.OrdinalIgnoreCase));
+                var foundTimeZone = TimeZoneInfo.GetSystemTimeZones().SingleOrDefault(zone =>
+                    zone.Id.Equals(timeZoneId, StringComparison.OrdinalIgnoreCase));
 
                 if (foundTimeZone != null)
                 {
-                    _timeZone = foundTimeZone;
+                    DefaultTimeZone = foundTimeZone;
                     return;
                 }
             }
 
-            _timeZone = TimeZoneInfo.Utc;
+            DefaultTimeZone = TimeZoneInfo.Utc;
         }
 
-        public DateTimeOffset UtcNow() => ReferenceEquals(_timeZone, TimeZoneInfo.Utc)
+        public DateTimeOffset UtcNow() => ReferenceEquals(DefaultTimeZone, TimeZoneInfo.Utc)
             ? DateTimeOffset.UtcNow
-            : TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, _timeZone.Id);
+            : TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, DefaultTimeZone.Id);
 
-        public DateTime LocalNow() => ReferenceEquals(_timeZone, TimeZoneInfo.Utc)
+        public DateTime LocalNow() => ReferenceEquals(DefaultTimeZone, TimeZoneInfo.Utc)
             ? DateTime.UtcNow
-            : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
+            : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, DefaultTimeZone);
 
         public DateTime ToLocalTime(DateTime dateTimeUtc) =>
-            TimeZoneInfo.ConvertTimeFromUtc(new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc), _timeZone);
+            TimeZoneInfo.ConvertTimeFromUtc(new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc), DefaultTimeZone);
 
-        public TimeZoneInfo DefaultTimeZone => _timeZone;
+        public TimeZoneInfo DefaultTimeZone { get; }
     }
 }

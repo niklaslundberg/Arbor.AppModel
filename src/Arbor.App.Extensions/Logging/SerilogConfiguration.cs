@@ -11,8 +11,7 @@ namespace Arbor.App.Extensions.Logging
     [UsedImplicitly]
     public class SerilogConfiguration : IConfigurationValues, IValidatableObject
     {
-        public SerilogConfiguration(
-            string seqUrl,
+        public SerilogConfiguration(string seqUrl,
             string rollingLogFilePath,
             bool seqEnabled = false,
             bool rollingLogFilePathEnabled = false,
@@ -20,6 +19,7 @@ namespace Arbor.App.Extensions.Logging
             bool debugConsoleEnabled = false)
         {
             Uri? uri = null;
+
             if (seqEnabled && Uri.TryCreate(seqUrl, UriKind.Absolute, out var foundUri))
             {
                 uri = foundUri;

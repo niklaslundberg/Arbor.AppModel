@@ -28,7 +28,6 @@ namespace Arbor.App.Extensions.Application
 
         public const string HttpsPort = "urn:arbor:app:web:https-port";
 
-
         public const string ApplicationTempDirectory = "urn:arbor:app:web:temp-directory";
 
         public const string DotnetRunningInContainer = "DOTNET_RUNNING_IN_CONTAINER";

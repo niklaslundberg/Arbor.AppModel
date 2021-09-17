@@ -6,8 +6,7 @@ namespace Arbor.App.Extensions.Application
     [PublicAPI]
     public class ApplicationVersionInfo
     {
-        public ApplicationVersionInfo(
-            [NotNull] string assemblyVersion,
+        public ApplicationVersionInfo([NotNull] string assemblyVersion,
             [NotNull] string fileVersion,
             [NotNull] string informationalVersion,
             [NotNull] string assemblyFullName)

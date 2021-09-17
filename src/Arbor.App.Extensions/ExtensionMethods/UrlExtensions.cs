@@ -8,8 +8,8 @@ namespace Arbor.App.Extensions.ExtensionMethods
     public static class UrlExtensions
     {
         [PublicAPI]
-        public static string
-            CreateQueryWithQuestionMark([NotNull] this IEnumerable<KeyValuePair<string, string>> parameters) =>
+        public static string CreateQueryWithQuestionMark(
+            [NotNull] this IEnumerable<KeyValuePair<string, string>> parameters) =>
             $"?{CreateQueryWithoutQuestionMark(parameters)}";
 
         [PublicAPI]
@@ -28,8 +28,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         }
 
         [PublicAPI]
-        public static Uri WithQueryFromParameters(
-            [NotNull] this Uri uri,
+        public static Uri WithQueryFromParameters([NotNull] this Uri uri,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
             if (uri == null)
@@ -37,7 +36,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 throw new ArgumentNullException(nameof(uri));
             }
 
-            var builder = new UriBuilder(uri) {Query = CreateQueryWithoutQuestionMark(parameters)};
+            var builder = new UriBuilder(uri) { Query = CreateQueryWithoutQuestionMark(parameters) };
 
             return builder.Uri;
         }

@@ -8,8 +8,7 @@ namespace Arbor.App.Extensions.DependencyInjection
 {
     public static class ModuleRegistration
     {
-        public static void RegisterModules(
-            [NotNull] IReadOnlyList<IModule> modulesToRegister,
+        public static void RegisterModules([NotNull] IReadOnlyList<IModule> modulesToRegister,
             IServiceCollection serviceCollection,
             [NotNull] ILogger logger)
         {

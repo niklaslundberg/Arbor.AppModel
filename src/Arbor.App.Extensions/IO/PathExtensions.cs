@@ -34,8 +34,7 @@ namespace Arbor.App.Extensions.IO
             return GetRelativePath(fullPath, rootFullPath);
         }
 
-        public static string GetRelativePath(
-            [NotNull] this DirectoryInfo directoryInfo,
+        public static string GetRelativePath([NotNull] this DirectoryInfo directoryInfo,
             [NotNull] DirectoryInfo rootPath)
         {
             if (directoryInfo is null)

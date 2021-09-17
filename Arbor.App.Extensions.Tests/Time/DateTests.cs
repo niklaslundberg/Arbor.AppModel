@@ -117,6 +117,7 @@ namespace Arbor.App.Extensions.Tests.Time
         public void NewInvalidDateShouldThrowArgumentException(int year, int month, int day)
         {
             Exception? exception = null;
+
             try
             {
                 _ = new Date(year, month, day);
@@ -242,7 +243,7 @@ namespace Arbor.App.Extensions.Tests.Time
             var date2 = new Date(1, 1, 2);
             var date3 = new Date(1, 1, 3);
 
-            var dictionary = new Dictionary<Date, Date> {{date2, date2}, {date1, date1}, {date3, date3}};
+            var dictionary = new Dictionary<Date, Date> { { date2, date2 }, { date1, date1 }, { date3, date3 } };
 
             dictionary.ContainsKey(new Date(1, 1, 1)).Should().BeTrue();
             dictionary.ContainsKey(new Date(1, 1, 2)).Should().BeTrue();

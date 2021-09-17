@@ -5,8 +5,11 @@ using System.Reflection;
 
 namespace Arbor.App.Extensions.Application
 {
-    public static class AssemblyExtensions {
-        public static T LoadReferenceAssemblies<T>(this T assemblies, AppDomain? appDomain = null, Action<Exception>? exceptionHandler = null) where T : IEnumerable<Assembly>
+    public static class AssemblyExtensions
+    {
+        public static T LoadReferenceAssemblies<T>(this T assemblies,
+            AppDomain? appDomain = null,
+            Action<Exception>? exceptionHandler = null) where T : IEnumerable<Assembly>
         {
             var domain = appDomain ?? AppDomain.CurrentDomain;
 

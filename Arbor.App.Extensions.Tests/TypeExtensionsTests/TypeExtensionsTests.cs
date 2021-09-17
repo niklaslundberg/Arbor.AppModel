@@ -47,7 +47,7 @@ namespace Arbor.App.Extensions.Tests.TypeExtensionsTests
         public void FindPublicConcreteTypesImplementing_ShouldReturnEmptyCollectionWhenNoImplementation()
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
-                .FindPublicConcreteTypesImplementing<INoImplementation>();
+                                 .FindPublicConcreteTypesImplementing<INoImplementation>();
 
             Assert.Empty(types);
         }

@@ -19,7 +19,7 @@ namespace Arbor.App.Extensions.Application
 
         private static void ForceLoadReferenceAssemblies()
         {
-            Type[] types = {typeof(ICustomClock)};
+            Type[] types = { typeof(ICustomClock) };
 
             foreach (var type in types)
             {
@@ -27,8 +27,7 @@ namespace Arbor.App.Extensions.Application
             }
         }
 
-        public static ImmutableArray<Assembly> FilteredAssemblies(
-            [NotNull] this AppDomain appDomain,
+        public static ImmutableArray<Assembly> FilteredAssemblies([NotNull] this AppDomain appDomain,
             string[]? assemblyNameStartsWith = null,
             bool useCache = true,
             ILogger? logger = null)
@@ -48,9 +47,9 @@ namespace Arbor.App.Extensions.Application
             ForceLoadReferenceAssemblies();
 
             string? first = Assembly.GetEntryAssembly()?.FullName?.Split(".", StringSplitOptions.RemoveEmptyEntries)
-                .First();
+                                    .First();
 
-            var items = new List<string> {"Arbor"};
+            var items = new List<string> { "Arbor" };
 
             if (!string.IsNullOrWhiteSpace(first))
             {
@@ -61,43 +60,38 @@ namespace Arbor.App.Extensions.Application
 
             try
             {
-                var defaultRuntimeLibraries =
-                    DependencyContext.Default?.RuntimeLibraries?.ToImmutableArray() ??
-                    ImmutableArray<RuntimeLibrary>.Empty;
+                var defaultRuntimeLibraries = DependencyContext.Default?.RuntimeLibraries?.ToImmutableArray() ??
+                                              ImmutableArray<RuntimeLibrary>.Empty;
 
                 var includedLibraries = allowedAssemblies.Length == 0
                     ? defaultRuntimeLibraries
-                    : defaultRuntimeLibraries
-                        .Where(item =>
-                            allowedAssemblies.Any(
-                                listed => item.Name.StartsWith(listed, StringComparison.OrdinalIgnoreCase)))
-                        .ToImmutableArray();
+                    : defaultRuntimeLibraries.Where(item =>
+                                                  allowedAssemblies.Any(
+                                                      listed => item.Name.StartsWith(listed,
+                                                          StringComparison.OrdinalIgnoreCase)))
+                                             .ToImmutableArray();
 
-                var loadedAssemblies = appDomain
-                    .GetAssemblies()
-                    .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(allowed =>
-                        assembly.GetName().Name?.StartsWith(allowed,
-                            StringComparison.OrdinalIgnoreCase) ?? false))
-                    .ToArray();
+                var loadedAssemblies = appDomain.GetAssemblies().Where(assembly =>
+                                                     !assembly.IsDynamic &&
+                                                     allowedAssemblies.Any(allowed =>
+                                                         assembly.GetName().Name?.StartsWith(allowed,
+                                                             StringComparison.OrdinalIgnoreCase) ??
+                                                         false))
+                                                .ToArray();
 
-                var loadedAssemblyNames = loadedAssemblies
-                    .Select(assembly => assembly.GetName())
-                    .ToArray();
+                var loadedAssemblyNames = loadedAssemblies.Select(assembly => assembly.GetName()).ToArray();
 
-                var toLoad = includedLibraries
-                    .Where(lib =>
-                        !loadedAssemblyNames.Any(loaded =>
-                            loaded.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false))
-                    .ToArray();
+                var toLoad = includedLibraries.Where(lib =>
+                    !loadedAssemblyNames.Any(loaded =>
+                        loaded.Name?.Equals(lib.Name, StringComparison.Ordinal) ?? false)).ToArray();
 
-                var assemblyNames = toLoad
-                    .SelectMany(lib => lib.GetDefaultAssemblyNames(DependencyContext.Default))
-                    .ToArray();
+                var assemblyNames = toLoad.SelectMany(lib => lib.GetDefaultAssemblyNames(DependencyContext.Default))
+                                          .ToArray();
 
                 foreach (var assemblyName in assemblyNames)
                 {
-                    if (!appDomain.GetAssemblies()
-                        .Any(assembly => !assembly.IsDynamic && assembly.GetName().FullName == assemblyName.FullName))
+                    if (!appDomain.GetAssemblies().Any(assembly =>
+                        !assembly.IsDynamic && assembly.GetName().FullName == assemblyName.FullName))
                     {
                         appDomain.Load(assemblyName);
                     }
@@ -108,7 +102,7 @@ namespace Arbor.App.Extensions.Application
                 logger.Warning(ex, "Could not load runtime assemblies");
             }
 
-            var orders = new List<(string, int)> {("test", 1000), ("debug", 2000)};
+            var orders = new List<(string, int)> { ("test", 1000), ("debug", 2000) };
 
             int GetAssemblyLoadOrder(Assembly assembly)
             {
@@ -132,19 +126,16 @@ namespace Arbor.App.Extensions.Application
                 return defaultOrder;
             }
 
-            var filteredAssemblies = appDomain.GetAssemblies()
-                .Where(assembly => !assembly.IsDynamic && allowedAssemblies.Any(listed =>
-                    assembly.FullName?.StartsWith(listed, StringComparison.OrdinalIgnoreCase) ==
-                    true))
-                .Select(assembly =>
+            var filteredAssemblies = appDomain.GetAssemblies().Where(assembly =>
+                !assembly.IsDynamic &&
+                allowedAssemblies.Any(listed =>
+                    assembly.FullName?.StartsWith(listed, StringComparison.OrdinalIgnoreCase) == true)).Select(
+                assembly =>
                 {
                     (Assembly Assembly, int Order) tuple = (assembly, GetAssemblyLoadOrder(assembly));
 
                     return tuple;
-                })
-                .OrderBy(tuple => tuple.Order)
-                .Select(tuple => tuple.Assembly)
-                .ToImmutableArray();
+                }).OrderBy(tuple => tuple.Order).Select(tuple => tuple.Assembly).ToImmutableArray();
 
             if (useCache)
             {

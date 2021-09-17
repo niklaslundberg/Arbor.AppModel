@@ -12,7 +12,8 @@ namespace Arbor.App.Extensions.Http
         [Metadata(defaultValue: "true")]
         public const string HttpLoggingEnabled = "urn:arbor:app:http:http-logging:default:enabled";
 
-        [Metadata] public const string HttpLoggingConfigurationUrn = "urn:arbor:app:http:http-logging";
+        [Metadata]
+        public const string HttpLoggingConfigurationUrn = "urn:arbor:app:http:http-logging";
 
         public HttpLoggingConfiguration(bool enabled) => Enabled = enabled;
 

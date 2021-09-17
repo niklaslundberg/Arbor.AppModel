@@ -13,7 +13,7 @@ namespace Arbor.App.Extensions.Tasks
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static CancellationTokenAwaiter GetAwaiter(this CancellationToken cancellationToken) =>
             // return our special awaiter
-            new() {internalTCancellationToken = cancellationToken};
+            new() { internalTCancellationToken = cancellationToken };
 
         /// <summary>
         ///     The awaiter for cancellation tokens.
@@ -50,11 +50,9 @@ namespace Arbor.App.Extensions.Tasks
             // The compiler will generate stuff that hooks in
             // here. We hook those methods directly into the
             // cancellation token.
-            public void OnCompleted(Action continuation) =>
-                internalTCancellationToken.Register(continuation);
+            public void OnCompleted(Action continuation) => internalTCancellationToken.Register(continuation);
 
-            public void UnsafeOnCompleted(Action continuation) =>
-                internalTCancellationToken.Register(continuation);
+            public void UnsafeOnCompleted(Action continuation) => internalTCancellationToken.Register(continuation);
         }
     }
 }

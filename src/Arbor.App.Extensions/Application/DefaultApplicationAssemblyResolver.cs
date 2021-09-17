@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Linq;
 using System.Reflection;
 
 namespace Arbor.App.Extensions.Application
@@ -11,8 +10,6 @@ namespace Arbor.App.Extensions.Application
         public DefaultApplicationAssemblyResolver(string[] assemblyNameStartsWith, bool cacheEnabled = true) =>
             _assemblies = ApplicationAssemblies.FilteredAssemblies(assemblyNameStartsWith, cacheEnabled);
 
-        public ImmutableArray<Assembly>
-            GetAssemblies() =>
-            _assemblies;
+        public ImmutableArray<Assembly> GetAssemblies() => _assemblies;
     }
 }

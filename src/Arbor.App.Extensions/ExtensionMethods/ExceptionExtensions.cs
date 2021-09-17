@@ -15,17 +15,15 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return false;
             }
 
-            return
-                ex is OutOfMemoryException
-                || ex is AccessViolationException
-                || ex is AppDomainUnloadedException
-                || ex is StackOverflowException
-                || ex is ThreadAbortException
-                || ex is SEHException;
+            return ex is OutOfMemoryException ||
+                   ex is AccessViolationException ||
+                   ex is AppDomainUnloadedException ||
+                   ex is StackOverflowException ||
+                   ex is ThreadAbortException ||
+                   ex is SEHException;
         }
 
-        public static string ThrowIfNullOrWhiteSpace(
-            [NotNullIfNotNull("text")] this string? text,
+        public static string ThrowIfNullOrWhiteSpace([NotNullIfNotNull("text")] this string? text,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)

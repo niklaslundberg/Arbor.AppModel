@@ -5,8 +5,7 @@ namespace Arbor.App.Extensions.Logging
 {
     public static class LogEventLevelExtensions
     {
-        public static LogEventLevel ParseOrDefault(
-            this string? levelText,
+        public static LogEventLevel ParseOrDefault(this string? levelText,
             LogEventLevel level = LogEventLevel.Information)
         {
             if (string.IsNullOrWhiteSpace(levelText))

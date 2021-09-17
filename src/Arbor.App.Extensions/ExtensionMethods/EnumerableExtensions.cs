@@ -60,12 +60,12 @@ namespace Arbor.App.Extensions.ExtensionMethods
         {
             if (items is null)
             {
-                return new List<T> {default};
+                return new List<T> { default };
             }
 
             if (items.Count == 0)
             {
-                return new List<T> {default};
+                return new List<T> { default };
             }
 
             return items;
@@ -76,12 +76,12 @@ namespace Arbor.App.Extensions.ExtensionMethods
         {
             if (items is null)
             {
-                return new List<T?> {default};
+                return new List<T?> { default };
             }
 
             if (items.Count == 0)
             {
-                return new List<T?> {default};
+                return new List<T?> { default };
             }
 
             return items;
@@ -112,19 +112,13 @@ namespace Arbor.App.Extensions.ExtensionMethods
         }
 
         public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> items) where T : class =>
-            items
-                .Where(item => item is { })
-                .Select(item => item!);
+            items.Where(item => item is { }).Select(item => item!);
 
         public static ImmutableArray<string> AsStrings<T>(this IEnumerable<T> enumerable, Func<T, string?> converter) =>
-            enumerable
-                .Select(converter)
-                .NotNull()
-                .ToImmutableArray();
+            enumerable.Select(converter).NotNull().ToImmutableArray();
 
-        public static string AsString<T>(this IEnumerable<T> enumerable, Func<T, string?> converter, string separator = ", ") =>
-            string.Join(separator, enumerable
-                .Select(converter)
-                .NotNull());
+        public static string AsString<T>(this IEnumerable<T> enumerable,
+            Func<T, string?> converter,
+            string separator = ", ") => string.Join(separator, enumerable.Select(converter).NotNull());
     }
 }

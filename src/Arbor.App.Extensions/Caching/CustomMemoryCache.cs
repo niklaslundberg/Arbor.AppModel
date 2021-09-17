@@ -12,8 +12,7 @@ namespace Arbor.App.Extensions.Caching
     [UsedImplicitly]
     public class CustomMemoryCache : ICustomMemoryCache
     {
-        private static readonly ConcurrentDictionary<string, object> Keys =
-            new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, object> Keys = new(StringComparer.OrdinalIgnoreCase);
 
         private readonly ILogger _logger;
         private readonly IMemoryCache _memoryCache;
@@ -56,9 +55,7 @@ namespace Arbor.App.Extensions.Caching
             }
 
             var cacheEntryAbsoluteExpirationRelativeToNow =
-                cacheTime?.TotalSeconds > 0
-                    ? cacheTime.Value
-                    : TimeSpan.FromSeconds(900);
+                cacheTime?.TotalSeconds > 0 ? cacheTime.Value : TimeSpan.FromSeconds(900);
 
             _memoryCache.Set(key, item, cacheEntryAbsoluteExpirationRelativeToNow);
             bool added = Keys.TryAdd(key, string.Empty);
@@ -83,9 +80,7 @@ namespace Arbor.App.Extensions.Caching
 
             if (prefix.HasSomeString())
             {
-                filteredKeys = keys
-                    .Where(key => key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                    .ToArray();
+                filteredKeys = keys.Where(key => key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)).ToArray();
             }
 
             _logger.Debug(
@@ -105,11 +100,9 @@ namespace Arbor.App.Extensions.Caching
         private IReadOnlyCollection<string> GetCachedKeys()
         {
             (string key, bool exists)[] keys = Keys.Select(key => (key.Key, _memoryCache.TryGetValue(key.Key, out _)))
-                .ToArray();
+                                                   .ToArray();
 
-            string[] toRemove = keys.Where(item => !item.exists)
-                .Select(item => item.key)
-                .ToArray();
+            string[] toRemove = keys.Where(item => !item.exists).Select(item => item.key).ToArray();
 
             foreach (string nonCachedKey in toRemove)
             {

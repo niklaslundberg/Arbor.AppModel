@@ -10,8 +10,11 @@ namespace Arbor.App.Extensions.Caching
 {
     public static class DistributedCacheExtensions
     {
-        public static Task SetWithVersionAsync<T>(this IDistributedCache cache, string key, [NotNull] T item,
-            CacheVersion cacheVersion, DistributedCacheEntryOptions? options = default,
+        public static Task SetWithVersionAsync<T>(this IDistributedCache cache,
+            string key,
+            [NotNull] T item,
+            CacheVersion cacheVersion,
+            DistributedCacheEntryOptions? options = default,
             ILogger? logger = default,
             CancellationToken cancellationToken = default) where T : class
         {
@@ -33,14 +36,16 @@ namespace Arbor.App.Extensions.Caching
             return SetWithVersionInternalAsync(cache, key, item, cacheVersion, options, logger, cancellationToken);
         }
 
-        private static async Task SetWithVersionInternalAsync<T>(IDistributedCache cache, string key, [NotNull] T item,
+        private static async Task SetWithVersionInternalAsync<T>(IDistributedCache cache,
+            string key,
+            [NotNull] T item,
             CacheVersion cacheVersion,
             DistributedCacheEntryOptions? options = default,
             ILogger? logger = default,
             CancellationToken cancellationToken = default) where T : class
         {
             string? json =
-                JsonConvert.SerializeObject(new VersionedJson<T> {Instance = item, Version = cacheVersion.Version});
+                JsonConvert.SerializeObject(new VersionedJson<T> { Instance = item, Version = cacheVersion.Version });
 
             try
             {
@@ -66,9 +71,11 @@ namespace Arbor.App.Extensions.Caching
             }
         }
 
-        public static Task<T?> GetWithVersionAsync<T>(this IDistributedCache cache, string key,
+        public static Task<T?> GetWithVersionAsync<T>(this IDistributedCache cache,
+            string key,
             CacheVersion cacheVersion,
-            ILogger? logger = default, CancellationToken cancellationToken = default) where T : class
+            ILogger? logger = default,
+            CancellationToken cancellationToken = default) where T : class
         {
             if (cache == null)
             {
@@ -83,9 +90,11 @@ namespace Arbor.App.Extensions.Caching
             return GetWithVersionInternalAsync<T>(cache, key, cacheVersion, logger, cancellationToken);
         }
 
-        private static async Task<T?> GetWithVersionInternalAsync<T>(IDistributedCache cache, string key,
+        private static async Task<T?> GetWithVersionInternalAsync<T>(IDistributedCache cache,
+            string key,
             CacheVersion cacheVersion,
-            ILogger? logger = default, CancellationToken cancellationToken = default) where T : class
+            ILogger? logger = default,
+            CancellationToken cancellationToken = default) where T : class
         {
             try
             {
@@ -127,6 +136,7 @@ namespace Arbor.App.Extensions.Caching
         private class VersionedJson<T>
         {
             public int Version { get; init; }
+
             public T? Instance { get; init; }
         }
     }

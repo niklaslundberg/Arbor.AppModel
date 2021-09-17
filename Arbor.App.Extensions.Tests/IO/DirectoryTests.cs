@@ -12,6 +12,7 @@ namespace Arbor.App.Extensions.Tests.IO
         public void TryEnsureDirectoryExists()
         {
             DirectoryInfo? dir = null;
+
             try
             {
                 dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
@@ -36,6 +37,7 @@ namespace Arbor.App.Extensions.Tests.IO
             DirectoryInfo? dir = null;
 
             bool exists;
+
             try
             {
                 dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).EnsureExists();

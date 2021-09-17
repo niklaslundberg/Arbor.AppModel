@@ -11,14 +11,14 @@ namespace Arbor.App.Extensions.ExtensionMethods
     [PublicAPI]
     public static class ArborStringExtensions
     {
-        private static readonly Lazy<ImmutableArray<string>> LazyDefaultAnonymousKeyWords =
-            new Lazy<ImmutableArray<string>>(Initialize);
+        private static readonly Lazy<ImmutableArray<string>> LazyDefaultAnonymousKeyWords = new(Initialize);
 
         public static ImmutableArray<string> DefaultAnonymousKeyWords => LazyDefaultAnonymousKeyWords.Value;
 
-        private static ImmutableArray<string> Initialize() =>
-            new[] {"password", "username", "user id", "connection-string", "user", "connectionString", "secret", "token"}
-                .ToImmutableArray();
+        private static ImmutableArray<string> Initialize() => new[]
+        {
+            "password", "username", "user id", "connection-string", "user", "connectionString", "secret", "token"
+        }.ToImmutableArray();
 
         public static string MakeAnonymous(this string? value, string key, params string[]? keyWords)
         {
@@ -60,8 +60,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
             return value;
         }
 
-        public static ImmutableArray<KeyValuePair<string, string>> ParseValues(
-            this string? value,
+        public static ImmutableArray<KeyValuePair<string, string>> ParseValues(this string? value,
             char delimiter,
             char assignment)
         {
@@ -72,15 +71,12 @@ namespace Arbor.App.Extensions.ExtensionMethods
 
             string[] pairs = value.Split(delimiter);
 
-            var keyValuePairs = pairs
-                .Select(pair =>
-                {
-                    string[] parts = pair.Split(assignment);
+            var keyValuePairs = pairs.Select(pair =>
+            {
+                string[] parts = pair.Split(assignment);
 
-                    return parts.Length != 2 ? default : new KeyValuePair<string, string>(parts[0], parts[1]);
-                })
-                .Where(pair => pair.Key != default)
-                .ToImmutableArray();
+                return parts.Length != 2 ? default : new KeyValuePair<string, string>(parts[0], parts[1]);
+            }).Where(pair => pair.Key != default).ToImmutableArray();
 
             return keyValuePairs;
         }
@@ -150,16 +146,17 @@ namespace Arbor.App.Extensions.ExtensionMethods
                 return new string(replacementChar, strings.Length);
             }
 
-            string result = strings[0] + separator + string.Join(separator.ToString(CultureInfo.InvariantCulture),
-                strings.Skip(1)
-                    .Where(text => text.HasValue())
-                    .Select(text => new string(replacementChar, text.Length)));
+            string result = strings[0] +
+                            separator +
+                            string.Join(separator.ToString(CultureInfo.InvariantCulture),
+                                strings.Skip(1).Where(text => text.HasValue())
+                                       .Select(text => new string(replacementChar, text.Length)));
+
             return result;
         }
 
         public static string? WithDefault(
-            [NotNullIfNotNull("defaultValue")] [NotNullIfNotNull("value")]
-            this string? value,
+            [NotNullIfNotNull("defaultValue")] [NotNullIfNotNull("value")] this string? value,
             string? defaultValue = null)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -171,7 +168,7 @@ namespace Arbor.App.Extensions.ExtensionMethods
         }
 
         public static bool AllHaveValue(params string?[]? values) =>
-            values is {} && values.All(value => !string.IsNullOrWhiteSpace(value));
+            values is { } && values.All(value => !string.IsNullOrWhiteSpace(value));
 
         public static bool IsNullOrWhiteSpace(this string? text) => string.IsNullOrWhiteSpace(text);
     }

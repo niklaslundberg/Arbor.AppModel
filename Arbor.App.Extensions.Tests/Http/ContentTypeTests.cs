@@ -9,7 +9,8 @@ namespace Arbor.App.Extensions.Tests.Http
         [InlineData("application/json")]
         [InlineData("application/JSON")]
         [InlineData("application/hal+json")]
-        public void IsJsonShouldBeTrueForJsonType(string contentType) => ContentType.IsJson(contentType).Should().BeTrue();
+        public void IsJsonShouldBeTrueForJsonType(string contentType) =>
+            ContentType.IsJson(contentType).Should().BeTrue();
 
         [Theory]
         [InlineData("application/bson")]
@@ -17,9 +18,11 @@ namespace Arbor.App.Extensions.Tests.Http
         [InlineData("text/json")]
         [InlineData("")]
         [InlineData(null)]
-        public void IsJsonShouldBeFalseForNonJsonType(string contentType) => ContentType.IsJson(contentType).Should().BeFalse();
+        public void IsJsonShouldBeFalseForNonJsonType(string contentType) =>
+            ContentType.IsJson(contentType).Should().BeFalse();
 
         [Fact]
-        public void IsJsonShouldBeTrueForSameReference() => ContentType.IsJson(ContentType.Json.Value).Should().BeTrue();
+        public void IsJsonShouldBeTrueForSameReference() =>
+            ContentType.IsJson(ContentType.Json.Value).Should().BeTrue();
     }
 }

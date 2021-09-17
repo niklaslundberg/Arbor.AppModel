@@ -25,8 +25,9 @@ namespace Arbor.App.Extensions.Configuration
         public static IEnumerable<T> CreateInstances<T>(this ConfigurationInstanceHolder holder) where T : class
         {
             var registeredTypes = holder.RegisteredTypes
-                .Where(registered => typeof(T).IsAssignableFrom(registered) && !registered.IsAbstract)
-                .ToArray();
+                                        .Where(registered =>
+                                             typeof(T).IsAssignableFrom(registered) && !registered.IsAbstract)
+                                        .ToArray();
 
             foreach (Type registeredType in registeredTypes)
             {
@@ -66,14 +67,12 @@ namespace Arbor.App.Extensions.Configuration
             var parameters = constructorInfo.GetParameters();
 
             var missingArgs = parameters.Where(p =>
-                    !holder.RegisteredTypes.Any(registeredType => p.ParameterType.IsAssignableFrom(registeredType)) &&
-                    !p.IsOptional)
-                .ToArray();
+                !holder.RegisteredTypes.Any(registeredType => p.ParameterType.IsAssignableFrom(registeredType)) &&
+                !p.IsOptional).ToArray();
 
             var optionalArgs = parameters.Where(p =>
-                    !holder.RegisteredTypes.Any(registeredType => p.ParameterType.IsAssignableFrom(registeredType)) &&
-                    p.IsOptional)
-                .ToArray();
+                !holder.RegisteredTypes.Any(registeredType => p.ParameterType.IsAssignableFrom(registeredType)) &&
+                p.IsOptional).ToArray();
 
             if (missingArgs.Length > 0)
             {
@@ -86,16 +85,16 @@ namespace Arbor.App.Extensions.Configuration
                 object? value = optionalArgs.Contains(parameter)
                     ? null
                     : holder.GetInstances(
-                            holder.RegisteredTypes.Single(reg => parameter.ParameterType.IsAssignableFrom(reg)))
-                        .Single().Value;
+                                 holder.RegisteredTypes.Single(reg => parameter.ParameterType.IsAssignableFrom(reg)))
+                            .Single()
+                            .Value;
 
                 return value;
             }
 
             object?[] args = parameters.Length == 0
                 ? Array.Empty<object>()
-                : parameters.Select(GetArgumentValue)
-                    .ToArray();
+                : parameters.Select(GetArgumentValue).ToArray();
 
             return Activator.CreateInstance(type, args);
         }

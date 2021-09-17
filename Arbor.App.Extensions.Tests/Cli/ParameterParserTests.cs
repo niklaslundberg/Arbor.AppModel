@@ -11,7 +11,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void ParseValidParameterShouldReturnValue()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test=123"};
+            IReadOnlyCollection<string> parameters = new List<string> { "test=123" };
             string? value = parameters.ParseParameter("test");
 
             value.Should().Be("123");
@@ -20,7 +20,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void ParseEmptyParameterShouldReturnEmptyString()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test="};
+            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
             string? value = parameters.ParseParameter("test");
 
             value.Should().BeEmpty();
@@ -29,7 +29,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void ParseMissingParameterShouldReturnNull()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test="};
+            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
             string? value = parameters.ParseParameter("non-existing");
 
             value.Should().BeNull();
@@ -38,7 +38,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void ParseInvalidParameterShouldReturnNull()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test"};
+            IReadOnlyCollection<string> parameters = new List<string> { "test" };
             string? value = parameters.ParseParameter("test");
 
             value.Should().BeNull();
@@ -47,7 +47,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void ParseDuplicateParameterShouldThrowInvalidOperationException()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test=123", "test=234"};
+            IReadOnlyCollection<string> parameters = new List<string> { "test=123", "test=234" };
             Func<string?> function = () => parameters.ParseParameter("test");
 
             function.Should().Throw<InvalidOperationException>();
@@ -56,7 +56,7 @@ namespace Arbor.App.Extensions.Tests.Cli
         [Fact]
         public void InvalidParameterNameShouldThrowArgumentNullException()
         {
-            IReadOnlyCollection<string> parameters = new List<string> {"test="};
+            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
             Func<string?> function = () => parameters.ParseParameter(null!);
 
             function.Should().Throw<ArgumentException>();

@@ -13,6 +13,7 @@ namespace Arbor.App.Extensions
         }
 
         public string Name { get; }
+
         public string Value { get; }
 
         public static bool IsJson(string? contentType)
@@ -32,8 +33,8 @@ namespace Arbor.App.Extensions
                 return true;
             }
 
-            if (contentType.StartsWith("application/", StringComparison.OrdinalIgnoreCase)
-                && contentType.EndsWith("+json", StringComparison.OrdinalIgnoreCase))
+            if (contentType.StartsWith("application/", StringComparison.OrdinalIgnoreCase) &&
+                contentType.EndsWith("+json", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

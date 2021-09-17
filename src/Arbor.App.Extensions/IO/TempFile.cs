@@ -33,6 +33,7 @@ namespace Arbor.App.Extensions.IO
                 if (_customTempDir != null)
                 {
                     _customTempDir.Refresh();
+
                     if (_customTempDir.Exists)
                     {
                         _customTempDir.Delete(true);
@@ -47,7 +48,9 @@ namespace Arbor.App.Extensions.IO
             File = null;
         }
 
-        public static TempFile CreateTempFile(string? name = null, string? extension = null, DirectoryInfo? tempDirectory = null)
+        public static TempFile CreateTempFile(string? name = null,
+            string? extension = null,
+            DirectoryInfo? tempDirectory = null)
         {
             string defaultName = $"AAE-{DateTime.UtcNow.Ticks}";
 

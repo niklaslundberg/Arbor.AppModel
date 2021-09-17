@@ -16,9 +16,9 @@ namespace Arbor.App.Extensions.Application
             UseExplicitPorts = true;
         }
 
-        public bool UseVerboseExceptions => !EnvironmentName.HasValue()
-                                            || !EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction,
-                                                StringComparison.OrdinalIgnoreCase);
+        public bool UseVerboseExceptions =>
+            !EnvironmentName.HasValue() ||
+            !EnvironmentName.Equals(ApplicationConstants.EnvironmentProduction, StringComparison.OrdinalIgnoreCase);
 
         [PublicAPI]
         public string? ApplicationBasePath { get; set; }
@@ -66,7 +66,7 @@ namespace Arbor.App.Extensions.Application
 
         public ImmutableArray<string> CommandLineArgs { get; set; } = ImmutableArray<string>.Empty;
 
-        public List<IPAddress> ProxyAddresses { get; } = new List<IPAddress>();
+        public List<IPAddress> ProxyAddresses { get; } = new();
 
         public override string ToString() =>
             $"{nameof(ApplicationBasePath)}: {ApplicationBasePath}, {nameof(ContentBasePath)}: {ContentBasePath}, {nameof(EnvironmentName)}: {EnvironmentName}, {nameof(HttpPort)}: {HttpPort}, {nameof(HttpsPort)}: {HttpsPort}, {nameof(PfxFile)}: {PfxFile}, {nameof(PfxPassword)}: *****";

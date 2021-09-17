@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Collections.Specialized;
 using System.Linq;
 using Arbor.App.Extensions.Application;
 using Arbor.App.Extensions.ExtensionMethods;
@@ -8,18 +9,20 @@ using Arbor.KVConfiguration.Urns;
 
 namespace Arbor.App.Extensions.Sample
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine($"Application name: {new InMemoryKeyValueConfiguration(new()).GetApplicationName()}");
+            Console.WriteLine(
+                $"Application name: {new InMemoryKeyValueConfiguration(new NameValueCollection()).GetApplicationName()}");
+
             var version = ApplicationVersionHelper.GetAppVersion();
             Console.WriteLine($"Application version AssemblyFullName: {version?.AssemblyFullName}");
             Console.WriteLine($"Application version AssemblyVersion: {version?.AssemblyVersion}");
             Console.WriteLine($"Application version FileVersion: {version?.FileVersion}");
             Console.WriteLine($"Application version InformationalVersion: {version?.InformationalVersion}");
 
-            var assemblies = ApplicationAssemblies.FilteredAssemblies(new[]{"Arbor"});
+            var assemblies = ApplicationAssemblies.FilteredAssemblies(new[] { "Arbor" });
 
             ApplicationAssemblies.FilteredAssemblies().LoadReferenceAssemblies();
 
@@ -30,8 +33,8 @@ namespace Arbor.App.Extensions.Sample
                 Console.WriteLine(ex);
             }
 
-            Console.WriteLine("Loading types from assemblies " + assemblies.Where(a => !a.IsDynamic)
-                    .AsString(a => a.GetName().Name));
+            Console.WriteLine("Loading types from assemblies " +
+                              assemblies.Where(a => !a.IsDynamic).AsString(a => a.GetName().Name));
 
             try
             {
@@ -51,9 +54,9 @@ namespace Arbor.App.Extensions.Sample
             }
             catch (Exception e)
             {
-                Console.WriteLine("Could not get URN types from assemblies " + assemblies
-                    .Where(a => !a.IsDynamic)
-                    .AsString(a => a.GetName().Name));
+                Console.WriteLine("Could not get URN types from assemblies " +
+                                  assemblies.Where(a => !a.IsDynamic).AsString(a => a.GetName().Name));
+
                 Console.WriteLine(e);
             }
         }

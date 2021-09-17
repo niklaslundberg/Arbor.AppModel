@@ -11,7 +11,9 @@ namespace Arbor.App.Extensions.Caching
         private static readonly object MutexLock = new();
 
         public static async Task Invalidate(this IDistributedCache? distributedCache,
-            CurrentCacheVersion? currentCacheVersion, InvalidateCache invalidateCache, ILogger logger)
+            CurrentCacheVersion? currentCacheVersion,
+            InvalidateCache invalidateCache,
+            ILogger logger)
         {
             if (distributedCache is { } && !string.IsNullOrWhiteSpace(invalidateCache.Prefix))
             {
