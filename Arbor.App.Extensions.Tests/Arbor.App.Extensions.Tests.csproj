@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="1.2.0" />
-    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
-    <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
-    <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="2.0.0-build.1631884553" />
+    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="2.0.0-build.1631884553" />
+    <PackageReference Include="Arbor.KVConfiguration.Core" Version="2.0.0-build.1631884553" />
+    <PackageReference Include="Arbor.Primitives" Version="*-*" />
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
