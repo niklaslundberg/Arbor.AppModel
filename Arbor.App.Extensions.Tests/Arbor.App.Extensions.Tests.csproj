@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,7 +9,7 @@
     <PackageReference Include="Arbor.KVConfiguration.Schema" Version="1.2.0" />
     <PackageReference Include="Arbor.KVConfiguration.Core" Version="1.2.0" />
     <PackageReference Include="Arbor.Primitives" Version="1.2.0" />
-    <PackageReference Include="FluentAssertions" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
