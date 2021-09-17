@@ -46,8 +46,7 @@ namespace Arbor.App.Extensions.Application
 
             ForceLoadReferenceAssemblies();
 
-            string? first = Assembly.GetEntryAssembly()?.FullName?.Split(".", StringSplitOptions.RemoveEmptyEntries)
-                                    .First();
+            string? first = Assembly.GetEntryAssembly()?.FullName?.Split(".", StringSplitOptions.RemoveEmptyEntries)[0];
 
             var items = new List<string> { "Arbor" };
 

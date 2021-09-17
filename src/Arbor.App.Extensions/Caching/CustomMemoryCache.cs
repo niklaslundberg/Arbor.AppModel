@@ -70,7 +70,7 @@ namespace Arbor.App.Extensions.Caching
         {
             IReadOnlyCollection<string> keys = GetCachedKeys();
 
-            if (!keys.Any())
+            if (keys.Count == 0)
             {
                 _logger.Debug("No items were removed from in-memory cache since there were no cached items");
                 return;

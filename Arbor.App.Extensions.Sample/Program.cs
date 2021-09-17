@@ -9,7 +9,7 @@ using Arbor.KVConfiguration.Urns;
 
 namespace Arbor.App.Extensions.Sample
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
@@ -26,9 +26,7 @@ namespace Arbor.App.Extensions.Sample
 
             ApplicationAssemblies.FilteredAssemblies().LoadReferenceAssemblies();
 
-            ImmutableArray<UrnTypeMapping> urnTypes;
-
-            void Handle(Exception ex)
+            static void Handle(Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -38,7 +36,7 @@ namespace Arbor.App.Extensions.Sample
 
             try
             {
-                urnTypes = UrnTypes.GetUrnTypesInAssemblies(Handle, assemblies.ToArray());
+                var urnTypes = UrnTypes.GetUrnTypesInAssemblies(Handle, assemblies.ToArray());
 
                 if (urnTypes.IsEmpty)
                 {
