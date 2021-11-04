@@ -7,6 +7,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/niklaslundberg/Arbor.AspNetCore.Host</PackageProjectUrl>
     <RepositoryUrl>https://github.com/niklaslundberg/Arbor.AspNetCore.Host</RepositoryUrl>
+    <PackageId>Arbor.AppModel</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

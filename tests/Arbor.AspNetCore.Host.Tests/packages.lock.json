@@ -1816,7 +1816,7 @@
           "System.ComponentModel.Annotations": "5.0.0"
         }
       },
-      "arbor.aspnetcore.host": {
+      "Arbor.AppModel": {
         "type": "Project",
         "dependencies": {
           "Arbor.App.Extensions": "1.0.0",
