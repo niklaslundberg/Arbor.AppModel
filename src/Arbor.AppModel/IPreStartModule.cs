@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     public interface IPreStartModule
     {

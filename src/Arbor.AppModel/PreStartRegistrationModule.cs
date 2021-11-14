@@ -1,9 +1,9 @@
-﻿using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.DependencyInjection;
-using Arbor.App.Extensions.ExtensionMethods;
+﻿using Arbor.AppModel.Application;
+using Arbor.AppModel.DependencyInjection;
+using Arbor.AppModel.ExtensionMethods;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     public class PreStartRegistrationModule : IModule
     {

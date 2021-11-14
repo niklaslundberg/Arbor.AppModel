@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace Arbor.AspNetCore.Host.Scheduling
+namespace Arbor.AppModel.Scheduling
 {
     public interface IScheduler
     {

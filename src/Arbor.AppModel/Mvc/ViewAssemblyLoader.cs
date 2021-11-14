@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Loader;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.ExtensionMethods;
 using Serilog;
 
-namespace Arbor.AspNetCore.Host.Mvc
+namespace Arbor.AppModel.Mvc
 {
     public static class ViewAssemblyLoader
     {

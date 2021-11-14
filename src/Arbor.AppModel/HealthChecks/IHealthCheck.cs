@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arbor.AspNetCore.Host.HealthChecks
+namespace Arbor.AppModel.HealthChecks
 {
     public interface IHealthCheck
     {

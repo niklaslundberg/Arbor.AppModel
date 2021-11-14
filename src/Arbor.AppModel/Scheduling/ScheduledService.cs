@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arbor.AspNetCore.Host.Scheduling
+namespace Arbor.AppModel.Scheduling
 {
     public abstract class ScheduledService
     {

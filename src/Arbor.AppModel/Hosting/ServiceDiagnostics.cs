@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.ExtensionMethods;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public sealed class ServiceDiagnostics
     {

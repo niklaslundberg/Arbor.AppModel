@@ -1,8 +1,7 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public class ServiceProviderHolder
     {

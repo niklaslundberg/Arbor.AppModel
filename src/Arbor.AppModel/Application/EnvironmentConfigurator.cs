@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.Configuration;
-using Arbor.AspNetCore.Host.Configuration;
+using Arbor.AppModel.Configuration;
 using Arbor.KVConfiguration.Urns;
-using JetBrains.Annotations;
 
-namespace Arbor.AspNetCore.Host.Application
+namespace Arbor.AppModel.Application
 {
     public static class EnvironmentConfigurator
     {

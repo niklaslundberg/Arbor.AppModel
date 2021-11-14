@@ -3,13 +3,12 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.Configuration;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Configuration;
+using Arbor.AppModel.ExtensionMethods;
 using Arbor.KVConfiguration.Core;
 using JetBrains.Annotations;
 
-namespace Arbor.AspNetCore.Host.Application
+namespace Arbor.AppModel.Application
 {
     [RegistrationOrder(0)]
     [UsedImplicitly]

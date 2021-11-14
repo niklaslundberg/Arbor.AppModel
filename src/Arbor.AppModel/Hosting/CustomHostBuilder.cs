@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.ExtensionMethods;
 using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Microsoft.Extensions.Configuration.Urns;
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +16,7 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using ILogger = Serilog.ILogger;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public static class CustomHostBuilder<T> where T : class
     {

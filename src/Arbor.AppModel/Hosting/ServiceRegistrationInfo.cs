@@ -1,8 +1,8 @@
 ﻿using System;
-using Arbor.App.Extensions.DependencyInjection;
+using Arbor.AppModel.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public sealed class ServiceRegistrationInfo
     {

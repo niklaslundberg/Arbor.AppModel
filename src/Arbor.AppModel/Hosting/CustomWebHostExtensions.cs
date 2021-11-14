@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public static class CustomWebHostExtensions
     {

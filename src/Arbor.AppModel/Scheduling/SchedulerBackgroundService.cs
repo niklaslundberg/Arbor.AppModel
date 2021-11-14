@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Arbor.AspNetCore.Host.Scheduling
+namespace Arbor.AppModel.Scheduling
 {
     [UsedImplicitly]
     public class SchedulerBackgroundService : BackgroundService

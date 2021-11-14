@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
-using Arbor.App.Extensions.Time;
+using Arbor.AppModel.Time;
 using Serilog;
 
-namespace Arbor.AspNetCore.Host.Scheduling
+namespace Arbor.AppModel.Scheduling
 {
     public sealed class Scheduler : IScheduler, IDisposable
     {

@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Arbor.App.Extensions.ExtensionMethods;
-using Arbor.AspNetCore.Host.Validation;
+using Arbor.AppModel.ExtensionMethods;
+using Arbor.AppModel.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Arbor.AspNetCore.Host.Mvc
+namespace Arbor.AppModel.Mvc
 {
     public class ValidationActionFilter : IAsyncActionFilter
     {

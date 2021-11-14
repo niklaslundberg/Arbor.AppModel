@@ -6,15 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.Configuration;
-using Arbor.App.Extensions.DependencyInjection;
-using Arbor.App.Extensions.ExtensionMethods;
-using Arbor.App.Extensions.IO;
-using Arbor.App.Extensions.Logging;
-using Arbor.AspNetCore.Host.Application;
-using Arbor.AspNetCore.Host.Configuration;
-using Arbor.AspNetCore.Host.Hosting;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.Configuration;
+using Arbor.AppModel.DependencyInjection;
+using Arbor.AppModel.ExtensionMethods;
+using Arbor.AppModel.Hosting;
+using Arbor.AppModel.IO;
+using Arbor.AppModel.Logging;
 using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Urns;
 using Arbor.Primitives;
@@ -25,7 +23,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     [UsedImplicitly]
     public sealed class App<T> : IDisposable where T : class

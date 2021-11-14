@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.DependencyInjection;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.DependencyInjection;
+using Arbor.AppModel.ExtensionMethods;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Startup
+namespace Arbor.AppModel.Startup
 {
     [UsedImplicitly]
     public class StartupTaskModule : IModule

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arbor.AspNetCore.Host.Scheduling
+namespace Arbor.AppModel.Scheduling
 {
     public interface ISchedule
     {

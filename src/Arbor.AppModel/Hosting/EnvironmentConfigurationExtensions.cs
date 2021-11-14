@@ -1,8 +1,8 @@
-﻿using Arbor.App.Extensions.Application;
+﻿using Arbor.AppModel.Application;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public static class EnvironmentConfigurationExtensions
     {

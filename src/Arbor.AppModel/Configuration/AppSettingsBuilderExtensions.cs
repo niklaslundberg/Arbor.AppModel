@@ -1,6 +1,6 @@
 using Arbor.KVConfiguration.Core;
 
-namespace Arbor.AspNetCore.Host.Configuration
+namespace Arbor.AppModel.Configuration
 {
     public static class AppSettingsBuilderExtensions
     {

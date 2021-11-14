@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Arbor.AspNetCore.Host.HealthChecks
+namespace Arbor.AppModel.HealthChecks
 {
     public class HealthCheckResult
     {

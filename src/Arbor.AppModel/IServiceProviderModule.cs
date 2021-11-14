@@ -1,6 +1,6 @@
-﻿using Arbor.AspNetCore.Host.Hosting;
+﻿using Arbor.AppModel.Hosting;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     public interface IServiceProviderModule
     {

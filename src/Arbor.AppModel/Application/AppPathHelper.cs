@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Arbor.App.Extensions.IO;
-using Arbor.App.Extensions.Logging;
+using Arbor.AppModel.IO;
+using Arbor.AppModel.Logging;
 
-namespace Arbor.AspNetCore.Host.Application
+namespace Arbor.AppModel.Application
 {
     public static class AppPathHelper
     {

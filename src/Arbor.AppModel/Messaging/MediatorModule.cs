@@ -1,9 +1,9 @@
-﻿using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.DependencyInjection;
+﻿using Arbor.AppModel.Application;
+using Arbor.AppModel.DependencyInjection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Messaging
+namespace Arbor.AppModel.Messaging
 {
     [UsedImplicitly]
     public class MediatorModule : IModule

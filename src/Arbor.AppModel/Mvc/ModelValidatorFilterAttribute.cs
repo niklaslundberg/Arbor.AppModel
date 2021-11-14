@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Arbor.AspNetCore.Host.Mvc
+namespace Arbor.AppModel.Mvc
 {
     public class ModelValidatorFilterAttribute : ActionFilterAttribute
     {

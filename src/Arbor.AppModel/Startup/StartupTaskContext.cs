@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.ExtensionMethods;
 using Serilog;
 
-namespace Arbor.AspNetCore.Host.Startup
+namespace Arbor.AppModel.Startup
 {
     public class StartupTaskContext
     {

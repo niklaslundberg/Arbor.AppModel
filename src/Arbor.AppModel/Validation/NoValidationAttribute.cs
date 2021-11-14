@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arbor.AspNetCore.Host.Validation
+namespace Arbor.AppModel.Validation
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
     public sealed class NoValidationAttribute : Attribute

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Arbor.AspNetCore.Host.Startup;
+using Arbor.AppModel.Startup;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AspNetCore.Host.HealthChecks
+namespace Arbor.AppModel.HealthChecks
 {
     [UsedImplicitly]
     public class HealthBackgroundService : BackgroundService

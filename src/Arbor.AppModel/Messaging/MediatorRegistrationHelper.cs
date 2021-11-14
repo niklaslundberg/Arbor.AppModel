@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Arbor.App.Extensions.DependencyInjection;
-using Arbor.App.Extensions.ExtensionMethods;
-using JetBrains.Annotations;
+using Arbor.AppModel.DependencyInjection;
+using Arbor.AppModel.ExtensionMethods;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Messaging
+namespace Arbor.AppModel.Messaging
 {
     public static class MediatorRegistrationHelper
     {

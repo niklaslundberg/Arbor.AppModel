@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Serilog;
 using Serilog.Events;
 
-namespace Arbor.AspNetCore.Host.Logging
+namespace Arbor.AppModel.Logging
 {
     public class VerboseLoggingMiddleware
     {

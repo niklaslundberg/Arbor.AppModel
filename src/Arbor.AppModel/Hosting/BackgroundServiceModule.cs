@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.DependencyInjection;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.DependencyInjection;
+using Arbor.AppModel.ExtensionMethods;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     [UsedImplicitly]
     public class BackgroundServiceModule : IModule

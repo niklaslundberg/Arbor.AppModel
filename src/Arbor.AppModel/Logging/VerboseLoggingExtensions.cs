@@ -1,7 +1,7 @@
-﻿using Arbor.App.Extensions.Application;
+﻿using Arbor.AppModel.Application;
 using Microsoft.AspNetCore.Builder;
 
-namespace Arbor.AspNetCore.Host.Logging
+namespace Arbor.AppModel.Logging
 {
     public static class VerboseLoggingExtensions
     {

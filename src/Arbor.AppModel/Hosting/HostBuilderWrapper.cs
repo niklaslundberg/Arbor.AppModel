@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AspNetCore.Host.Hosting
+namespace Arbor.AppModel.Hosting
 {
     public sealed class HostBuilderWrapper : IHostBuilder
     {

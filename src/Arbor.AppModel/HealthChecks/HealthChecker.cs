@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
-using Arbor.App.Extensions.ExtensionMethods;
-using Arbor.App.Extensions.Time;
-using JetBrains.Annotations;
+using Arbor.AppModel.ExtensionMethods;
+using Arbor.AppModel.Time;
 using Serilog;
 
-namespace Arbor.AspNetCore.Host.HealthChecks
+namespace Arbor.AppModel.HealthChecks
 {
     public class HealthChecker
     {

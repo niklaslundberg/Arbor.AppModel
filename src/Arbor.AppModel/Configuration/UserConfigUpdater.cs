@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.ExtensionMethods;
 using Arbor.KVConfiguration.JsonConfiguration;
 using Arbor.KVConfiguration.Urns;
 using JetBrains.Annotations;
 
-namespace Arbor.AspNetCore.Host.Configuration
+namespace Arbor.AppModel.Configuration
 {
     [UsedImplicitly]
     public sealed class UserConfigUpdater : IDisposable

@@ -7,16 +7,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.Cli;
-using Arbor.App.Extensions.Configuration;
-using Arbor.App.Extensions.Logging;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.Cli;
+using Arbor.AppModel.Configuration;
+using Arbor.AppModel.Logging;
 using Arbor.KVConfiguration.Core.Extensions.BoolExtensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     public static class AppStarter<T> where T : class
     {

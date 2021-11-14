@@ -1,7 +1,7 @@
-﻿using Arbor.App.Extensions.DependencyInjection;
+﻿using Arbor.AppModel.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AspNetCore.Host.Configuration
+namespace Arbor.AppModel.Configuration
 {
     public class ConfigModule : IModule
     {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.ExtensionMethods;
 
-namespace Arbor.AspNetCore.Host
+namespace Arbor.AppModel
 {
     public static class WindowsServiceHelper
     {

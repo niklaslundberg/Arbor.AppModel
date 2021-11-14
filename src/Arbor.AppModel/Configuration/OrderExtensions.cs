@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using Arbor.App.Extensions.Configuration;
 
-namespace Arbor.AspNetCore.Host.Configuration
+namespace Arbor.AppModel.Configuration
 {
     public static class OrderExtensions
     {

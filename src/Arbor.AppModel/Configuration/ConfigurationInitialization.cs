@@ -5,16 +5,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Arbor.App.Extensions.Application;
-using Arbor.App.Extensions.Cli;
-using Arbor.App.Extensions.Configuration;
-using Arbor.App.Extensions.ExtensionMethods;
+using Arbor.AppModel.Application;
+using Arbor.AppModel.Cli;
+using Arbor.AppModel.ExtensionMethods;
 using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Core.Decorators;
 using Arbor.KVConfiguration.JsonConfiguration;
 using Arbor.KVConfiguration.UserConfiguration;
 
-namespace Arbor.AspNetCore.Host.Configuration
+namespace Arbor.AppModel.Configuration
 {
     public static class ConfigurationInitialization
     {
