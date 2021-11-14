@@ -24,13 +24,14 @@ namespace Arbor.AppModel.Scheduling
         private bool _isDisposing;
         private bool _isRunning;
 
-        public Scheduler(ICustomClock clock, ITimer timer, ILogger logger)
+        public Scheduler(ICustomClock clock, ITimer timer, ILogger logger, CancellationToken cancellationToken = default)
         {
             _clock = clock;
             _timer = timer;
             _logger = logger;
             _timer.Register(Schedule);
             _cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken.Register(_cancellationTokenSource.Cancel);
         }
 
         public void Dispose()
@@ -78,7 +79,7 @@ namespace Arbor.AppModel.Scheduling
 
         private Task OnTickInternal(DateTimeOffset currentTime)
         {
-            if (_isRunning)
+            if (_isRunning || _cancellationTokenSource.IsCancellationRequested)
             {
                 return Task.CompletedTask;
             }

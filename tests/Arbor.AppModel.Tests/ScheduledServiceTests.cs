@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Arbor.AppModel.Scheduling;
 using Arbor.AppModel.Time;
@@ -122,18 +123,30 @@ namespace Arbor.AppModel.Tests
             testService.Invokations.Should().Be(expected);
         }
 
-        [InlineData(1010, 100, 10)]
+        [InlineData(1020, 100, 10)]
         [Theory]
         public async Task ScheduleEverySecondWithRealTimer(int milliseconds, int interval, int expected)
         {
             var clock = new CustomSystemClock();
             var start = clock.UtcNow().AddMilliseconds(100);
             var schedule = new ScheduleEveryInterval(TimeSpan.FromMilliseconds(interval), start);
+            using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(milliseconds));
             using var timer = new SystemTimer();
-            using var scheduler = new Scheduler(clock, timer, Logger.None);
+            using var scheduler = new Scheduler(clock, timer, Logger.None, cancellationTokenSource.Token);
             var testService = new TestScheduledService(schedule, scheduler);
 
-            await Task.Delay(TimeSpan.FromMilliseconds(milliseconds));
+            if (!cancellationTokenSource.IsCancellationRequested)
+            {
+                try
+                {
+
+                    await Task.Delay(TimeSpan.FromMilliseconds(milliseconds), cancellationTokenSource.Token);
+                }
+                catch (Exception)
+                {
+                    //
+                }
+            }
 
             testService.Invokations.Should().Be(expected);
         }
