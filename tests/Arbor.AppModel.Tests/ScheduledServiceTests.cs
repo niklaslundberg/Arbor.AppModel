@@ -122,7 +122,7 @@ namespace Arbor.AppModel.Tests
             testService.Invokations.Should().Be(expected);
         }
 
-        [InlineData(1000, 100, 10)]
+        [InlineData(1010, 100, 10)]
         [Theory]
         public async Task ScheduleEverySecondWithRealTimer(int milliseconds, int interval, int expected)
         {
