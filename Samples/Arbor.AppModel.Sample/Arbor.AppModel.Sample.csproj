@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Arbor.KVConfiguration.Urns" Version="2.1.1-build.1636901836" />
-    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="2.1.1-build.1636901836" />
+    <PackageReference Include="Arbor.KVConfiguration.Schema" Version="2.2.0" />
     <PackageReference Include="Arbor.KVConfiguration.Core" Version="2.1.1-build.1636901836" />
     <PackageReference Include="Arbor.Primitives" Version="2.1.1-build.1636901836" />
   </ItemGroup>
