@@ -8,16 +8,15 @@ namespace Arbor.AppModel.Tests
 {
     public class TestScheduledService : ScheduledService
     {
-        public TestScheduledService([NotNull] ISchedule schedule, [NotNull] IScheduler scheduler) : base(schedule,
-            scheduler)
-        {
-        }
+        public TestScheduledService(ISchedule schedule, IScheduler scheduler) : base(schedule) => scheduler.Add(this, RunAsync);
 
-        public int Invokations { get; private set; }
+        public int Invokations { get; protected set; }
+        public int CompletedInvokations { get; protected set; }
 
-        protected override Task RunAsync(DateTimeOffset currentTime, CancellationToken stoppingToken)
+        public override Task RunAsync(DateTimeOffset currentTime, CancellationToken stoppingToken)
         {
             ++Invokations;
+            ++CompletedInvokations;
 
             return Task.CompletedTask;
         }

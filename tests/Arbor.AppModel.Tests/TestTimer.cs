@@ -1,26 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Arbor.AppModel.Scheduling;
 
 namespace Arbor.AppModel.Tests
 {
     public sealed class TestTimer : ITimer
     {
-        private readonly List<Action> _actions = new();
+        private readonly List<IScheduler> _actions = new();
 
-        public void Dispose()
+        public void Dispose() => _actions.Clear();
+
+        public void Register(IScheduler onTick) => _actions.Add(onTick);
+
+        public async Task Tick(CancellationToken cancellationToken = default)
         {
-            // ignore
-        }
-
-        public void Register(Action onTick) => _actions.Add(onTick);
-
-        public void Tick()
-        {
-            foreach (var action in _actions)
+            if (_actions.Count == 0)
             {
-                action();
+                return;
+            }
+
+            foreach (var action in _actions.ToArray())
+            {
+                try
+                {
+                    await action.Tick(cancellationToken);
+                }
+                catch (Exception)
+                {
+                    // ignore exception
+                }
             }
         }
+
+        public async Task Run(CancellationToken stoppingToken) {}
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Arbor.AppModel.Application;
 using Arbor.AppModel.ExtensionMethods;
 using Arbor.KVConfiguration.Core;
@@ -10,7 +12,7 @@ namespace Arbor.AppModel.Sample
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             Console.WriteLine(
                 $"Application name: {new InMemoryKeyValueConfiguration(new NameValueCollection()).GetApplicationName()}");
@@ -56,6 +58,13 @@ namespace Arbor.AppModel.Sample
 
                 Console.WriteLine(e);
             }
+
+            await AppStarter<SampleStartup>.StartAsync(args, new Dictionary<string, string>());
         }
+    }
+
+    public class SampleStartup
+    {
+
     }
 }

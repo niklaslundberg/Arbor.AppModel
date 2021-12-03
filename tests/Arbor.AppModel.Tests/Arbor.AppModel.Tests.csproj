@@ -22,4 +22,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Arbor.AppModel\Arbor.AppModel.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="*.ncrunchproject" />
+  </ItemGroup>
 </Project>

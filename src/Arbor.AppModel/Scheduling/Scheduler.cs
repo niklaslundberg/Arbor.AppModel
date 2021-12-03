@@ -2,72 +2,51 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Arbor.AppModel.ExtensionMethods;
 using Arbor.AppModel.Time;
 using Serilog;
 
 namespace Arbor.AppModel.Scheduling
 {
-    public sealed class Scheduler : IScheduler, IDisposable
+    public sealed class Scheduler : IScheduler, IAsyncDisposable
     {
-        private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly ICustomClock _clock;
-        private readonly ConcurrentDictionary<ISchedule, DateTimeOffset?> _lastRun = new();
+        private readonly ConcurrentDictionary<ScheduledService, DateTimeOffset?> _lastRun = new();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly ILogger _logger;
+        private readonly TimeSpan? _disposeTimeout;
 
-        private readonly ManualResetEventSlim _resetEvent = new(false);
-        private readonly ConcurrentDictionary<ISchedule, OnTickAsync> _schedules = new();
-        private readonly object _tickLock = new();
-        private readonly ITimer? _timer;
+        private readonly ConcurrentDictionary<ScheduledService, Task?> _schedules = new();
+        private readonly SemaphoreSlim _tickLock = new(1, 1);
         private bool _isDisposed;
         private bool _isDisposing;
         private bool _isRunning;
 
-        public Scheduler(ICustomClock clock, ITimer timer, ILogger logger, CancellationToken cancellationToken = default)
+        public Scheduler(ICustomClock clock, ILogger logger, TimeSpan? disposeTimeout = null)
         {
             _clock = clock;
-            _timer = timer;
             _logger = logger;
-            _timer.Register(Schedule);
-            _cancellationTokenSource = new CancellationTokenSource();
-            cancellationToken.Register(_cancellationTokenSource.Cancel);
+            _disposeTimeout = disposeTimeout;
         }
 
-        public void Dispose()
-        {
-            if (_isDisposed || _isDisposing)
-            {
-                return;
-            }
-
-            _isDisposing = true;
-
-            _timer?.Dispose();
-
-            _cancellationTokenSource.Cancel();
-
-            if (_isRunning)
-            {
-                _resetEvent.Wait();
-
-                _schedules.Clear();
-            }
-
-            _cancellationTokenSource.Dispose();
-            _isDisposed = true;
-        }
-
-        public bool Add(ISchedule schedule, OnTickAsync onTick)
+        public bool Add(ScheduledService schedule, OnTickAsync onTick)
         {
             CheckDisposed();
 
-            return _schedules.TryAdd(schedule, onTick);
+            return _schedules.TryAdd(schedule, default);
         }
 
-        public ImmutableArray<ISchedule> Schedules => _schedules.Keys.ToImmutableArray();
+        public ImmutableArray<ScheduledService> Schedules => _schedules.Keys.ToImmutableArray();
 
-        private void Schedule() => Task.Run(() => OnTickInternal(_clock.UtcNow()));
+        public Task Tick(CancellationToken stoppingToken)
+        {
+            stoppingToken.Register(() => _cancellationTokenSource.CancelAfter( _disposeTimeout ?? TimeSpan.FromMilliseconds(1000)));
+
+            return OnTickInternal(_clock.UtcNow(), stoppingToken);
+        }
 
         private void CheckDisposed()
         {
@@ -77,39 +56,57 @@ namespace Arbor.AppModel.Scheduling
             }
         }
 
-        private Task OnTickInternal(DateTimeOffset currentTime)
+        private async Task OnTickInternal(DateTimeOffset currentTime, CancellationToken cancellationToken)
         {
-            if (_isRunning || _cancellationTokenSource.IsCancellationRequested)
+            _logger.Verbose("On tick");
+            if (_isRunning)
             {
-                return Task.CompletedTask;
+                _logger.Verbose("Not running yet");
+                return;
             }
 
-            lock (_tickLock)
+            if (cancellationToken.IsCancellationRequested)
             {
+                _logger.Verbose("Cancellation is requested");
+                _isRunning = false;
+                return;
+            }
+
+            _logger.Verbose("Waiting for tick lock");
+
+            try
+            {
+                await _tickLock.WaitAsync(cancellationToken);
+
                 if (_isRunning)
                 {
-                    return Task.CompletedTask;
+                    _logger.Verbose("Still not running");
+                    return;
                 }
 
-                if (_cancellationTokenSource.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
+                    _logger.Verbose("Cancellation is requested now");
                     _isRunning = false;
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 _isRunning = true;
+                _logger.Verbose("Now it is running");
 
                 if (_schedules.IsEmpty)
                 {
+                    _logger.Verbose("Has no schedules");
                     _isRunning = false;
-                    return Task.CompletedTask;
+                    return;
                 }
 
-                var toRemove = new List<ISchedule>();
+                var toRemove = new List<ScheduledService>();
 
                 foreach (var pair in _schedules)
                 {
-                    var nextTime = pair.Key.Next(currentTime);
+                    _logger.Verbose("Current time {CurrentTime:HH:mm:ss.fff}", currentTime);
+                    var nextTime = pair.Key.Schedule.Next(currentTime);
 
                     if (nextTime is null)
                     {
@@ -117,26 +114,80 @@ namespace Arbor.AppModel.Scheduling
                         continue;
                     }
 
+                    _logger.Verbose("Next time is {NextTime:HH:mm:ss.fff}, current time {CurrentTime:HH:mm:ss.fff}", nextTime, currentTime);
+
                     _lastRun.TryGetValue(pair.Key, out var lastRun);
 
-                    if (lastRun.HasValue && lastRun.Value == nextTime)
+                    bool isCurrentRunning = lastRun.HasValue && lastRun.Value == nextTime;
+
+                    if (isCurrentRunning && pair.Key.SchedulingOptions.SchedulingBehavior == SchedulingBehavior.Skip)
                     {
                         continue;
                     }
 
-                    double diff = (currentTime - nextTime.Value).TotalMilliseconds;
+                    double maxDiff = pair.Key.SchedulingOptions.SchedulingDelta.Diff.TotalMilliseconds;
+                    double absoluteDiff = Math.Abs((currentTime - nextTime).Value.TotalMilliseconds);
+                    bool shouldRun = absoluteDiff >= 0 && absoluteDiff <= maxDiff;
 
-                    double absoluteDiff = Math.Abs(diff);
+                    if (!shouldRun)
+                    {
+                        _logger.Verbose("Current time {CurrentTime:HH:mm:ss.fff} is < next {NextTime:HH:mm:ss.fff}",
+                            currentTime,
+                            nextTime);
+                    }
 
-                    if (absoluteDiff < 50 && _lastRun.TryAdd(pair.Key, nextTime))
+                    if (_schedules.TryGetValue(pair.Key, out var task) && task is {IsCompleted: false } )
                     {
-                        _logger.Verbose("Running schedule {Schedule}", pair.Key);
-                        Task.Run(() => pair.Value(currentTime), _cancellationTokenSource.Token);
+                        if (pair.Key.SchedulingOptions.SchedulingBehavior == SchedulingBehavior.Skip)
+                        {
+                            _logger.Verbose("A scheduled service is already running and hos not completed");
+                           shouldRun = false;
+                        }
+
                     }
-                    else if (nextTime > lastRun)
+                    else if (task is {IsCompleted: true})
                     {
-                        _lastRun.TryRemove(pair.Key, out _);
+                        _schedules[pair.Key] = default;
                     }
+
+                    if (nextTime >= lastRun)
+                    {
+                        //shouldRun = false;
+                    }
+
+                    if (shouldRun)
+                    {
+                        Run(pair.Key, currentTime, nextTime);
+                    }
+                    else
+                    {
+                        _logger.Verbose("Skipping run");
+                    }
+
+                    /*else if (nextTime > lastRun && pair.Key)*/
+
+                    //double diff = (currentTime - nextTime.Value).TotalMilliseconds;
+
+                    //double absoluteDiff = Math.Abs(diff);
+
+                    //using (var cancellationTokenSource = pair.Key.AllowOverdue ? new CancellationTokenSource() : new CancellationTokenSource(TimeSpan.FromMilliseconds(absoluteDiff)))
+                    //{
+                    //    using var combined =
+                    //        CancellationTokenSource.CreateLinkedTokenSource(cancellationTokenSource.Token,
+                    //            cancellationToken);
+
+                    //    if (absoluteDiff < 50 &&
+                    //        _lastRun.TryAdd(pair.Key, nextTime) &&
+                    //        (!pair.Key.AllowOverdue ||
+                    //         pair.Value is null or { IsCompleted: false }))
+                    //    {
+                    //
+                    //    }
+                    //    else if (nextTime > lastRun && !pair.Key.AllowOverdue)
+                    //    {
+                    //        _lastRun.TryRemove(pair.Key, out _);
+                    //    }
+                    //}
                 }
 
                 foreach (var schedule in toRemove)
@@ -144,17 +195,53 @@ namespace Arbor.AppModel.Scheduling
                     _schedules.TryRemove(schedule, out _);
                 }
 
-                if (_cancellationTokenSource.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     _logger.Debug("Cancellation is requested, stopping schedules");
                     _isRunning = false;
-                    _resetEvent.Set();
                 }
 
                 _isRunning = false;
             }
+            finally
+            {
+                _tickLock.Release();
+            }
+        }
 
-            return Task.CompletedTask;
+        private void Run(ScheduledService scheduledService,
+            DateTimeOffset currentTime,
+            DateTimeOffset? nextTime)
+        {
+            _lastRun.TryRemove(scheduledService, out _);
+            _lastRun.TryAdd(scheduledService, nextTime);
+            _logger.Information("Running schedule {Schedule:HH:mm:ss.fff} at {CurrentTime:HH:mm:ss.fff}", scheduledService, currentTime);
+
+            var task = scheduledService.RunAsync(currentTime, _cancellationTokenSource.Token);
+            _schedules[scheduledService] = task;
+            _ = Task.Run(async () => await task, _cancellationTokenSource.Token);
+
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_isDisposed || _isDisposing)
+            {
+                return;
+            }
+
+            if (!_schedules.IsEmpty && _schedules.Values is {} tasks)
+            {
+                await Task.WhenAll(tasks.NotNull());
+            }
+
+            _isDisposing = true;
+
+            _schedules.Clear();
+
+            _cancellationTokenSource.Dispose();
+
+            _isDisposed = true;
         }
     }
 }

@@ -13,22 +13,37 @@ namespace Arbor.AppModel.Scheduling
     public class SchedulerBackgroundService : BackgroundService
     {
         private readonly ILogger _logger;
+        private readonly ITimer _timer;
         private readonly IScheduler _scheduler;
         private readonly ImmutableArray<ScheduledService> _services;
 
-        public SchedulerBackgroundService(IScheduler scheduler, IEnumerable<ScheduledService> services, ILogger logger)
+        public SchedulerBackgroundService(ITimer timer,
+            IScheduler scheduler,
+            IEnumerable<ScheduledService> services,
+            ILogger logger)
         {
+            _timer = timer;
+
             _scheduler = scheduler;
             _services = services.ToImmutableArray();
             _logger = logger;
+
+            foreach (var scheduledService in _services)
+            {
+                _scheduler.Add(scheduledService, scheduledService.RunAsync);
+            }
+
+            _timer.Register(scheduler);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             _logger.Information("Found {@Schedules} schedules", _services.Select(service => service.Name).ToArray());
             _logger.Information("Running scheduler {Scheduler}", _scheduler);
 
-            return Task.CompletedTask;
+            await _timer.Run(stoppingToken);
         }
     }
 }
