@@ -179,7 +179,7 @@ namespace Arbor.AppModel.Tests
             var start = clock.UtcNow().AddMilliseconds(100);
 
             var interval = TimeSpan.FromMilliseconds(1000);
-            int cancellationInMilliseconds = 3050;
+            int cancellationInMilliseconds = 3095;
 
             var schedule = new ScheduleEveryInterval(interval, start);
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(cancellationInMilliseconds));

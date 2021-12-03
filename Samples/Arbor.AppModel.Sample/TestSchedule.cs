@@ -24,12 +24,4 @@ namespace Arbor.AppModel.Sample
             _logger.Information("Running scheduled task at " + currentTime.ToString("O"));
         }
     }
-
-    public class ScheduleEvery : ISchedule
-    {
-        public DateTimeOffset? Next(DateTimeOffset currentTime)
-        {
-            return currentTime.AddSeconds(5);
-        }
-    }
 }

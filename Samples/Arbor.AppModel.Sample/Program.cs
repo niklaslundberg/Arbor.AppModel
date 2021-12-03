@@ -62,9 +62,4 @@ namespace Arbor.AppModel.Sample
             await AppStarter<SampleStartup>.StartAsync(args, new Dictionary<string, string>());
         }
     }
-
-    public class SampleStartup
-    {
-
-    }
 }
