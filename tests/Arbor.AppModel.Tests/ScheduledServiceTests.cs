@@ -176,7 +176,7 @@ namespace Arbor.AppModel.Tests
         public async Task ScheduleEverySecondWithRealTimer()
         {
             var clock = new CustomSystemClock();
-            var start = clock.UtcNow().AddMilliseconds(100);
+            var start = clock.UtcNow().AddMilliseconds(200);
 
             var interval = TimeSpan.FromMilliseconds(1000);
             int cancellationInMilliseconds = 3095;
@@ -184,7 +184,7 @@ namespace Arbor.AppModel.Tests
             var schedule = new ScheduleEveryInterval(interval, start);
             using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(cancellationInMilliseconds));
             using var timer = new SystemTimer(new TimerOptions(TimeSpan.FromMilliseconds(100)), _logger);
-            await using var scheduler = new Scheduler(clock, _logger);
+            await using var scheduler = new Scheduler(clock, _logger, disposeTimeout: TimeSpan.FromMilliseconds(200));
             var testService = new TestScheduledService(schedule, scheduler);
 
             timer.Register(scheduler);
@@ -203,6 +203,7 @@ namespace Arbor.AppModel.Tests
             }
 
             testService.Invokations.Should().Be(3);
+            testService.CompletedInvokations.Should().Be(3);
         }
 
         [Fact]
