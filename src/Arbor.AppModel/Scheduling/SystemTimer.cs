@@ -2,115 +2,121 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Arbor.AppModel.ExtensionMethods;
 using Serilog;
 using Serilog.Core;
 
-namespace Arbor.AppModel.Scheduling
+namespace Arbor.AppModel.Scheduling;
+
+public sealed class SystemTimer : ITimer
 {
-    public sealed class SystemTimer : ITimer
+    private readonly CancellationTokenSource _cancellationTokenSource;
+    private readonly ILogger _logger;
+    private readonly List<IScheduler> _schedulers = new();
+    private readonly TimerOptions _timerOptions;
+
+    private bool _disposed;
+    private bool _isDisposing;
+    private bool _isRunning;
+
+    private PeriodicTimer? _timer;
+
+    public SystemTimer(TimerOptions? timerOptions = default, ILogger? logger = default)
     {
-        private readonly TimerOptions _timerOptions;
-        private readonly ILogger _logger;
-        private readonly List<IScheduler> _schedulers = new();
+        _timerOptions = timerOptions ?? new TimerOptions(TimeSpan.FromMilliseconds(10));
+        _cancellationTokenSource = new CancellationTokenSource();
+        _logger = logger ?? Logger.None;
+    }
 
-        private PeriodicTimer? _timer;
+    public void Register(IScheduler scheduler)
+    {
+        CheckDisposed();
 
-        private bool _disposed;
-        private readonly CancellationTokenSource _cancellationTokenSource;
-        private bool _isRunning;
+        _schedulers.Add(scheduler);
+    }
 
-        public SystemTimer(TimerOptions? timerOptions = default, ILogger? logger = default)
+    public void Dispose()
+    {
+        if (_disposed || _isDisposing)
         {
-            _timerOptions = timerOptions ?? new TimerOptions(TimeSpan.FromMilliseconds(10));
-            _cancellationTokenSource = new CancellationTokenSource();
-            _logger = logger ?? Logger.None;
+            return;
         }
 
-        public void Register(IScheduler scheduler)
-        {
-            CheckDisposed();
+        _isDisposing = true;
 
-            _schedulers.Add(scheduler);
+
+        _schedulers.Clear();
+        _cancellationTokenSource.Cancel();
+        _timer.SafeDispose();
+        _timer = null;
+        _cancellationTokenSource.SafeDispose();
+        _disposed = true;
+        _isDisposing = false;
+    }
+
+
+    public async Task Run(CancellationToken stoppingToken)
+    {
+        if (_isRunning)
+        {
+            return;
         }
 
-        public void Dispose()
+        using var combinedToken =
+            CancellationTokenSource.CreateLinkedTokenSource(stoppingToken, _cancellationTokenSource.Token);
+
+        _timer = new PeriodicTimer(_timerOptions.Period);
+        _isRunning = true;
+
+        _logger.Verbose("Starting timer");
+
+        try
         {
-            if (_disposed)
+            while (!combinedToken.IsCancellationRequested && !_disposed && !_isDisposing && _timer is { }
+                   && await _timer.WaitForNextTickAsync(combinedToken.Token))
             {
-                return;
-            }
+                CheckDisposed();
 
-            _schedulers.Clear();
-            _cancellationTokenSource.Cancel();
-            _timer?.Dispose();
-            _timer = null;
-            _disposed = true;
-        }
-
-        private void CheckDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-
-            if (_cancellationTokenSource.IsCancellationRequested)
-            {
-                throw new TaskCanceledException("Timer cancelled");
-            }
-        }
-
-
-        public async Task Run(CancellationToken stoppingToken)
-        {
-            stoppingToken.Register(() => _cancellationTokenSource.Cancel());
-
-            if (_isRunning)
-            {
-                return;
-            }
-
-            _timer = new PeriodicTimer(_timerOptions.Period);
-            _isRunning = true;
-
-            _logger.Verbose("Starting timer");
-
-            try
-            {
-                while (_timer is {}
-                       && await _timer.WaitForNextTickAsync(_cancellationTokenSource.Token)
-                       && !_cancellationTokenSource.IsCancellationRequested)
+                if (_schedulers.Count == 0)
                 {
-                    CheckDisposed();
+                    return;
+                }
 
-                    if (_schedulers.Count == 0)
+                foreach (var scheduler in _schedulers)
+                {
+                    try
                     {
-                        return;
+                        _logger.Verbose("Invoking scheduler {Scheduler}", scheduler);
+                        await scheduler.Tick(combinedToken.Token);
+                        _logger.Verbose("Invoked scheduler {Scheduler}", scheduler);
                     }
-
-                    foreach (var scheduler in _schedulers)
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            _logger.Verbose("Invoking scheduler {Scheduler}", scheduler);
-                            await scheduler.Tick(_cancellationTokenSource.Token);
-                            _logger.Verbose("Invoked scheduler {Scheduler}", scheduler);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.Error(ex, "Timer invokation failed");
-                        }
+                        _logger.Error(ex, "Timer invocation failed");
                     }
                 }
             }
-            catch (OperationCanceledException)
-            {
-                _logger.Verbose("Timer stopped with operation canceled");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Timer failed");
-            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.Verbose("Timer stopped with operation canceled");
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Timer failed");
+        }
+    }
+
+    private void CheckDisposed()
+    {
+        if (_disposed || _isDisposing)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
+
+        if (_cancellationTokenSource.IsCancellationRequested)
+        {
+            throw new TaskCanceledException("Timer cancelled");
         }
     }
 }
