@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
@@ -43,7 +44,14 @@ namespace Arbor.AppModel.Scheduling
             _logger.Information("Found {@Schedules} schedules", _services.Select(service => service.Name).ToArray());
             _logger.Information("Running scheduler {Scheduler}", _scheduler);
 
-            await _timer.Run(stoppingToken);
+            var task = _timer.Run(stoppingToken);
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1));
+            }
+
+            await task;
         }
     }
 }
