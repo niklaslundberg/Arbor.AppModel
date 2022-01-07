@@ -41,11 +41,12 @@ namespace Arbor.AppModel.Scheduling
 
         public ImmutableArray<ScheduledService> Schedules => _schedules.Keys.ToImmutableArray();
 
-        public Task Tick(CancellationToken stoppingToken)
+        public async Task Tick(CancellationToken stoppingToken)
         {
-            stoppingToken.Register(() => _cancellationTokenSource.CancelAfter( _disposeTimeout ?? TimeSpan.FromMilliseconds(1000)));
+            using var combinedToken =
+                CancellationTokenSource.CreateLinkedTokenSource(_cancellationTokenSource.Token, stoppingToken);
 
-            return OnTickInternal(_clock.UtcNow(), stoppingToken);
+            await OnTickInternal(_clock.UtcNow(), combinedToken.Token);
         }
 
         private void CheckDisposed()

@@ -20,7 +20,7 @@ public class DelayBackgroundService : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(10));
 
             _logger.Information("Delayed from background service");
         }

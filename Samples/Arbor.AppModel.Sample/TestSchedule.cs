@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Arbor.AppModel.Scheduling;
+using Cronos;
 using JetBrains.Annotations;
 using Serilog;
 
@@ -14,7 +15,7 @@ namespace Arbor.AppModel.Sample
     {
         private readonly ILogger _logger;
 
-        public TestSchedule(ILogger logger) : base(new ScheduleEvery())
+        public TestSchedule(ILogger logger) : base(new CronSchedule(CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds)))
         {
             _logger = logger;
         }

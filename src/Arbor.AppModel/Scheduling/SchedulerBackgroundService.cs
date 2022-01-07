@@ -44,7 +44,7 @@ namespace Arbor.AppModel.Scheduling
             _logger.Information("Found {@Schedules} schedules", _services.Select(service => service.Name).ToArray());
             _logger.Information("Running scheduler {Scheduler}", _scheduler);
 
-            var task = _timer.Run(stoppingToken);
+            var task = Task.Run(() => _timer.Run(stoppingToken));
 
             while (!stoppingToken.IsCancellationRequested)
             {

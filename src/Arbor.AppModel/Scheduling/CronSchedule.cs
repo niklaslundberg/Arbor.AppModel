@@ -7,6 +7,8 @@ namespace Arbor.AppModel.Scheduling
     {
         private readonly CronExpression _cronExpression;
 
+        private DateTimeOffset? _next;
+
         public CronSchedule(CronExpression cronExpression) => _cronExpression = cronExpression;
 
         public DateTimeOffset? Next(DateTimeOffset currentTime)
@@ -18,7 +20,12 @@ namespace Arbor.AppModel.Scheduling
                 adjusted = currentTime.UtcDateTime.AddMilliseconds(-1);
             }
 
-            return _cronExpression.GetNextOccurrence(adjusted.UtcDateTime);
+            if (currentTime > _next || _next is null)
+            {
+               _next = _cronExpression.GetNextOccurrence(adjusted.UtcDateTime);
+            }
+
+            return _next;
         }
     }
 }

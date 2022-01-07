@@ -5,8 +5,23 @@ namespace Arbor.AppModel.Sample;
 
 public class ScheduleEvery : ISchedule
 {
+    private DateTimeOffset _next;
+    public ScheduleEvery()
+    {
+
+    }
+
     public DateTimeOffset? Next(DateTimeOffset currentTime)
     {
-        return currentTime.AddSeconds(5);
+        if (_next == DateTimeOffset.MinValue)
+        {
+            _next = currentTime.AddSeconds(2);
+        }
+        else if (currentTime > _next)
+        {
+            _next = _next.AddSeconds(5);
+        }
+
+        return _next;
     }
 }

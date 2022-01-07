@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Arbor.AppModel.Application;
 using Arbor.AppModel.DependencyInjection;
 using Arbor.AppModel.ExtensionMethods;
@@ -17,6 +18,7 @@ namespace Arbor.AppModel.Scheduling
         {
             builder.AddSingleton<ITimer, SystemTimer>();
             builder.AddSingleton<IScheduler, Scheduler>();
+            builder.AddSingleton<TimerOptions>(new TimerOptions(TimeSpan.FromMilliseconds(50)));
 
             var assemblies = _applicationAssemblyResolver.GetAssemblies();
 
