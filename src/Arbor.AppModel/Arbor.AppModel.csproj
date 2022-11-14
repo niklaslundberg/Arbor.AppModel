@@ -39,7 +39,7 @@
     <PackageReference Include="Arbor.KVConfiguration.Core" Version="2.2.0" />
     <PackageReference Include="Arbor.KVConfiguration.JsonConfiguration" Version="2.2.0" />
     <PackageReference Include="Arbor.KVConfiguration.Microsoft.Extensions.Configuration.Urns" Version="2.2.0" />
-    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="2.2.0" />
+    <PackageReference Include="Arbor.KVConfiguration.Urns" Version="2.4.0" />
     <PackageReference Include="Arbor.KVConfiguration.UserConfiguration" Version="2.2.0" />
     <PackageReference Include="Arbor.ModelBinding" Version="*" />
     <PackageReference Include="Arbor.ModelBinding.NewtonsoftJson" Version="2.2.0" />
