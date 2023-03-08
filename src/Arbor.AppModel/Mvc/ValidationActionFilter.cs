@@ -36,7 +36,7 @@ namespace Arbor.AppModel.Mvc
                 context.Result = new BadRequestObjectResult(context.ModelState);
             }
 
-            return Task.CompletedTask;
+            return next();
         }
     }
 }

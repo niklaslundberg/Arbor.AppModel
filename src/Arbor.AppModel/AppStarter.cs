@@ -147,7 +147,7 @@ namespace Arbor.AppModel
 
                 var logger = loggerConfiguration.MinimumLevel.Verbose().CreateLogger();
 
-                using (logger)
+                await using (logger)
                 {
                     logger.Fatal(ex, "Could not start application");
                     TempLogger.FlushWith(logger);
