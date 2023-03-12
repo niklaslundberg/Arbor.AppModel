@@ -128,7 +128,7 @@ namespace Arbor.AppModel.Tests
 
             cancellationTokenSource.Cancel();
 
-            using var logger = _outputHelper.CreateTestLogger();
+            await using var logger = _outputHelper.CreateTestLogger();
 
             TempLogger.FlushWith(logger);
 
