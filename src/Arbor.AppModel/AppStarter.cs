@@ -105,7 +105,7 @@ namespace Arbor.AppModel
                     {
                         app.Logger.Debug("Started {App}, waiting for web host shutdown", app.AppInstance);
 
-                        await app.Host.WaitForShutdownAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+                        await app.Host!.WaitForShutdownAsync(cancellationTokenSource.Token).ConfigureAwait(false);
                     }
 
                     app.Logger.Information("Stopping application {Application}", app.AppInstance);
@@ -147,7 +147,7 @@ namespace Arbor.AppModel
 
                 var logger = loggerConfiguration.MinimumLevel.Verbose().CreateLogger();
 
-                using (logger)
+                await using (logger)
                 {
                     logger.Fatal(ex, "Could not start application");
                     TempLogger.FlushWith(logger);

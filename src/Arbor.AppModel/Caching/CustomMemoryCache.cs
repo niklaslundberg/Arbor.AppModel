@@ -32,7 +32,7 @@ namespace Arbor.AppModel.Caching
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(key));
             }
 
-            if (_memoryCache.TryGetValue(key, out object cachedItem) && cachedItem is T cachedItemOfT)
+            if (_memoryCache.TryGetValue(key, out object? cachedItem) && cachedItem is T cachedItemOfT)
             {
                 item = cachedItemOfT;
                 return true;

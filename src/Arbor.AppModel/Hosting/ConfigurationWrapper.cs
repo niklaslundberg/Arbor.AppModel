@@ -19,7 +19,7 @@ namespace Arbor.AppModel.Hosting
 
         public IEnumerable<IConfigurationProvider> Providers => _hostingContextConfiguration.Providers;
 
-        public string this[string key]
+        public string? this[string key]
         {
             get => _hostingContextConfiguration[key];
             set => _hostingContextConfiguration[key] = value;

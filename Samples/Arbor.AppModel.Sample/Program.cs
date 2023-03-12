@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Arbor.AppModel.Application;
 using Arbor.AppModel.Configuration;
 using Arbor.AppModel.ExtensionMethods;
+using Arbor.AppModel.Logging;
 using Arbor.KVConfiguration.Core;
 using Arbor.KVConfiguration.Urns;
 using Serilog.Events;
@@ -63,7 +64,8 @@ namespace Arbor.AppModel.Sample
 
             await AppStarter<SampleStartup>.StartAsync(args, new Dictionary<string, string>()
             {
-                [ConfigurationConstants.LogLevel] = LogEventLevel.Debug.ToString()
+                [ConfigurationConstants.LogLevel] = LogEventLevel.Debug.ToString(),
+                [LoggingConstants.MicrosoftLevel] = LogEventLevel.Debug.ToString()
             });
         }
     }
