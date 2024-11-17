@@ -1,19 +1,13 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel.Hosting
+namespace Arbor.AppModel.Hosting;
+
+public class ServiceProviderHolder(
+    IServiceProvider serviceProvider,
+    IServiceCollection serviceCollection)
 {
-    public class ServiceProviderHolder
-    {
-        public ServiceProviderHolder(IServiceProvider serviceProvider,
-            IServiceCollection serviceCollection)
-        {
-            ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            ServiceCollection = serviceCollection ?? throw new ArgumentNullException(nameof(serviceCollection));
-        }
+    public IServiceProvider ServiceProvider { get; } = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
-        public IServiceProvider ServiceProvider { get; }
-
-        public IServiceCollection ServiceCollection { get; }
-    }
+    public IServiceCollection ServiceCollection { get; } = serviceCollection ?? throw new ArgumentNullException(nameof(serviceCollection));
 }

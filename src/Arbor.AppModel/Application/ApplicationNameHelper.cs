@@ -7,12 +7,9 @@ namespace Arbor.AppModel.Application
 {
     public static class ApplicationNameHelper
     {
-        public static string? GetApplicationName([NotNull] this IKeyValueConfiguration keyValueConfiguration)
+        public static string? GetApplicationName(this IKeyValueConfiguration keyValueConfiguration)
         {
-            if (keyValueConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(keyValueConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(keyValueConfiguration);
 
             string name = keyValueConfiguration[ApplicationConstants.ApplicationNameKey];
 

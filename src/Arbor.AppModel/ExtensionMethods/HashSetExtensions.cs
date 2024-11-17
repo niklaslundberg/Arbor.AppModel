@@ -6,17 +6,11 @@ namespace Arbor.AppModel.ExtensionMethods
 {
     public static class HashSetExtensions
     {
-        public static void AddRange<T>([NotNull] this HashSet<T> hashSet, [NotNull] IEnumerable<T> items)
+        public static void AddRange<T>(this HashSet<T> hashSet, IEnumerable<T> items)
         {
-            if (hashSet == null)
-            {
-                throw new ArgumentNullException(nameof(hashSet));
-            }
+            ArgumentNullException.ThrowIfNull(hashSet);
 
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
+            ArgumentNullException.ThrowIfNull(items);
 
             foreach (var item in items)
             {

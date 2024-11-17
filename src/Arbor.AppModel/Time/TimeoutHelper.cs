@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Threading;
 
-namespace Arbor.AppModel.Time
+namespace Arbor.AppModel.Time;
+
+public class TimeoutHelper(TimeoutConfiguration? timeoutConfiguration = null)
 {
-    public class TimeoutHelper
+    public CancellationTokenSource CreateCancellationTokenSource(TimeSpan? timeSpan = default)
     {
-        private readonly TimeoutConfiguration? _timeoutConfiguration;
-
-        public TimeoutHelper(TimeoutConfiguration? timeoutConfiguration = null) =>
-            _timeoutConfiguration = timeoutConfiguration;
-
-        public CancellationTokenSource CreateCancellationTokenSource(TimeSpan? timeSpan = default)
+        if (timeoutConfiguration?.CancellationEnabled == false)
         {
-            if (_timeoutConfiguration?.CancellationEnabled == false)
-            {
-                return new CancellationTokenSource();
-            }
-
-            if (timeSpan is null)
-            {
-                return new CancellationTokenSource();
-            }
-
-            return new CancellationTokenSource(timeSpan.Value);
+            return new CancellationTokenSource();
         }
+
+        if (timeSpan is null)
+        {
+            return new CancellationTokenSource();
+        }
+
+        return new CancellationTokenSource(timeSpan.Value);
     }
 }

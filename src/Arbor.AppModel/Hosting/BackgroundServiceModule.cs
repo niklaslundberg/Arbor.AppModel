@@ -6,35 +6,29 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AppModel.Hosting
+namespace Arbor.AppModel.Hosting;
+
+[UsedImplicitly]
+public class BackgroundServiceModule(IApplicationAssemblyResolver applicationAssemblyResolver) : IModule
 {
-    [UsedImplicitly]
-    public class BackgroundServiceModule : IModule
+    public IServiceCollection Register(IServiceCollection builder)
     {
-        private readonly IApplicationAssemblyResolver _applicationAssemblyResolver;
+        var types = applicationAssemblyResolver.GetAssemblies()
+            .GetLoadablePublicConcreteTypesImplementing<IHostedService>();
 
-        public BackgroundServiceModule(IApplicationAssemblyResolver applicationAssemblyResolver) =>
-            _applicationAssemblyResolver = applicationAssemblyResolver;
-
-        public IServiceCollection Register(IServiceCollection builder)
+        foreach (var type in types)
         {
-            var types = _applicationAssemblyResolver.GetAssemblies()
-                                                    .GetLoadablePublicConcreteTypesImplementing<IHostedService>();
+            builder.AddSingleton<IHostedService>(context => context.GetRequiredService(type), this);
 
-            foreach (var type in types)
-            {
-                builder.AddSingleton<IHostedService>(context => context.GetRequiredService(type), this);
-
-                if (builder.Any(serviceDescriptor =>
+            if (builder.Any(serviceDescriptor =>
                     serviceDescriptor.ImplementationType == type && serviceDescriptor.ServiceType == type))
-                {
-                    continue;
-                }
-
-                builder.AddSingleton(type, this);
+            {
+                continue;
             }
 
-            return builder;
+            builder.AddSingleton(type, this);
         }
+
+        return builder;
     }
 }

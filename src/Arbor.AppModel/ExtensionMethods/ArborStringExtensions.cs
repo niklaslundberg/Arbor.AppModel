@@ -15,10 +15,12 @@ namespace Arbor.AppModel.ExtensionMethods
 
         public static ImmutableArray<string> DefaultAnonymousKeyWords => LazyDefaultAnonymousKeyWords.Value;
 
-        private static ImmutableArray<string> Initialize() => new[]
-        {
-            "password", "username", "user id", "connection-string", "user", "connectionString", "secret", "token"
-        }.ToImmutableArray();
+        private static ImmutableArray<string> Initialize() => [
+            ..new[]
+            {
+                "password", "username", "user id", "connection-string", "user", "connectionString", "secret", "token"
+            }
+        ];
 
         public static string MakeAnonymous(this string? value, string key, params string[]? keyWords)
         {

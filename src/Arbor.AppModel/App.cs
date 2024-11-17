@@ -255,7 +255,7 @@ namespace Arbor.AppModel
                 {
                     ApplicationBasePath = paths.BasePath,
                     ContentBasePath = paths.ContentBasePath,
-                    CommandLineArgs = commandLineArgs.ToImmutableArray(),
+                    CommandLineArgs = [..commandLineArgs],
                     EnvironmentName = environmentVariables.ValueOrDefault(ApplicationConstants.AspNetEnvironment) ??
                                       "Production"
                 };
@@ -432,8 +432,10 @@ namespace Arbor.AppModel
                                             .Where(type => type.IsPublicConcreteTypeImplementing<IModule>())
                                             .ToImmutableArray();
 
-            ImmutableArray<IModule> modules = moduleTypes.Select(moduleType => holder.Create(moduleType) as IModule)
-                                                         .Where(instance => instance is { }).ToImmutableArray()!;
+            ImmutableArray<IModule> modules = [
+                ..moduleTypes.Select(moduleType => holder.Create(moduleType) as IModule)
+                    .Where(instance => instance is { })
+            ]!;
 
             return modules;
         }
@@ -454,10 +456,7 @@ namespace Arbor.AppModel
             IReadOnlyCollection<Assembly> scanAssemblies,
             params object[] instances)
         {
-            if (args is null)
-            {
-                throw new ArgumentNullException(nameof(args));
-            }
+            ArgumentNullException.ThrowIfNull(args);
 
             return CreateInternalAsync(cancellationTokenSource, args, environmentVariables, scanAssemblies, instances);
         }
@@ -503,10 +502,7 @@ namespace Arbor.AppModel
 
         public Task<int> RunAsync(params string[] args)
         {
-            if (args is null)
-            {
-                throw new ArgumentNullException(nameof(args));
-            }
+            ArgumentNullException.ThrowIfNull(args);
 
             return InternalRunAsync(args);
         }

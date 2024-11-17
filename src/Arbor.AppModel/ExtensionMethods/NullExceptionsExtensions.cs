@@ -5,7 +5,6 @@ namespace Arbor.AppModel.ExtensionMethods
 {
     public static class NullExceptionsExtensions
     {
-        [NotNull]
         public static T ThrowIfNull<T>([CanBeNull] this T item) where T : class
         {
             if (item is null)
@@ -16,7 +15,6 @@ namespace Arbor.AppModel.ExtensionMethods
             return item;
         }
 
-        [NotNull]
         public static string ThrowIfNullOrEmpty([CanBeNull] this string item)
         {
             if (string.IsNullOrWhiteSpace(item))

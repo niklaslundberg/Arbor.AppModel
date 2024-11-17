@@ -24,12 +24,9 @@ namespace Arbor.AppModel.ExtensionMethods
         }
 
         public static ImmutableArray<Type> FindPublicConcreteTypesImplementing<T>(
-            [NotNull] this IReadOnlyCollection<Assembly> assemblies)
+            this IReadOnlyCollection<Assembly> assemblies)
         {
-            if (assemblies == null)
-            {
-                throw new ArgumentNullException(nameof(assemblies));
-            }
+            ArgumentNullException.ThrowIfNull(assemblies);
 
             var types = assemblies
                        .Select(assembly => assembly.GetLoadableTypes().Where(IsPublicConcreteTypeImplementing<T>))
@@ -38,12 +35,9 @@ namespace Arbor.AppModel.ExtensionMethods
             return types;
         }
 
-        public static bool TakesTypeInPublicCtor<T>([NotNull] this Type type)
+        public static bool TakesTypeInPublicCtor<T>(this Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            ArgumentNullException.ThrowIfNull(type);
 
             var constructorInfos = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 
@@ -62,12 +56,9 @@ namespace Arbor.AppModel.ExtensionMethods
             return parameterInfos[0].ParameterType == typeof(T);
         }
 
-        public static bool IsPublicConcreteTypeImplementing<T>([NotNull] this Type type)
+        public static bool IsPublicConcreteTypeImplementing<T>(this Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            ArgumentNullException.ThrowIfNull(type);
 
             bool isCorrectType = IsConcreteTypeImplementing<T>(type);
 
@@ -81,10 +72,7 @@ namespace Arbor.AppModel.ExtensionMethods
 
         public static bool IsConcreteTypeImplementing<T>(this Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            ArgumentNullException.ThrowIfNull(type);
 
             if (type.IsAbstract)
             {
@@ -140,30 +128,29 @@ namespace Arbor.AppModel.ExtensionMethods
 
             try
             {
-                return assembly.GetTypes().ToImmutableArray();
+                return [..assembly.GetTypes()];
             }
             catch (ReflectionTypeLoadException ex)
             {
-                return ex.Types.NotNull().ToImmutableArray();
+                return [..ex.Types.NotNull()];
             }
         }
 
         public static ImmutableArray<Type> GetLoadablePublicConcreteTypeImplementing<T>(this Assembly assembly) =>
-            assembly.GetLoadableTypes().Where(t => t.IsPublicConcreteTypeImplementing<T>()).ToImmutableArray();
+            [..assembly.GetLoadableTypes().Where(t => t.IsPublicConcreteTypeImplementing<T>())];
 
         public static ImmutableArray<Type>
-            GetLoadablePublicConcreteTypesImplementing<T>(this IEnumerable<Assembly> assemblies) => assemblies
-           .SelectMany(assembly => assembly.GetLoadablePublicConcreteTypeImplementing<T>()).ToImmutableArray();
+            GetLoadablePublicConcreteTypesImplementing<T>(this IEnumerable<Assembly> assemblies) => [
+            ..assemblies
+                .SelectMany(assembly => assembly.GetLoadablePublicConcreteTypeImplementing<T>())
+        ];
 
         public static bool HasAttribute<T>(this Type type) where T : Attribute => type.GetCustomAttribute<T>() != null;
 
         // Originally taken from https://github.com/JasperFx/baseline/
-        public static bool Closes(this Type? type, [NotNull] Type openType)
+        public static bool Closes(this Type? type, Type openType)
         {
-            if (openType == null)
-            {
-                throw new ArgumentNullException(nameof(openType));
-            }
+            ArgumentNullException.ThrowIfNull(openType);
 
             if (type is null)
             {

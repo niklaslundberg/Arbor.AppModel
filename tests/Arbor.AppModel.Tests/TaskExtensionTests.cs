@@ -6,39 +6,36 @@ using Arbor.AppModel.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class TaskExtensionTests
 {
-    public class TaskExtensionTests
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private readonly List<int> _order = [];
+
+    [Fact]
+    public async Task AwaitToken()
     {
-        private readonly CancellationTokenSource _cancellationTokenSource;
-        private readonly List<int> _order = new();
+        _order.Add(0);
+        _ = Task.Run(Wait);
+        _order.Add(1);
 
-        public TaskExtensionTests() => _cancellationTokenSource = new CancellationTokenSource();
+        await _cancellationTokenSource.Token;
+        _order.Add(3);
 
-        [Fact]
-        public async Task AwaitToken()
-        {
-            _order.Add(0);
-            _ = Task.Run(Wait);
-            _order.Add(1);
+        await _cancellationTokenSource.Token;
+        _order.Add(4);
 
-            await _cancellationTokenSource.Token;
-            _order.Add(3);
+        _order.Should().BeInAscendingOrder();
 
-            await _cancellationTokenSource.Token;
-            _order.Add(4);
+        _cancellationTokenSource.Token.IsCancellationRequested.Should().BeTrue();
+    }
 
-            _order.Should().BeInAscendingOrder();
+    private async Task Wait()
+    {
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
+        _order.Add(2);
 
-            _cancellationTokenSource.Token.IsCancellationRequested.Should().BeTrue();
-        }
-
-        private async Task Wait()
-        {
-            await Task.Delay(TimeSpan.FromMilliseconds(1));
-            _order.Add(2);
-
-            _cancellationTokenSource.Cancel();
-        }
+        _cancellationTokenSource.Cancel();
     }
 }

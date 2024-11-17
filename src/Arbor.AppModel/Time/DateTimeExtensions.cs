@@ -6,19 +6,16 @@ namespace Arbor.AppModel.Time
 {
     public static class DateTimeExtensions
     {
-        public static RelativeInterval IntervalAgo(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)
+        public static RelativeInterval IntervalAgo(this DateTime? dateTimeUtc, TimeProvider customClock)
         {
-            if (customClock == null)
-            {
-                throw new ArgumentNullException(nameof(customClock));
-            }
+            ArgumentNullException.ThrowIfNull(customClock);
 
             if (!dateTimeUtc.HasValue)
             {
                 return RelativeInterval.Invalid;
             }
 
-            var diff = customClock.LocalNow() - customClock.ToLocalTime(dateTimeUtc.Value);
+            var diff = customClock.GetLocalNow() - dateTimeUtc.Value;
 
             if (diff.TotalSeconds < 0)
             {
@@ -28,50 +25,37 @@ namespace Arbor.AppModel.Time
             return RelativeInterval.Parse(diff);
         }
 
-        public static string RelativeUtcToLocalTime(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)
+        public static string RelativeUtcToLocalTime(this DateTime? dateTimeUtc, TimeProvider customClock)
         {
-            if (customClock == null)
-            {
-                throw new ArgumentNullException(nameof(customClock));
-            }
+            ArgumentNullException.ThrowIfNull(customClock);
 
             if (!dateTimeUtc.HasValue)
             {
                 return Constants.NotAvailable;
             }
 
-            var localThen = customClock.ToLocalTime(dateTimeUtc.Value);
+            var localThen = TimeZoneInfo.ConvertTime(dateTimeUtc.Value, customClock.LocalTimeZone);
 
-            var localNow = customClock.LocalNow();
+            var localNow = customClock.GetLocalNow().LocalDateTime;
 
             return localNow.Since(localThen);
         }
 
-        public static string ToLocalTimeFormatted(this DateTime? dateTimeUtc, [NotNull] ICustomClock customClock)
+        public static string ToLocalTimeFormatted(this DateTime? dateTimeUtc, TimeProvider customClock)
         {
-            if (customClock == null)
-            {
-                throw new ArgumentNullException(nameof(customClock));
-            }
+            ArgumentNullException.ThrowIfNull(customClock);
 
-            if (!dateTimeUtc.HasValue)
-            {
-                return "";
-            }
-
-            return ToLocalTimeFormatted(dateTimeUtc.Value, customClock);
+            return !dateTimeUtc.HasValue
+                ? ""
+                : ToLocalTimeFormatted(dateTimeUtc.Value, customClock);
         }
 
-        public static string ToLocalTimeFormatted(this DateTime dateTimeUtc, [NotNull] ICustomClock customClock)
+        public static string ToLocalTimeFormatted(this DateTime dateTimeUtc, TimeProvider customClock)
         {
-            if (customClock == null)
-            {
-                throw new ArgumentNullException(nameof(customClock));
-            }
+            ArgumentNullException.ThrowIfNull(customClock);
 
-            var utcTime = new DateTime(dateTimeUtc.Ticks, DateTimeKind.Utc);
-
-            return customClock.ToLocalTime(utcTime).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentUICulture);
+            return TimeZoneInfo.ConvertTime(dateTimeUtc, customClock.LocalTimeZone)
+                .ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentUICulture);
         }
 
         [PublicAPI]
@@ -125,7 +109,7 @@ namespace Arbor.AppModel.Time
         }
 
         public static string ToLocalDateTimeFormat(this DateTimeOffset? dateTimeOffset,
-            ICustomClock clock,
+            TimeProvider clock,
             string? format = null)
         {
             if (dateTimeOffset is null)
@@ -133,7 +117,7 @@ namespace Arbor.AppModel.Time
                 return "";
             }
 
-            var localTime = TimeZoneInfo.ConvertTimeFromUtc(dateTimeOffset.Value.UtcDateTime, clock.DefaultTimeZone);
+            var localTime = TimeZoneInfo.ConvertTimeFromUtc(dateTimeOffset.Value.UtcDateTime, clock.LocalTimeZone);
 
             return localTime.ToString(format ?? "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
         }

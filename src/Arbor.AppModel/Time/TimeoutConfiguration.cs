@@ -1,7 +1,6 @@
-﻿namespace Arbor.AppModel.Time
+﻿namespace Arbor.AppModel.Time;
+
+public class TimeoutConfiguration
 {
-    public class TimeoutConfiguration
-    {
-        public bool CancellationEnabled { get; set; }
-    }
+    public bool CancellationEnabled { get; set; }
 }

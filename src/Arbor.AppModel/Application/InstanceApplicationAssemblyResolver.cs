@@ -1,14 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
 
-namespace Arbor.AppModel.Application
+namespace Arbor.AppModel.Application;
+
+public class InstanceApplicationAssemblyResolver(ImmutableArray<Assembly> assemblies) : IApplicationAssemblyResolver
 {
-    public class InstanceApplicationAssemblyResolver : IApplicationAssemblyResolver
-    {
-        private readonly ImmutableArray<Assembly> _assemblies;
-
-        public InstanceApplicationAssemblyResolver(ImmutableArray<Assembly> assemblies) => _assemblies = assemblies;
-
-        public ImmutableArray<Assembly> GetAssemblies() => _assemblies;
-    }
+    public ImmutableArray<Assembly> GetAssemblies() => assemblies;
 }

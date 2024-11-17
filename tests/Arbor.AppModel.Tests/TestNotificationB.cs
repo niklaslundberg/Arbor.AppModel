@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class TestNotificationB(Guid id) : IIdNotification
 {
-    public class TestNotificationB : IIdNotification
-    {
-        public TestNotificationB(Guid id) => Id = id;
+    public Guid Id { get; } = id;
 
-        public Guid Id { get; }
-
-        public override string ToString() => base.ToString() + " " + Id;
-    }
+    public override string ToString() => base.ToString() + " " + Id;
 }

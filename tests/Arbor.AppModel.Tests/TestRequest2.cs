@@ -1,14 +1,11 @@
 ﻿using System;
 using MediatR;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class TestRequest2(Guid newGuid) : IRequest<Unit>
 {
-    public class TestRequest2 : IRequest<Unit>
-    {
-        public TestRequest2(Guid newGuid) => Id = newGuid;
+    public Guid Id { get; set; } = newGuid;
 
-        public Guid Id { get; set; }
-
-        public override string ToString() => base.ToString() + " " + Id;
-    }
+    public override string ToString() => base.ToString() + " " + Id;
 }

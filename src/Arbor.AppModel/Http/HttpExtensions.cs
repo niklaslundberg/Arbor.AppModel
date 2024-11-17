@@ -13,36 +13,27 @@ namespace Arbor.AppModel.Http
 {
     public static class HttpExtensions
     {
-        public static bool IsJsonResponse([NotNull] this HttpResponseMessage response)
+        public static bool IsJsonResponse(this HttpResponseMessage response)
         {
-            if (response == null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
+            ArgumentNullException.ThrowIfNull(response);
 
             return ContentType.IsJson(response.Content.Headers.ContentType?.MediaType);
         }
 
-        public static Task<T?> TrySendAndReadResponseJson<T>([NotNull] this HttpClient client,
-            [NotNull] HttpRequestMessage requestMessage,
+        public static Task<T?> TrySendAndReadResponseJson<T>(this HttpClient client,
+            HttpRequestMessage requestMessage,
             ILogger logger,
             CancellationToken cancellationToken) where T : class
         {
-            if (client == null)
-            {
-                throw new ArgumentNullException(nameof(client));
-            }
+            ArgumentNullException.ThrowIfNull(client);
 
-            if (requestMessage == null)
-            {
-                throw new ArgumentNullException(nameof(requestMessage));
-            }
+            ArgumentNullException.ThrowIfNull(requestMessage);
 
             return InternalTrySendAndReadResponseJson<T>(client, requestMessage, logger, cancellationToken);
         }
 
-        private static async Task<T?> InternalTrySendAndReadResponseJson<T>([NotNull] this HttpClient client,
-            [NotNull] HttpRequestMessage requestMessage,
+        private static async Task<T?> InternalTrySendAndReadResponseJson<T>(this HttpClient client,
+            HttpRequestMessage requestMessage,
             ILogger logger,
             CancellationToken cancellationToken) where T : class
         {
@@ -51,20 +42,17 @@ namespace Arbor.AppModel.Http
             return await TryReadJsonAs<T>(response, logger: logger);
         }
 
-        public static Task<T?> TryReadJsonAs<T>([NotNull] this HttpResponseMessage response,
+        public static Task<T?> TryReadJsonAs<T>(this HttpResponseMessage response,
             bool allowAnyResponseCode = false,
             ILogger? logger = null,
             JsonSerializer? serializer = null) where T : class
         {
-            if (response == null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
+            ArgumentNullException.ThrowIfNull(response);
 
             return InternalTryReadJsonAs<T>(response, allowAnyResponseCode, logger, serializer);
         }
 
-        private static async Task<T?> InternalTryReadJsonAs<T>([NotNull] this HttpResponseMessage response,
+        private static async Task<T?> InternalTryReadJsonAs<T>(this HttpResponseMessage response,
             bool allowAnyResponseCode = false,
             ILogger? logger = null,
             JsonSerializer? serializer = null) where T : class

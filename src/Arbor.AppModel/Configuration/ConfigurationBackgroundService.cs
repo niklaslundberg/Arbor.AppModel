@@ -4,23 +4,18 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AppModel.Configuration
+namespace Arbor.AppModel.Configuration;
+
+[UsedImplicitly]
+public class ConfigurationBackgroundService(UserConfigUpdater updater) : BackgroundService
 {
-    [UsedImplicitly]
-    public class ConfigurationBackgroundService : BackgroundService
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        private readonly UserConfigUpdater _updater;
+        updater.Start();
 
-        public ConfigurationBackgroundService(UserConfigUpdater updater) => _updater = updater;
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _updater.Start();
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(TimeSpan.FromHours(1), stoppingToken).ConfigureAwait(false);
-            }
+            await Task.Delay(TimeSpan.FromHours(1), stoppingToken).ConfigureAwait(false);
         }
     }
 }

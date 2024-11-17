@@ -20,9 +20,9 @@ namespace Arbor.AppModel.Tests
             _logger.Information("Created test handler {Id}", ToString());
         }
 
-        public List<IIdNotification> InvokedNotifications { get; } = new();
+        public List<IIdNotification> InvokedNotifications { get; } = [];
 
-        public List<IRequest<Unit>> InvokedRequests { get; } = new();
+        public List<IRequest<Unit>> InvokedRequests { get; } = [];
 
         public Task Handle(TestNotificationA notification, CancellationToken cancellationToken)
         {

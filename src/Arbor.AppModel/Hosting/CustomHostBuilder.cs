@@ -27,30 +27,15 @@ namespace Arbor.AppModel.Hosting
             string[] commandLineArgs,
             Action<IServiceCollection>? onRegistration = null)
         {
-            if (environmentConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(environmentConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(environmentConfiguration);
 
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
+            ArgumentNullException.ThrowIfNull(configuration);
 
-            if (serviceProviderHolder == null)
-            {
-                throw new ArgumentNullException(nameof(serviceProviderHolder));
-            }
+            ArgumentNullException.ThrowIfNull(serviceProviderHolder);
 
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
+            ArgumentNullException.ThrowIfNull(logger);
 
-            if (commandLineArgs == null)
-            {
-                throw new ArgumentNullException(nameof(commandLineArgs));
-            }
+            ArgumentNullException.ThrowIfNull(commandLineArgs);
 
             string contentRoot = environmentConfiguration.ContentBasePath ?? Directory.GetCurrentDirectory();
 

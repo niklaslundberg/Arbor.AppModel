@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Serilog;
@@ -18,20 +17,11 @@ namespace Arbor.AppModel.Caching
             ILogger? logger = default,
             CancellationToken cancellationToken = default) where T : class
         {
-            if (cache == null)
-            {
-                throw new ArgumentNullException(nameof(cache));
-            }
+            ArgumentNullException.ThrowIfNull(cache);
 
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(key);
 
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            ArgumentNullException.ThrowIfNull(item);
 
             return SetWithVersionInternalAsync(cache, key, item, cacheVersion, options, logger, cancellationToken);
         }
@@ -77,15 +67,9 @@ namespace Arbor.AppModel.Caching
             ILogger? logger = default,
             CancellationToken cancellationToken = default) where T : class
         {
-            if (cache == null)
-            {
-                throw new ArgumentNullException(nameof(cache));
-            }
+            ArgumentNullException.ThrowIfNull(cache);
 
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(key);
 
             return GetWithVersionInternalAsync<T>(cache, key, cacheVersion, logger, cancellationToken);
         }

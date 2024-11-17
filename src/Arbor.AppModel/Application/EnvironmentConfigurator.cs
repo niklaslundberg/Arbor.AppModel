@@ -9,10 +9,7 @@ namespace Arbor.AppModel.Application
     {
         public static void ConfigureEnvironment(ConfigurationInstanceHolder configurationInstanceHolder)
         {
-            if (configurationInstanceHolder is null)
-            {
-                throw new ArgumentNullException(nameof(configurationInstanceHolder));
-            }
+            ArgumentNullException.ThrowIfNull(configurationInstanceHolder);
 
             var configureEnvironments = configurationInstanceHolder.CreateInstances<IConfigureEnvironment>();
             var environmentConfiguration = configurationInstanceHolder.Get<EnvironmentConfiguration>();

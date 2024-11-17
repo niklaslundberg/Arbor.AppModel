@@ -8,13 +8,10 @@ namespace Arbor.AppModel.Cli
 {
     public static class ParameterParser
     {
-        public static string? ParseParameter([NotNull] this IReadOnlyCollection<string> parameters,
-            [NotNull] string parameterName)
+        public static string? ParseParameter(this IReadOnlyCollection<string> parameters,
+            string parameterName)
         {
-            if (parameters is null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
+            ArgumentNullException.ThrowIfNull(parameters);
 
             if (string.IsNullOrWhiteSpace(parameterName))
             {

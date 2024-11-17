@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Arbor.AppModel.Application;
@@ -18,7 +17,7 @@ namespace Arbor.AppModel.Sample
         private static async Task Main(string[] args)
         {
             Console.WriteLine(
-                $"Application name: {new InMemoryKeyValueConfiguration(new NameValueCollection()).GetApplicationName()}");
+                $"Application name: {new InMemoryKeyValueConfiguration([]).GetApplicationName()}");
 
             var version = ApplicationVersionHelper.GetAppVersion();
             Console.WriteLine($"Application version AssemblyFullName: {version?.AssemblyFullName}");
@@ -26,7 +25,7 @@ namespace Arbor.AppModel.Sample
             Console.WriteLine($"Application version FileVersion: {version?.FileVersion}");
             Console.WriteLine($"Application version InformationalVersion: {version?.InformationalVersion}");
 
-            var assemblies = ApplicationAssemblies.FilteredAssemblies(new[] { "Arbor" });
+            var assemblies = ApplicationAssemblies.FilteredAssemblies(["Arbor"]);
 
             ApplicationAssemblies.FilteredAssemblies().LoadReferenceAssemblies();
 

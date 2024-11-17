@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -15,124 +14,120 @@ using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class FilterTests(ITestOutputHelper outputHelper)
 {
-    public class FilterTests
+    [Fact]
+    public async Task WhenNoValidationClassAttributeStatusCodeShouldNotBeBadRequest()
     {
-        private readonly ITestOutputHelper _outputHelper;
-        public FilterTests(ITestOutputHelper outputHelper) => _outputHelper = outputHelper;
+        using var cancellationTokenSource = new CancellationTokenSource();
 
-        [Fact]
-        public async Task WhenNoValidationClassAttributeStatusCodeShouldNotBeBadRequest()
-        {
-            using var cancellationTokenSource = new CancellationTokenSource();
+        object[] instances = [new TestDependency()];
 
-            object[] instances = { new TestDependency() };
+        var assemblies = ApplicationAssemblies.FilteredAssemblies();
 
-            var assemblies = ApplicationAssemblies.FilteredAssemblies();
+        using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
+            [],
+            new Dictionary<string, string>(),
+            assemblies,
+            instances);
 
-            using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
-                Array.Empty<string>(),
-                new Dictionary<string, string>(),
-                assemblies,
-                instances);
+        int startExitCode = await app.RunAsync();
 
-            int startExitCode = await app.RunAsync();
+        startExitCode.Should().Be(0);
 
-            startExitCode.Should().Be(0);
+        var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
 
-            var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
+        var httpClient = httpClientFactory.CreateClient();
 
-            var httpClient = httpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync($"http://localhost:{TestConfigureEnvironment.HttpPort}",
+            new StringContent("{}", Encoding.UTF8, "application/json"));
 
-            var response = await httpClient.PostAsync($"http://localhost:{TestConfigureEnvironment.HttpPort}",
-                new StringContent("{}", Encoding.UTF8, "application/json"));
+        await Task.Delay(1.Seconds());
 
-            await Task.Delay(1.Seconds());
+        cancellationTokenSource.Cancel();
 
-            cancellationTokenSource.Cancel();
+        using var logger = outputHelper.CreateTestLogger();
 
-            using var logger = _outputHelper.CreateTestLogger();
+        TempLogger.FlushWith(logger);
 
-            TempLogger.FlushWith(logger);
+        response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status200OK);
+    }
 
-            response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status200OK);
-        }
+    [Fact]
+    public async Task WhenNoValidationParameterAttributeStatusCodeShouldNotBeBadRequest()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
 
-        [Fact]
-        public async Task WhenNoValidationParameterAttributeStatusCodeShouldNotBeBadRequest()
-        {
-            using var cancellationTokenSource = new CancellationTokenSource();
+        object[] instances = [new TestDependency()];
 
-            object[] instances = { new TestDependency() };
+        var assemblies = ApplicationAssemblies.FilteredAssemblies();
 
-            var assemblies = ApplicationAssemblies.FilteredAssemblies();
+        using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
+            [],
+            new Dictionary<string, string>(),
+            assemblies,
+            instances);
 
-            using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
-                Array.Empty<string>(),
-                new Dictionary<string, string>(),
-                assemblies,
-                instances);
+        int startExitCode = await app.RunAsync();
 
-            int startExitCode = await app.RunAsync();
+        startExitCode.Should().Be(0);
 
-            startExitCode.Should().Be(0);
+        var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
 
-            var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
+        var httpClient = httpClientFactory.CreateClient();
 
-            var httpClient = httpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync(
+            "http://localhost:" + TestConfigureEnvironment.HttpPort + "/no-validation",
+            new StringContent("{}", Encoding.UTF8, "application/json"));
 
-            var response = await httpClient.PostAsync(
-                "http://localhost:" + TestConfigureEnvironment.HttpPort + "/no-validation",
-                new StringContent("{}", Encoding.UTF8, "application/json"));
+        await Task.Delay(1.Seconds());
 
-            await Task.Delay(1.Seconds());
+        cancellationTokenSource.Cancel();
 
-            cancellationTokenSource.Cancel();
+        using var logger = outputHelper.CreateTestLogger();
 
-            using var logger = _outputHelper.CreateTestLogger();
+        TempLogger.FlushWith(logger);
 
-            TempLogger.FlushWith(logger);
+        response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status200OK);
+    }
 
-            response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status200OK);
-        }
+    [Fact]
+    public async Task WhenDefaultValidationStatusCodeShouldBeBadRequest()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
 
-        [Fact]
-        public async Task WhenDefaultValidationStatusCodeShouldBeBadRequest()
-        {
-            using var cancellationTokenSource = new CancellationTokenSource();
+        object[] instances = [new TestDependency()];
 
-            object[] instances = { new TestDependency() };
+        var assemblies = ApplicationAssemblies.FilteredAssemblies();
 
-            var assemblies = ApplicationAssemblies.FilteredAssemblies();
+        using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
+            [],
+            new Dictionary<string, string>(),
+            assemblies,
+            instances);
 
-            using var app = await App<TestStartup>.CreateAsync(cancellationTokenSource,
-                Array.Empty<string>(),
-                new Dictionary<string, string>(),
-                assemblies,
-                instances);
+        int startExitCode = await app.RunAsync();
 
-            int startExitCode = await app.RunAsync();
+        startExitCode.Should().Be(0);
 
-            startExitCode.Should().Be(0);
+        var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
 
-            var httpClientFactory = app.Host!.Services.GetRequiredService<IHttpClientFactory>();
+        var httpClient = httpClientFactory.CreateClient();
 
-            var httpClient = httpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync(
+            "http://localhost:" + TestConfigureEnvironment.HttpPort + "/validation",
+            new StringContent("{}", Encoding.UTF8, "application/json"));
 
-            var response = await httpClient.PostAsync(
-                "http://localhost:" + TestConfigureEnvironment.HttpPort + "/validation",
-                new StringContent("{}", Encoding.UTF8, "application/json"));
+        await Task.Delay(1.Seconds());
 
-            await Task.Delay(1.Seconds());
+        cancellationTokenSource.Cancel();
 
-            cancellationTokenSource.Cancel();
+        await using var logger = outputHelper.CreateTestLogger();
 
-            await using var logger = _outputHelper.CreateTestLogger();
+        TempLogger.FlushWith(logger);
 
-            TempLogger.FlushWith(logger);
-
-            response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status400BadRequest);
-        }
+        response.StatusCode.Should().Be((HttpStatusCode)StatusCodes.Status400BadRequest);
     }
 }

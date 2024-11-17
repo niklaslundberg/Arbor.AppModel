@@ -11,10 +11,7 @@ namespace Arbor.AppModel.Http
         public static IServiceCollection AddHttpClientsWithConfiguration(this IServiceCollection services,
             [NotNull] HttpLoggingConfiguration httpLoggingConfiguration)
         {
-            if (httpLoggingConfiguration is null)
-            {
-                throw new ArgumentNullException(nameof(httpLoggingConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(httpLoggingConfiguration);
 
             services.AddHttpClient();
 

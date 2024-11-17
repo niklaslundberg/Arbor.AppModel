@@ -1,12 +1,9 @@
 ﻿using JetBrains.Annotations;
 
-namespace Arbor.AppModel.HealthChecks
-{
-    public class HealthCheckResult
-    {
-        public HealthCheckResult(bool succeeded) => Succeeded = succeeded;
+namespace Arbor.AppModel.HealthChecks;
 
-        [PublicAPI]
-        public bool Succeeded { get; }
-    }
+public class HealthCheckResult(bool succeeded)
+{
+    [PublicAPI]
+    public bool Succeeded { get; } = succeeded;
 }

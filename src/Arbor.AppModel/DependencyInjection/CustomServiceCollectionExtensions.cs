@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Arbor.AppModel.DependencyInjection
@@ -98,18 +97,6 @@ namespace Arbor.AppModel.DependencyInjection
             Type registrationType,
             Func<IServiceProvider, object> resolver,
             IModule? module) => serviceCollection.Add(registrationType, resolver, ServiceLifetime.Singleton, module);
-
-        public static IServiceCollection AddSingleton<TRegistrationType>(this IServiceCollection serviceCollection,
-            Func<IServiceProvider, ServiceFactory> resolver,
-            IModule? module)
-        {
-            serviceCollection.Add(new ExtendedServiceDescriptor(typeof(TRegistrationType),
-                resolver,
-                ServiceLifetime.Singleton,
-                module?.GetType()));
-
-            return serviceCollection;
-        }
 
         public static IServiceCollection AddSingleton<TRegistrationType>(this IServiceCollection serviceCollection,
             Func<IServiceProvider, object> resolver,

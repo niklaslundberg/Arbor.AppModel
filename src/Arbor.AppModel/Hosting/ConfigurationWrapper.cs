@@ -2,35 +2,28 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
-namespace Arbor.AppModel.Hosting
+namespace Arbor.AppModel.Hosting;
+
+public class ConfigurationWrapper(
+    IConfigurationRoot hostingContextConfiguration,
+    ServiceProviderHolder serviceProviderHolder)
+    : IConfigurationRoot
 {
-    public class ConfigurationWrapper : IConfigurationRoot
+    public ServiceProviderHolder ServiceProviderHolder { get; } = serviceProviderHolder;
+
+    public IEnumerable<IConfigurationProvider> Providers => hostingContextConfiguration.Providers;
+
+    public string? this[string key]
     {
-        private readonly IConfigurationRoot _hostingContextConfiguration;
-
-        public ConfigurationWrapper(IConfigurationRoot hostingContextConfiguration,
-            ServiceProviderHolder serviceProviderHolder)
-        {
-            ServiceProviderHolder = serviceProviderHolder;
-            _hostingContextConfiguration = hostingContextConfiguration;
-        }
-
-        public ServiceProviderHolder ServiceProviderHolder { get; }
-
-        public IEnumerable<IConfigurationProvider> Providers => _hostingContextConfiguration.Providers;
-
-        public string? this[string key]
-        {
-            get => _hostingContextConfiguration[key];
-            set => _hostingContextConfiguration[key] = value;
-        }
-
-        public IEnumerable<IConfigurationSection> GetChildren() => _hostingContextConfiguration.GetChildren();
-
-        public IChangeToken GetReloadToken() => _hostingContextConfiguration.GetReloadToken();
-
-        public IConfigurationSection GetSection(string key) => _hostingContextConfiguration.GetSection(key);
-
-        public void Reload() => _hostingContextConfiguration.Reload();
+        get => hostingContextConfiguration[key];
+        set => hostingContextConfiguration[key] = value;
     }
+
+    public IEnumerable<IConfigurationSection> GetChildren() => hostingContextConfiguration.GetChildren();
+
+    public IChangeToken GetReloadToken() => hostingContextConfiguration.GetReloadToken();
+
+    public IConfigurationSection GetSection(string key) => hostingContextConfiguration.GetSection(key);
+
+    public void Reload() => hostingContextConfiguration.Reload();
 }

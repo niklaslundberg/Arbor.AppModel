@@ -6,10 +6,10 @@ namespace Arbor.AppModel.Application
     [PublicAPI]
     public class ApplicationVersionInfo
     {
-        public ApplicationVersionInfo([NotNull] string assemblyVersion,
-            [NotNull] string fileVersion,
-            [NotNull] string informationalVersion,
-            [NotNull] string assemblyFullName)
+        public ApplicationVersionInfo(string assemblyVersion,
+            string fileVersion,
+            string informationalVersion,
+            string assemblyFullName)
         {
             if (string.IsNullOrWhiteSpace(assemblyVersion))
             {
