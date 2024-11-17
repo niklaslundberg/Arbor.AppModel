@@ -9,12 +9,9 @@ namespace Arbor.AppModel.Configuration
 {
     public static class ConfigurationInstanceHolderExtensions
     {
-        public static void AddInstance<T>(this ConfigurationInstanceHolder holder, [NotNull] T instance) where T : class
+        public static void AddInstance<T>(this ConfigurationInstanceHolder holder, T instance) where T : class
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
 
             holder.Add(new NamedInstance<T>(instance, instance.GetType().FullName!));
         }
@@ -93,7 +90,7 @@ namespace Arbor.AppModel.Configuration
             }
 
             object?[] args = parameters.Length == 0
-                ? Array.Empty<object>()
+                ? []
                 : parameters.Select(GetArgumentValue).ToArray();
 
             return Activator.CreateInstance(type, args);

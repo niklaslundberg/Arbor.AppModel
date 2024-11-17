@@ -3,17 +3,11 @@ using Arbor.AppModel.DependencyInjection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel.Messaging
+namespace Arbor.AppModel.Messaging;
+
+[UsedImplicitly]
+public class MediatorModule(IApplicationAssemblyResolver applicationAssemblyResolver) : IModule
 {
-    [UsedImplicitly]
-    public class MediatorModule : IModule
-    {
-        private readonly IApplicationAssemblyResolver _applicationAssemblyResolver;
-
-        public MediatorModule(IApplicationAssemblyResolver applicationAssemblyResolver) =>
-            _applicationAssemblyResolver = applicationAssemblyResolver;
-
-        public IServiceCollection Register(IServiceCollection builder) =>
-            MediatorRegistrationHelper.Register(builder, _applicationAssemblyResolver.GetAssemblies(), this);
-    }
+    public IServiceCollection Register(IServiceCollection builder) =>
+        MediatorRegistrationHelper.Register(builder, applicationAssemblyResolver.GetAssemblies(), this);
 }

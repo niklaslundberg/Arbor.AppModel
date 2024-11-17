@@ -2,28 +2,27 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AppModel.Hosting
+namespace Arbor.AppModel.Hosting;
+
+public static class CustomWebHostExtensions
 {
-    public static class CustomWebHostExtensions
+    public static async Task WaitForShutdownAsync(this IHost host)
     {
-        public static async Task WaitForShutdownAsync(this IHost host)
-        {
-            var applicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
+        var applicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
 
-            var waitForStop = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var waitForStop = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            applicationLifetime.ApplicationStopping.Register(obj =>
+        applicationLifetime.ApplicationStopping.Register(obj =>
+            {
+                if (obj is TaskCompletionSource<object> tcs)
                 {
-                    if (obj is TaskCompletionSource<object> tcs)
-                    {
-                        tcs.TrySetResult(new object());
-                    }
-                },
-                waitForStop);
+                    tcs.TrySetResult(new object());
+                }
+            },
+            waitForStop);
 
-            await waitForStop.Task.ConfigureAwait(false);
+        await waitForStop.Task.ConfigureAwait(false);
 
-            await host.StopAsync().ConfigureAwait(false);
-        }
+        await host.StopAsync().ConfigureAwait(false);
     }
 }

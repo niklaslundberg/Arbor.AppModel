@@ -16,15 +16,9 @@ namespace Arbor.AppModel.Messaging
             IReadOnlyCollection<Assembly> assemblies,
             IModule? module = null)
         {
-            if (builder is null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            ArgumentNullException.ThrowIfNull(builder);
 
-            if (assemblies is null)
-            {
-                throw new ArgumentNullException(nameof(assemblies));
-            }
+            ArgumentNullException.ThrowIfNull(assemblies);
 
             var concreteTypes = assemblies.SelectMany(assembly => assembly.GetLoadableTypes())
                                           .Where(type => type.IsPublic && type.IsConcrete()).ToArray();
@@ -36,7 +30,6 @@ namespace Arbor.AppModel.Messaging
             RegisterTypes(typeof(IRequestPreProcessor<>), builder, ServiceLifetime.Singleton, concreteTypes);
             RegisterTypes(typeof(INotificationHandler<>), builder, ServiceLifetime.Singleton, concreteTypes);
 
-            builder.AddSingleton<ServiceFactory>(p => p.GetRequiredService, module);
             builder.AddSingleton<IMediator, Mediator>(module);
 
             builder.AddSingleton(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>), module);

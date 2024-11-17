@@ -28,7 +28,7 @@ namespace Arbor.AppModel
         {
             try
             {
-                args ??= Array.Empty<string>();
+                args ??= [];
 
                 if (args.Length > 0)
                 {
@@ -58,7 +58,7 @@ namespace Arbor.AppModel
 
                 assemblies ??= ApplicationAssemblies.FilteredAssemblies();
 
-                instances ??= Array.Empty<object>();
+                instances ??= [];
 
                 try
                 {

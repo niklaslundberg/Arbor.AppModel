@@ -4,55 +4,54 @@ using Arbor.AppModel.IO;
 using FluentAssertions;
 using Xunit;
 
-namespace Arbor.AppModel.Tests.IO
+namespace Arbor.AppModel.Tests.IO;
+
+public class DirectoryTests
 {
-    public class DirectoryTests
+    [Fact]
+    public void TryEnsureDirectoryExists()
     {
-        [Fact]
-        public void TryEnsureDirectoryExists()
+        DirectoryInfo? dir = null;
+
+        try
         {
-            DirectoryInfo? dir = null;
+            dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            bool succeeded = dir.TryEnsureDirectoryExists(out var created);
 
-            try
+            succeeded.Should().BeTrue();
+
+            created.Should().NotBeNull();
+        }
+        finally
+        {
+            if (dir?.Exists == true)
             {
-                dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
-                bool succeeded = dir.TryEnsureDirectoryExists(out var created);
-
-                succeeded.Should().BeTrue();
-
-                created.Should().NotBeNull();
+                dir.Delete(true);
             }
-            finally
+        }
+    }
+
+    [Fact]
+    public void EnsureDirectoryExists()
+    {
+        DirectoryInfo? dir = null;
+
+        bool exists;
+
+        try
+        {
+            dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).EnsureExists();
+
+            exists = Directory.Exists(dir.FullName);
+        }
+        finally
+        {
+            if (dir?.Exists == true)
             {
-                if (dir?.Exists == true)
-                {
-                    dir.Delete(true);
-                }
+                dir.Delete(true);
             }
         }
 
-        [Fact]
-        public void EnsureDirectoryExists()
-        {
-            DirectoryInfo? dir = null;
-
-            bool exists;
-
-            try
-            {
-                dir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).EnsureExists();
-
-                exists = Directory.Exists(dir.FullName);
-            }
-            finally
-            {
-                if (dir?.Exists == true)
-                {
-                    dir.Delete(true);
-                }
-            }
-
-            exists.Should().BeTrue();
-        }
+        exists.Should().BeTrue();
     }
 }

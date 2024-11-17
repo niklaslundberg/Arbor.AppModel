@@ -1,15 +1,12 @@
 using Arbor.KVConfiguration.Urns;
 using JetBrains.Annotations;
 
-namespace Arbor.AppModel.Configuration
-{
-    [Optional]
-    [Urn(RegistrationConstants.ExcludedType)]
-    [UsedImplicitly]
-    public class ExcludedAutoRegistrationType
-    {
-        public ExcludedAutoRegistrationType(string fullName) => FullName = fullName;
+namespace Arbor.AppModel.Configuration;
 
-        public string FullName { get; }
-    }
+[Optional]
+[Urn(RegistrationConstants.ExcludedType)]
+[UsedImplicitly]
+public class ExcludedAutoRegistrationType(string fullName)
+{
+    public string FullName { get; } = fullName;
 }

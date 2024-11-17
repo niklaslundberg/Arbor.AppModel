@@ -13,10 +13,10 @@ namespace Arbor.AppModel.Tests
         [Fact]
         public async Task CreateApp()
         {
-            object[] instances = Array.Empty<object>();
+            object[] instances = [];
 
             using App<TestStartup> app = await App<TestStartup>.CreateAsync(new CancellationTokenSource(),
-                Array.Empty<string>(),
+                [],
                 new Dictionary<string, string>(),
                 Array.Empty<Assembly>(),
                 instances);

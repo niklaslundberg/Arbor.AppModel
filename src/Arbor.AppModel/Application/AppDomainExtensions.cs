@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Arbor.AppModel.ExtensionMethods;
 using Arbor.AppModel.Logging;
-using Arbor.AppModel.Time;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyModel;
 using Serilog;
@@ -19,7 +18,7 @@ namespace Arbor.AppModel.Application
 
         private static void ForceLoadReferenceAssemblies()
         {
-            Type[] types = { typeof(ICustomClock) };
+            Type[] types = [typeof(AppDomainExtensions)];
 
             foreach (var type in types)
             {
@@ -27,17 +26,14 @@ namespace Arbor.AppModel.Application
             }
         }
 
-        public static ImmutableArray<Assembly> FilteredAssemblies([NotNull] this AppDomain appDomain,
+        public static ImmutableArray<Assembly> FilteredAssemblies(this AppDomain appDomain,
             string[]? assemblyNameStartsWith = null,
             bool useCache = true,
             ILogger? logger = null)
         {
             logger ??= Logger.None;
 
-            if (appDomain == null)
-            {
-                throw new ArgumentNullException(nameof(appDomain));
-            }
+            ArgumentNullException.ThrowIfNull(appDomain);
 
             if (useCache && !_cache.IsDefaultOrEmpty)
             {
@@ -64,11 +60,12 @@ namespace Arbor.AppModel.Application
 
                 var includedLibraries = allowedAssemblies.Length == 0
                     ? defaultRuntimeLibraries
-                    : defaultRuntimeLibraries.Where(item =>
-                                                  allowedAssemblies.Any(
-                                                      listed => item.Name.StartsWith(listed,
-                                                          StringComparison.OrdinalIgnoreCase)))
-                                             .ToImmutableArray();
+                    : [
+                        ..defaultRuntimeLibraries.Where(item =>
+                            allowedAssemblies.Any(
+                                listed => item.Name.StartsWith(listed,
+                                    StringComparison.OrdinalIgnoreCase)))
+                    ];
 
                 var loadedAssemblies = appDomain.GetAssemblies().Where(assembly =>
                                                      !assembly.IsDynamic &&

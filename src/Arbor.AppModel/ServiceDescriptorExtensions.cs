@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel
+namespace Arbor.AppModel;
+
+public static class ServiceDescriptorExtensions
 {
-    public static class ServiceDescriptorExtensions
-    {
-        public static string GetDescription(this ServiceDescriptor descriptor) =>
-            $"{descriptor.ServiceType.FullName} {descriptor.ImplementationInstance ?? "(function)"} {descriptor.Lifetime}";
-    }
+    public static string GetDescription(this ServiceDescriptor descriptor) =>
+        $"{descriptor.ServiceType.FullName} {descriptor.ImplementationInstance ?? "(function)"} {descriptor.Lifetime}";
 }

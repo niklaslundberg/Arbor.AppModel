@@ -8,10 +8,10 @@ namespace Arbor.AppModel.IO
     public static class DirectoryExtensions
     {
         public static bool
-            TryEnsureDirectoryExists([NotNull] this string directory, out DirectoryInfo? directoryInfo) =>
+            TryEnsureDirectoryExists(this string directory, out DirectoryInfo? directoryInfo) =>
             TryEnsureDirectoryExists(new DirectoryInfo(directory), out directoryInfo);
 
-        public static bool TryEnsureDirectoryExists([NotNull] this DirectoryInfo directory,
+        public static bool TryEnsureDirectoryExists(this DirectoryInfo directory,
             out DirectoryInfo? directoryInfo)
         {
             if (directory.FullName is null)
@@ -32,12 +32,9 @@ namespace Arbor.AppModel.IO
             }
         }
 
-        public static DirectoryInfo EnsureExists([NotNull] this DirectoryInfo directoryInfo)
+        public static DirectoryInfo EnsureExists(this DirectoryInfo directoryInfo)
         {
-            if (directoryInfo == null)
-            {
-                throw new ArgumentNullException(nameof(directoryInfo));
-            }
+            ArgumentNullException.ThrowIfNull(directoryInfo);
 
             directoryInfo.Refresh();
 

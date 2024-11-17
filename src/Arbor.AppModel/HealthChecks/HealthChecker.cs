@@ -7,52 +7,44 @@ using Arbor.AppModel.ExtensionMethods;
 using Arbor.AppModel.Time;
 using Serilog;
 
-namespace Arbor.AppModel.HealthChecks
+namespace Arbor.AppModel.HealthChecks;
+
+public class HealthChecker(
+    IEnumerable<IHealthCheck> healthChecks,
+    ILogger logger,
+    TimeoutHelper timeoutHelper)
 {
-    public class HealthChecker
+    private readonly ImmutableArray<IHealthCheck> _healthChecks = healthChecks.SafeToImmutableArray();
+    private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+    public async Task PerformHealthChecksAsync(CancellationToken cancellationToken)
     {
-        private readonly ImmutableArray<IHealthCheck> _healthChecks;
-        private readonly ILogger _logger;
-        private readonly TimeoutHelper _timeoutHelper;
-
-        public HealthChecker(IEnumerable<IHealthCheck> healthChecks,
-            ILogger logger,
-            TimeoutHelper timeoutHelper)
+        if (_healthChecks.Length == 0)
         {
-            _healthChecks = healthChecks.SafeToImmutableArray();
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _timeoutHelper = timeoutHelper;
+            _logger.Debug("No health checks are registered");
+            return;
         }
 
-        public async Task PerformHealthChecksAsync(CancellationToken cancellationToken)
+        _logger.Debug("{HealthCheckCount} health checks are registered", _healthChecks.Length);
+
+        foreach (IHealthCheck healthCheck in _healthChecks)
         {
-            if (_healthChecks.Length == 0)
+            try
             {
-                _logger.Debug("No health checks are registered");
-                return;
+                using CancellationTokenSource cts =
+                    timeoutHelper.CreateCancellationTokenSource(
+                        TimeSpan.FromSeconds(healthCheck.TimeoutInSeconds));
+
+                using var combined = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cts.Token);
+                _logger.Debug("Making health check with {Check}", healthCheck.Description);
+                await healthCheck.CheckHealthAsync(combined.Token);
             }
-
-            _logger.Debug("{HealthCheckCount} health checks are registered", _healthChecks.Length);
-
-            foreach (IHealthCheck healthCheck in _healthChecks)
+            catch (Exception ex) when (!ex.IsFatal())
             {
-                try
-                {
-                    using CancellationTokenSource cts =
-                        _timeoutHelper.CreateCancellationTokenSource(
-                            TimeSpan.FromSeconds(healthCheck.TimeoutInSeconds));
-
-                    using var combined = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cts.Token);
-                    _logger.Debug("Making health check with {Check}", healthCheck.Description);
-                    await healthCheck.CheckHealthAsync(combined.Token);
-                }
-                catch (Exception ex) when (!ex.IsFatal())
-                {
-                    _logger.Debug(ex, "Health check error for check {Check}", healthCheck.Description);
-                }
+                _logger.Debug(ex, "Health check error for check {Check}", healthCheck.Description);
             }
-
-            _logger.Debug("Health checks done");
         }
+
+        _logger.Debug("Health checks done");
     }
 }

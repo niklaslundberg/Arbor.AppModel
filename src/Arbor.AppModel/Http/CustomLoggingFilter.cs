@@ -9,10 +9,7 @@ namespace Arbor.AppModel.Http
     {
         public Action<HttpMessageHandlerBuilder> Configure(Action<HttpMessageHandlerBuilder> next)
         {
-            if (next is null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
+            ArgumentNullException.ThrowIfNull(next);
 
             return _ => { };
         }

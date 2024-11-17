@@ -6,7 +6,7 @@ namespace Arbor.AppModel.ExtensionMethods
 {
     public static class HexStringExtensions
     {
-        public static byte[] FromHexToByteArray([NotNull] this string hex)
+        public static byte[] FromHexToByteArray(this string hex)
         {
             if (string.IsNullOrWhiteSpace(hex))
             {
@@ -17,12 +17,9 @@ namespace Arbor.AppModel.ExtensionMethods
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16)).ToArray();
         }
 
-        public static string FromByteArrayToHexString([NotNull] this byte[] bytes)
+        public static string FromByteArrayToHexString(this byte[] bytes)
         {
-            if (bytes == null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
+            ArgumentNullException.ThrowIfNull(bytes);
 
             return string.Concat(bytes.Select(b => b.ToString("X2")));
         }

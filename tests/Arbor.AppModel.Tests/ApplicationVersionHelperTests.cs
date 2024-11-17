@@ -3,22 +3,17 @@ using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class ApplicationVersionHelperTests(ITestOutputHelper outputHelper)
 {
-    public class ApplicationVersionHelperTests
+    [Fact]
+    public void Do()
     {
-        private readonly ITestOutputHelper _outputHelper;
+        var applicationVersionInfo = ApplicationVersionHelper.GetAppVersion();
 
-        public ApplicationVersionHelperTests(ITestOutputHelper outputHelper) => _outputHelper = outputHelper;
+        outputHelper.WriteLine(applicationVersionInfo?.AssemblyFullName);
 
-        [Fact]
-        public void Do()
-        {
-            var applicationVersionInfo = ApplicationVersionHelper.GetAppVersion();
-
-            _outputHelper.WriteLine(applicationVersionInfo?.AssemblyFullName);
-
-            applicationVersionInfo?.AssemblyFullName.Should().NotBeNullOrWhiteSpace();
-        }
+        applicationVersionInfo?.AssemblyFullName.Should().NotBeNullOrWhiteSpace();
     }
 }

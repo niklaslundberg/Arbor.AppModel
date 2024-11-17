@@ -2,14 +2,12 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel.Tests
-{
-    [UsedImplicitly]
-    public class TestDependencyModule : IModule
-    {
-        private readonly TestDependency _testDependency;
+namespace Arbor.AppModel.Tests;
 
-        public TestDependencyModule(TestDependency testDependency) => _testDependency = testDependency;
-        public IServiceCollection Register(IServiceCollection builder) => builder;
-    }
+[UsedImplicitly]
+public class TestDependencyModule(TestDependency testDependency) : IModule
+{
+    private readonly TestDependency _testDependency = testDependency;
+
+    public IServiceCollection Register(IServiceCollection builder) => builder;
 }

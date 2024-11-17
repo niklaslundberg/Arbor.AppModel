@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Arbor.AppModel.Logging;
@@ -9,35 +8,31 @@ using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Arbor.AppModel.Tests
+namespace Arbor.AppModel.Tests;
+
+public class AppTests(ITestOutputHelper outputHelper)
 {
-    public class AppTests
+    [Fact]
+    public async Task RunAppShouldReturnExitCode0()
     {
-        private readonly ITestOutputHelper _outputHelper;
-        public AppTests(ITestOutputHelper outputHelper) => _outputHelper = outputHelper;
+        using var cancellationTokenSource = new CancellationTokenSource();
 
-        [Fact]
-        public async Task RunAppShouldReturnExitCode0()
-        {
-            using var cancellationTokenSource = new CancellationTokenSource();
+        object[] instances = [new TestDependency()];
 
-            object[] instances = { new TestDependency() };
+        var appTask = Task.Run(() => AppStarter<TestStartup>.StartAsync([],
+            new Dictionary<string, string>(),
+            cancellationTokenSource,
+            instances: instances));
 
-            var appTask = Task.Run(() => AppStarter<TestStartup>.StartAsync(Array.Empty<string>(),
-                new Dictionary<string, string>(),
-                cancellationTokenSource,
-                instances: instances));
+        await Task.Delay(1.Seconds());
+        cancellationTokenSource.Cancel();
 
-            await Task.Delay(1.Seconds());
-            cancellationTokenSource.Cancel();
+        int appExitCode = await appTask;
 
-            int appExitCode = await appTask;
+        using var logger = outputHelper.CreateTestLogger();
 
-            using var logger = _outputHelper.CreateTestLogger();
+        TempLogger.FlushWith(logger);
 
-            TempLogger.FlushWith(logger);
-
-            appExitCode.Should().Be(0);
-        }
+        appExitCode.Should().Be(0);
     }
 }

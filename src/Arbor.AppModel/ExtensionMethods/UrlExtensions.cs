@@ -9,17 +9,14 @@ namespace Arbor.AppModel.ExtensionMethods
     {
         [PublicAPI]
         public static string CreateQueryWithQuestionMark(
-            [NotNull] this IEnumerable<KeyValuePair<string, string>> parameters) =>
+            this IEnumerable<KeyValuePair<string, string>> parameters) =>
             $"?{CreateQueryWithoutQuestionMark(parameters)}";
 
         [PublicAPI]
         public static string CreateQueryWithoutQuestionMark(
-            [NotNull] this IEnumerable<KeyValuePair<string, string>> parameters)
+            this IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
+            ArgumentNullException.ThrowIfNull(parameters);
 
             string query =
                 $"{string.Join("&", parameters.Select(parameter => $"{Uri.EscapeDataString(parameter.Key)}={Uri.EscapeDataString(parameter.Value)}"))}";
@@ -28,7 +25,7 @@ namespace Arbor.AppModel.ExtensionMethods
         }
 
         [PublicAPI]
-        public static Uri WithQueryFromParameters([NotNull] this Uri uri,
+        public static Uri WithQueryFromParameters(this Uri uri,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
             if (uri == null)

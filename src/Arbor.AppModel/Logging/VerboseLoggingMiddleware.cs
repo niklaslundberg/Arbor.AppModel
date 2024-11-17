@@ -6,42 +6,34 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Serilog;
 using Serilog.Events;
 
-namespace Arbor.AppModel.Logging
-{
-    public class VerboseLoggingMiddleware
-    {
-        private readonly ILogger _logger;
-        private readonly RequestDelegate _next;
+namespace Arbor.AppModel.Logging;
 
-        public VerboseLoggingMiddleware(ILogger logger, RequestDelegate next)
+public class VerboseLoggingMiddleware(ILogger logger, RequestDelegate next)
+{
+    private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+    [UsedImplicitly]
+    public async Task InvokeAsync(HttpContext context)
+    {
+        bool loggingEnabled = _logger.IsEnabled(LogEventLevel.Verbose);
+
+        string? commonRequestInfo = null;
+
+        if (loggingEnabled)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _next = next;
+            commonRequestInfo =
+                $"{context.Request.GetDisplayUrl()} from remote IP {context.Connection.RemoteIpAddress}";
+
+            _logger.Verbose("Starting request {RequestInfo}", commonRequestInfo);
         }
 
-        [UsedImplicitly]
-        public async Task InvokeAsync(HttpContext context)
+        await next.Invoke(context).ConfigureAwait(false);
+
+        if (loggingEnabled)
         {
-            bool loggingEnabled = _logger.IsEnabled(LogEventLevel.Verbose);
-
-            string? commonRequestInfo = null;
-
-            if (loggingEnabled)
-            {
-                commonRequestInfo =
-                    $"{context.Request.GetDisplayUrl()} from remote IP {context.Connection.RemoteIpAddress}";
-
-                _logger.Verbose("Starting request {RequestInfo}", commonRequestInfo);
-            }
-
-            await _next.Invoke(context).ConfigureAwait(false);
-
-            if (loggingEnabled)
-            {
-                _logger.Verbose("Ending request {RequestInfo}, status code {StatusCode}",
-                    commonRequestInfo,
-                    context.Response.StatusCode);
-            }
+            _logger.Verbose("Ending request {RequestInfo}, status code {StatusCode}",
+                commonRequestInfo,
+                context.Response.StatusCode);
         }
     }
 }

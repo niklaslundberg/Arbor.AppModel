@@ -3,28 +3,22 @@ using Arbor.AppModel.DependencyInjection;
 using Arbor.AppModel.ExtensionMethods;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel
+namespace Arbor.AppModel;
+
+public class PreStartRegistrationModule(IApplicationAssemblyResolver applicationAssemblyResolver) : IModule
 {
-    public class PreStartRegistrationModule : IModule
+    public IServiceCollection Register(IServiceCollection builder)
     {
-        private readonly IApplicationAssemblyResolver _applicationAssemblyResolver;
+        var filteredAssemblies = applicationAssemblyResolver.GetAssemblies();
 
-        public PreStartRegistrationModule(IApplicationAssemblyResolver applicationAssemblyResolver) =>
-            _applicationAssemblyResolver = applicationAssemblyResolver;
+        var loadablePublicConcreteTypesImplementing =
+            filteredAssemblies.GetLoadablePublicConcreteTypesImplementing<IPreStartModule>();
 
-        public IServiceCollection Register(IServiceCollection builder)
+        foreach (var loadable in loadablePublicConcreteTypesImplementing)
         {
-            var filteredAssemblies = _applicationAssemblyResolver.GetAssemblies();
-
-            var loadablePublicConcreteTypesImplementing =
-                filteredAssemblies.GetLoadablePublicConcreteTypesImplementing<IPreStartModule>();
-
-            foreach (var loadable in loadablePublicConcreteTypesImplementing)
-            {
-                builder.AddSingleton(typeof(IPreStartModule), loadable, this);
-            }
-
-            return builder;
+            builder.AddSingleton(typeof(IPreStartModule), loadable, this);
         }
+
+        return builder;
     }
 }

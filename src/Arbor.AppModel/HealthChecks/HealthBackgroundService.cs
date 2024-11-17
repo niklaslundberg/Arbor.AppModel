@@ -5,43 +5,35 @@ using Arbor.AppModel.Startup;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 
-namespace Arbor.AppModel.HealthChecks
-{
-    [UsedImplicitly]
-    public class HealthBackgroundService : BackgroundService
-    {
-        private readonly HealthChecker? _healthChecker;
-        private readonly StartupTaskContext? _startupTaskContext;
+namespace Arbor.AppModel.HealthChecks;
 
-        public HealthBackgroundService(HealthChecker? healthChecker = null,
-            StartupTaskContext? startupTaskContext = null)
+[UsedImplicitly]
+public class HealthBackgroundService(
+    HealthChecker? healthChecker = null,
+    StartupTaskContext? startupTaskContext = null)
+    : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        await Task.Yield();
+
+        if (healthChecker is null || startupTaskContext is null)
         {
-            _healthChecker = healthChecker;
-            _startupTaskContext = startupTaskContext;
+            return;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        try
         {
-            await Task.Yield();
-
-            if (_healthChecker is null || _startupTaskContext is null)
+            while (!startupTaskContext.IsCompleted)
             {
-                return;
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
 
-            try
-            {
-                while (!_startupTaskContext.IsCompleted)
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
-                }
-
-                await _healthChecker.PerformHealthChecksAsync(stoppingToken);
-            }
-            catch (TaskCanceledException)
-            {
-                //
-            }
+            await healthChecker.PerformHealthChecksAsync(stoppingToken);
+        }
+        catch (TaskCanceledException)
+        {
+            //
         }
     }
 }

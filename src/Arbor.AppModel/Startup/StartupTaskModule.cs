@@ -7,37 +7,32 @@ using Arbor.AppModel.ExtensionMethods;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Arbor.AppModel.Startup
+namespace Arbor.AppModel.Startup;
+
+[UsedImplicitly]
+public class StartupTaskModule(IApplicationAssemblyResolver assemblyResolver) : IModule
 {
-    [UsedImplicitly]
-    public class StartupTaskModule : IModule
+    public IServiceCollection Register(IServiceCollection builder)
     {
-        private readonly IApplicationAssemblyResolver _assemblyResolver;
+        IEnumerable<Type> startupTaskTypes = assemblyResolver.GetAssemblies()
+            .SelectMany(assembly => assembly.GetLoadableTypes())
+            .Where(t => t
+                .IsPublicConcreteTypeImplementing<
+                    IStartupTask>());
 
-        public StartupTaskModule(IApplicationAssemblyResolver assemblyResolver) => _assemblyResolver = assemblyResolver;
-
-        public IServiceCollection Register(IServiceCollection builder)
+        foreach (Type startupTask in startupTaskTypes)
         {
-            IEnumerable<Type> startupTaskTypes = _assemblyResolver.GetAssemblies()
-                                                                  .SelectMany(assembly => assembly.GetLoadableTypes())
-                                                                  .Where(t => t
-                                                                      .IsPublicConcreteTypeImplementing<
-                                                                           IStartupTask>());
+            builder.AddSingleton<IStartupTask>(context => context.GetRequiredService(startupTask), this);
 
-            foreach (Type startupTask in startupTaskTypes)
+            if (builder.Any(serviceDescriptor => serviceDescriptor.ImplementationType == startupTask &&
+                                                 serviceDescriptor.ServiceType == startupTask))
             {
-                builder.AddSingleton<IStartupTask>(context => context.GetRequiredService(startupTask), this);
-
-                if (builder.Any(serviceDescriptor => serviceDescriptor.ImplementationType == startupTask &&
-                                                     serviceDescriptor.ServiceType == startupTask))
-                {
-                    continue;
-                }
-
-                builder.AddSingleton(startupTask, this);
+                continue;
             }
 
-            return builder;
+            builder.AddSingleton(startupTask, this);
         }
+
+        return builder;
     }
 }

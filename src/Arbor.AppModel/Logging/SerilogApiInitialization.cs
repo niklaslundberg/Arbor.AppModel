@@ -18,17 +18,14 @@ namespace Arbor.AppModel.Logging
     public static class SerilogApiInitialization
     {
         public static ILogger InitializeAppLogging(
-            [NotNull] MultiSourceKeyValueConfiguration multiSourceKeyValueConfiguration,
+            MultiSourceKeyValueConfiguration multiSourceKeyValueConfiguration,
             ILogger logger,
             IEnumerable<ILoggerConfigurationHandler> loggerConfigurationHandlers,
             LoggingLevelSwitch loggingLevelSwitch,
             SerilogConfiguration? serilogConfiguration = null,
             string? applicationName = null)
         {
-            if (multiSourceKeyValueConfiguration is null)
-            {
-                throw new ArgumentNullException(nameof(multiSourceKeyValueConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(multiSourceKeyValueConfiguration);
 
             logger.Verbose("Getting Serilog configuration");
 
@@ -168,17 +165,14 @@ namespace Arbor.AppModel.Logging
             return appLogger;
         }
 
-        public static ILogger InitializeStartupLogging([NotNull] Func<string, string> basePath,
+        public static ILogger InitializeStartupLogging(Func<string, string> basePath,
             IReadOnlyDictionary<string, string> environmentVariables,
             IEnumerable<IStartupLoggerConfigurationHandler> startupLoggerConfigurationHandlers,
             string? seqUrl = null)
         {
             const LogEventLevel startupLevel = LogEventLevel.Verbose;
 
-            if (basePath == null)
-            {
-                throw new ArgumentNullException(nameof(basePath));
-            }
+            ArgumentNullException.ThrowIfNull(basePath);
 
             bool fileLoggingEnabled = bool.TryParse(
                                           environmentVariables.ValueOrDefault(LoggingConstants

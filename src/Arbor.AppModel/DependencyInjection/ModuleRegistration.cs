@@ -8,9 +8,9 @@ namespace Arbor.AppModel.DependencyInjection
 {
     public static class ModuleRegistration
     {
-        public static void RegisterModules([NotNull] IReadOnlyList<IModule> modulesToRegister,
+        public static void RegisterModules(IReadOnlyList<IModule> modulesToRegister,
             IServiceCollection serviceCollection,
-            [NotNull] ILogger logger)
+            ILogger logger)
         {
             foreach (var module in modulesToRegister)
             {

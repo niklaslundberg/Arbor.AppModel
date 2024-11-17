@@ -52,7 +52,7 @@ namespace Arbor.AppModel.ExtensionMethods
                 return immutable;
             }
 
-            return items.ToImmutableArray();
+            return [..items];
         }
 
         public static IReadOnlyCollection<T> AddDefaultValueIfEmpty<T>(this IReadOnlyCollection<T>? items)
@@ -89,15 +89,9 @@ namespace Arbor.AppModel.ExtensionMethods
 
         public static IEnumerable<T> Tap<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            if (enumerable is null)
-            {
-                throw new ArgumentNullException(nameof(enumerable));
-            }
+            ArgumentNullException.ThrowIfNull(enumerable);
 
-            if (action is null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            ArgumentNullException.ThrowIfNull(action);
 
             return TapInternal(enumerable, action);
         }
@@ -115,7 +109,7 @@ namespace Arbor.AppModel.ExtensionMethods
             items.Where(item => item is { }).Select(item => item!);
 
         public static ImmutableArray<string> AsStrings<T>(this IEnumerable<T> enumerable, Func<T, string?> converter) =>
-            enumerable.Select(converter).NotNull().ToImmutableArray();
+            [..enumerable.Select(converter).NotNull()];
 
         public static string AsString<T>(this IEnumerable<T> enumerable,
             Func<T, string?> converter,

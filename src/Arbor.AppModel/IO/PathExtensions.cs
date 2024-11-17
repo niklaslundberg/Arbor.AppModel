@@ -6,7 +6,7 @@ namespace Arbor.AppModel.IO
 {
     public static class PathExtensions
     {
-        private static string NormalizePath([NotNull] string path)
+        private static string NormalizePath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -16,17 +16,11 @@ namespace Arbor.AppModel.IO
             return path.Trim(Path.DirectorySeparatorChar);
         }
 
-        public static string GetRelativePath([NotNull] this FileInfo file, [NotNull] DirectoryInfo rootPath)
+        public static string GetRelativePath(this FileInfo file, DirectoryInfo rootPath)
         {
-            if (file is null)
-            {
-                throw new ArgumentNullException(nameof(file));
-            }
+            ArgumentNullException.ThrowIfNull(file);
 
-            if (rootPath is null)
-            {
-                throw new ArgumentNullException(nameof(rootPath));
-            }
+            ArgumentNullException.ThrowIfNull(rootPath);
 
             string rootFullPath = NormalizePath(rootPath.FullName);
             string fullPath = NormalizePath(file.FullName);
@@ -34,18 +28,12 @@ namespace Arbor.AppModel.IO
             return GetRelativePath(fullPath, rootFullPath);
         }
 
-        public static string GetRelativePath([NotNull] this DirectoryInfo directoryInfo,
-            [NotNull] DirectoryInfo rootPath)
+        public static string GetRelativePath(this DirectoryInfo directoryInfo,
+            DirectoryInfo rootPath)
         {
-            if (directoryInfo is null)
-            {
-                throw new ArgumentNullException(nameof(directoryInfo));
-            }
+            ArgumentNullException.ThrowIfNull(directoryInfo);
 
-            if (rootPath is null)
-            {
-                throw new ArgumentNullException(nameof(rootPath));
-            }
+            ArgumentNullException.ThrowIfNull(rootPath);
 
             string rootFullPath = NormalizePath(rootPath.FullName);
             string fullPath = NormalizePath(directoryInfo.FullName);

@@ -1,12 +1,9 @@
 ﻿using System;
 
-namespace Arbor.AppModel.Configuration
-{
-    [AttributeUsage(AttributeTargets.Class)]
-    public sealed class RegistrationOrderAttribute : Attribute
-    {
-        public RegistrationOrderAttribute(int order) => Order = order;
+namespace Arbor.AppModel.Configuration;
 
-        public int Order { get; }
-    }
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class RegistrationOrderAttribute(int order) : Attribute
+{
+    public int Order { get; } = order;
 }

@@ -1,9 +1,6 @@
-﻿namespace Arbor.AppModel.Configuration
-{
-    public class ConfigurationError
-    {
-        public ConfigurationError(string error) => Error = error;
+﻿namespace Arbor.AppModel.Configuration;
 
-        public string Error { get; }
-    }
+public class ConfigurationError(string error)
+{
+    public string Error { get; } = error;
 }

@@ -4,71 +4,70 @@ using Arbor.AppModel.Cli;
 using FluentAssertions;
 using Xunit;
 
-namespace Arbor.AppModel.Tests.Cli
+namespace Arbor.AppModel.Tests.Cli;
+
+public class ParameterParserTests
 {
-    public class ParameterParserTests
+    [Fact]
+    public void ParseValidParameterShouldReturnValue()
     {
-        [Fact]
-        public void ParseValidParameterShouldReturnValue()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test=123" };
-            string? value = parameters.ParseParameter("test");
+        IReadOnlyCollection<string> parameters = new List<string> { "test=123" };
+        string? value = parameters.ParseParameter("test");
 
-            value.Should().Be("123");
-        }
+        value.Should().Be("123");
+    }
 
-        [Fact]
-        public void ParseEmptyParameterShouldReturnEmptyString()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
-            string? value = parameters.ParseParameter("test");
+    [Fact]
+    public void ParseEmptyParameterShouldReturnEmptyString()
+    {
+        IReadOnlyCollection<string> parameters = new List<string> { "test=" };
+        string? value = parameters.ParseParameter("test");
 
-            value.Should().BeEmpty();
-        }
+        value.Should().BeEmpty();
+    }
 
-        [Fact]
-        public void ParseMissingParameterShouldReturnNull()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
-            string? value = parameters.ParseParameter("non-existing");
+    [Fact]
+    public void ParseMissingParameterShouldReturnNull()
+    {
+        IReadOnlyCollection<string> parameters = new List<string> { "test=" };
+        string? value = parameters.ParseParameter("non-existing");
 
-            value.Should().BeNull();
-        }
+        value.Should().BeNull();
+    }
 
-        [Fact]
-        public void ParseInvalidParameterShouldReturnNull()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test" };
-            string? value = parameters.ParseParameter("test");
+    [Fact]
+    public void ParseInvalidParameterShouldReturnNull()
+    {
+        IReadOnlyCollection<string> parameters = new List<string> { "test" };
+        string? value = parameters.ParseParameter("test");
 
-            value.Should().BeNull();
-        }
+        value.Should().BeNull();
+    }
 
-        [Fact]
-        public void ParseDuplicateParameterShouldThrowInvalidOperationException()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test=123", "test=234" };
-            Func<string?> function = () => parameters.ParseParameter("test");
+    [Fact]
+    public void ParseDuplicateParameterShouldThrowInvalidOperationException()
+    {
+        IReadOnlyCollection<string> parameters = new List<string> { "test=123", "test=234" };
+        Func<string?> function = () => parameters.ParseParameter("test");
 
-            function.Should().Throw<InvalidOperationException>();
-        }
+        function.Should().Throw<InvalidOperationException>();
+    }
 
-        [Fact]
-        public void InvalidParameterNameShouldThrowArgumentNullException()
-        {
-            IReadOnlyCollection<string> parameters = new List<string> { "test=" };
-            Func<string?> function = () => parameters.ParseParameter(null!);
+    [Fact]
+    public void InvalidParameterNameShouldThrowArgumentNullException()
+    {
+        IReadOnlyCollection<string> parameters = new List<string> { "test=" };
+        Func<string?> function = () => parameters.ParseParameter(null!);
 
-            function.Should().Throw<ArgumentException>();
-        }
+        function.Should().Throw<ArgumentException>();
+    }
 
-        [Fact]
-        public void InvalidCollectionShouldThrowArgumentNullException()
-        {
-            IReadOnlyCollection<string> parameters = null!;
-            Func<string?> function = () => parameters.ParseParameter("anything");
+    [Fact]
+    public void InvalidCollectionShouldThrowArgumentNullException()
+    {
+        IReadOnlyCollection<string> parameters = null!;
+        Func<string?> function = () => parameters.ParseParameter("anything");
 
-            function.Should().Throw<ArgumentNullException>();
-        }
+        function.Should().Throw<ArgumentNullException>();
     }
 }
