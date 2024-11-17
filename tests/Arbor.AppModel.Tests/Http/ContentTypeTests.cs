@@ -17,7 +17,7 @@ namespace Arbor.AppModel.Tests.Http
         [InlineData("application/xml")]
         [InlineData("text/json")]
         [InlineData("")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public void IsJsonShouldBeFalseForNonJsonType(string contentType) =>
             ContentType.IsJson(contentType).Should().BeFalse();
 
