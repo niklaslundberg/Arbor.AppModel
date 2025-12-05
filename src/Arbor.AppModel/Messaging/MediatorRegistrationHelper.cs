@@ -7,6 +7,7 @@ using Arbor.AppModel.ExtensionMethods;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Arbor.AppModel.Messaging
 {
@@ -35,6 +36,9 @@ namespace Arbor.AppModel.Messaging
             builder.AddSingleton(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>), module);
 
             builder.AddSingleton(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>), module);
+
+            builder.AddSingleton<MediatRServiceConfiguration>();
+            builder.AddSerilog();
 
             return builder;
         }

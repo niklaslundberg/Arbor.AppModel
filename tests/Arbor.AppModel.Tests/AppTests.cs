@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Arbor.AppModel.Logging;
@@ -10,29 +11,33 @@ using Xunit.Abstractions;
 
 namespace Arbor.AppModel.Tests;
 
-public class AppTests(ITestOutputHelper outputHelper)
+public class AppTests(ITestOutputHelper outputHelper) : IDisposable
 {
+    private CancellationTokenSource _cancellationTokenSource;
+
     [Fact]
     public async Task RunAppShouldReturnExitCode0()
     {
-        using var cancellationTokenSource = new CancellationTokenSource();
+        _cancellationTokenSource = new CancellationTokenSource();
 
         object[] instances = [new TestDependency()];
 
         var appTask = Task.Run(() => AppStarter<TestStartup>.StartAsync([],
             new Dictionary<string, string>(),
-            cancellationTokenSource,
+            _cancellationTokenSource,
             instances: instances));
 
-        await Task.Delay(1.Seconds());
-        cancellationTokenSource.Cancel();
+        await Task.Delay(1.Seconds(), CancellationToken.None);
+        await _cancellationTokenSource.CancelAsync();
 
         int appExitCode = await appTask;
 
-        using var logger = outputHelper.CreateTestLogger();
+        await using var logger = outputHelper.CreateTestLogger();
 
         TempLogger.FlushWith(logger);
 
         appExitCode.Should().Be(0);
     }
+
+    public void Dispose() => _cancellationTokenSource.Dispose();
 }

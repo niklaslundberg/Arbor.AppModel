@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Arbor.AppModel.ExtensionMethods;
 using Arbor.AppModel.Logging;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyModel;
 using Serilog;
 using Serilog.Core;
