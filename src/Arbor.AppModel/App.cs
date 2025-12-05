@@ -178,7 +178,7 @@ namespace Arbor.AppModel
                     startupConfiguration);
 
                 configurationInstanceHolder.AddInstance(appConfiguration);
-                configurationInstanceHolder.AddInstance(new EnvironmentVariables(environmentVariables));
+                configurationInstanceHolder.AddInstance(new AppEnvironmentVariables(environmentVariables));
             }
             catch (Exception ex) when (!ex.IsFatal())
             {
@@ -432,12 +432,10 @@ namespace Arbor.AppModel
                                             .Where(type => type.IsPublicConcreteTypeImplementing<IModule>())
                                             .ToImmutableArray();
 
-            ImmutableArray<IModule> modules = [
+            return [
                 ..moduleTypes.Select(moduleType => holder.Create(moduleType) as IModule)
-                    .Where(instance => instance is { })
+                    .Where(instance => instance is { }).NotNull()
             ]!;
-
-            return modules;
         }
 
         private static string GetBaseDirectoryFile(string basePath, string? fileName)
@@ -579,5 +577,11 @@ namespace Arbor.AppModel
 
             return 0;
         }
+    }
+
+    public class AppEnvironmentVariables(IReadOnlyDictionary<string, string> environmentVariables) : EnvironmentVariables
+    {
+
+        public override IReadOnlyDictionary<string, string> Variables => environmentVariables;
     }
 }
